@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  width: 40px;
+  height: 40px;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 400;
+  padding-left: 5px;
+}
+
+.subtitle {
+  padding-left: 7px;
+  white-space: nowrap;
+  text-align: center;
+}

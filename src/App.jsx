@@ -1,0 +1,46 @@
+import { Title } from "./components/Title/Title";
+import logo from "./assets/img/logo.png";
+import { PokeDetail } from "./components/PokeDetail/PokeDetail";
+import { useEffect, useState } from "react";
+import { PokemonAPI } from "./api/pokemon";
+
+function App() {
+  const [currentPokemon, setCurrentPokemon] = useState();
+  const randomInt = Math.floor(Math.random() * 151);
+
+  async function fetchRandom() {
+    try {
+      const list = await PokemonAPI.fetchList();
+      if (list.length > 0) {
+        setCurrentPokemon(list[randomInt]);
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchRandom();
+  }, []);
+
+  return (
+    <div className="container-fluid m-2">
+      <div className="d-flex flex-column justify-content-center align-items-center">
+        <div>
+          <Title
+            image={logo}
+            title="Poke'Random"
+            subtitle="Collectez des Pokemons dans votre Pokedex !"
+          />
+        </div>
+        <div className="my-5">
+          {currentPokemon && (
+            <PokeDetail pokemon={currentPokemon} onClick={fetchRandom} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
