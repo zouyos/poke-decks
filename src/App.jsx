@@ -26,14 +26,14 @@ function App() {
   return (
     <div className="container-fluid m-2">
       <div className="d-flex flex-column justify-content-center align-items-center">
-        <div>
+        <div className="my-2">
           <Title
             image={logo}
             title="Poke'Random"
             subtitle="Collectez des Pokemons dans votre Pokedex !"
           />
         </div>
-        <div className="my-5">
+        <div className="my-4">
           {currentPokemon && (
             <PokeDetail pokemon={currentPokemon} onClick={fetchRandom} />
           )}
