@@ -6,8 +6,8 @@ export function PokeDetail({ pokemon, onClick }) {
     return (
       <ul className="list-unstyled">
         <li>
-          <img src={type.image} alt={type.image} className={style.type} />
-          {type.name}
+          <img src={type.image} alt={type.name} className={style.type} />
+          {type.name === "Électrik" ? "Électrique" : type.name}
         </li>
       </ul>
     );
@@ -15,7 +15,7 @@ export function PokeDetail({ pokemon, onClick }) {
 
   return (
     <>
-      <div className="card mx-3 border border-3 border-danger">
+      <div className="card mx-3 border border-2 border-danger">
         <img
           src={pokemon.sprites.regular}
           className="card-img-top"
