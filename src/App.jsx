@@ -1,10 +1,10 @@
 import { Title } from "./components/Title/Title";
 import logo from "./assets/img/logo.png";
-import { PokeDetail } from "./components/PokeDetail/PokeDetail";
+import { PokeDetails } from "./components/PokeDetails/PokeDetails";
 import { useEffect, useState } from "react";
 import { PokemonAPI } from "./api/pokemon";
 
-function App() {
+export default function App() {
   const [currentPokemon, setCurrentPokemon] = useState();
   const randomInt = Math.floor(Math.random() * 151);
 
@@ -35,12 +35,10 @@ function App() {
         </div>
         <div className="my-4">
           {currentPokemon && (
-            <PokeDetail pokemon={currentPokemon} onClick={fetchRandom} />
+            <PokeDetails pokemon={currentPokemon} onClick={fetchRandom} />
           )}
         </div>
       </div>
     </div>
   );
 }
-
-export default App;

@@ -1,7 +1,7 @@
 import style from "./style.module.css";
 import { ArrowCounterclockwise } from "react-bootstrap-icons";
 
-export function PokeDetail({ pokemon, onClick }) {
+export function PokeDetails({ pokemon, onClick }) {
   const pokemonTypes = pokemon.types.map((type) => {
     return (
       <ul className="list-unstyled">
@@ -15,7 +15,10 @@ export function PokeDetail({ pokemon, onClick }) {
 
   return (
     <>
-      <div className="card mx-3 border border-2 border-danger">
+      <div
+        className="card mx-3 border border-2 border-danger"
+        style={{ width: "18rem" }}
+      >
         <img
           src={pokemon.sprites.regular}
           className="card-img-top"
@@ -23,7 +26,7 @@ export function PokeDetail({ pokemon, onClick }) {
         />
         <div className="card-body">
           <h2 className="card-title fw-bold text-center">{pokemon.name.fr}</h2>
-          <h4 className="text-decoration-underline mb-3">Types :</h4>
+          <h5 className="text-decoration-underline mb-3">Types :</h5>
           <div>{pokemonTypes}</div>
           <a href="#" className="btn btn-primary">
             Plus d'infos
