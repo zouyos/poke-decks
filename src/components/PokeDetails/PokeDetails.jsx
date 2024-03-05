@@ -1,7 +1,6 @@
 import style from "./style.module.css";
-import { ArrowCounterclockwise } from "react-bootstrap-icons";
 
-export function PokeDetails({ pokemon, onClick }) {
+export function PokeDetails({ pokemon }) {
   const pokemonTypes = pokemon.types.map((type) => {
     return (
       <ul className="list-unstyled">
@@ -32,11 +31,6 @@ export function PokeDetails({ pokemon, onClick }) {
             Plus d'infos
           </a>
         </div>
-      </div>
-      <div className="my-4 d-flex justify-content-center">
-        <button onClick={() => onClick()} className="btn btn-danger">
-          <ArrowCounterclockwise size={30} />
-        </button>
       </div>
     </>
   );
