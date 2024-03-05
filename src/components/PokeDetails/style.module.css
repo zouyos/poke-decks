@@ -3,3 +3,10 @@
   height: 35px;
   margin-right: 5px;
 }
+
+.typeContainer {
+  height: 86px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

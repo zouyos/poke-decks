@@ -4,9 +4,11 @@ export function PokeDetails({ pokemon }) {
   const pokemonTypes = pokemon.types.map((type) => {
     return (
       <ul className="list-unstyled">
-        <li>
-          <img src={type.image} alt={type.name} className={style.type} />
-          {type.name === "Électrik" ? "Électrique" : type.name}
+        <li className={pokemon.types.length < 2 ? style.typeContainer : ""}>
+          <div>
+            <img src={type.image} alt={type.name} className={style.type} />
+            {type.name === "Électrik" ? "Électrique" : type.name}
+          </div>
         </li>
       </ul>
     );
@@ -24,11 +26,13 @@ export function PokeDetails({ pokemon }) {
           alt={pokemon.name.fr}
         />
         <div className="card-body">
-          <h2 className="card-title fw-bold text-center">{pokemon.name.fr}</h2>
-          <h5 className="text-decoration-underline mb-3">Types :</h5>
+          <h2 className="card-title fw-bold text-center mb-3">
+            {pokemon.name.fr}
+          </h2>
+          <h5 className="text-decoration-underline mb-3">Type(s) :</h5>
           <div>{pokemonTypes}</div>
-          <a href="#" className="btn btn-primary">
-            Plus d'infos
+          <a href="#" className="btn btn-outline-danger">
+            Ajouter au Pokédex
           </a>
         </div>
       </div>
