@@ -6,7 +6,7 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar bg-danger ">
+    <nav className="navbar bg-danger">
       <div className="container-fluid">
         <div
           className="navbar-brand text-light d-flex align-items-center"

@@ -1,9 +1,9 @@
 import style from "./style.module.css";
 
 export function PokeDetails({ pokemon }) {
-  const pokemonTypes = pokemon.types.map((type) => {
+  const pokemonTypes = pokemon.types.map((type, i) => {
     return (
-      <ul className="list-unstyled">
+      <ul className="list-unstyled" key={i}>
         <li className={pokemon.types.length < 2 ? style.typeContainer : ""}>
           <div>
             <img src={type.image} alt={type.name} className={style.type} />
