@@ -8,6 +8,8 @@ import ReloadButton from "../../components/ReloadButton/ReloadButton";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
+  const [disable, setDisable] = useState(false);
+  const [isHelpHovered, setIsHelpHovered] = useState(false);
 
   async function fetchList() {
     try {
@@ -40,6 +42,15 @@ export default function Home() {
     pickRandomSelection(3);
   }, []);
 
+  const handleClick = () => {
+    pickRandomSelection(3);
+
+    // setDisable(true);
+    // setTimeout(() => {
+    //   setDisable(false);
+    // }, 5 * 60 * 1000);
+  };
+
   return (
     <>
       <div className="container-fluid p-2">
@@ -52,8 +63,14 @@ export default function Home() {
             />
           </div>
           <div className="d-flex justify-content-center">
-            <div title="Obtenez un deck de 3 Pokémons et choississez-en un à garder dans votre Pokédex ! &#013;Vous pouvez relancer la sélection toutes les 5min.">
-              <QuestionCircleFill size={30} color="#d3d3d3" />
+            <div data-bs-toggle="modal" data-bs-target="#help">
+              <QuestionCircleFill
+                style={{ cursor: "pointer" }}
+                onMouseEnter={() => setIsHelpHovered(true)}
+                onMouseLeave={() => setIsHelpHovered(false)}
+                size={30}
+                color={isHelpHovered ? "#212429" : "#aeb1b6"}
+              />
             </div>
           </div>
           <div className="mt-4 d-flex justify-content-center">
@@ -63,7 +80,45 @@ export default function Home() {
               })}
           </div>
           <div className="my-4 d-flex justify-content-center">
-            <ReloadButton pickRandomSelection={pickRandomSelection} />
+            <ReloadButton onClick={handleClick} disable={disable} />
+          </div>
+        </div>
+        {/* Modal */}
+        <div
+          className="modal fade"
+          id="help"
+          tabindex="-1"
+          aria-labelledby="helpLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header bg-danger">
+                <div
+                  className="modal-title fs-4 text-light"
+                  id="helpLabel"
+                  style={{ margin: "0 auto" }}
+                >
+                  Comment Jouer ?
+                </div>
+              </div>
+              <div className="modal-body text-center fs-5">
+                <p>
+                  Obtenez un deck de 3 Pokémons et choississez-en un à garder
+                  dans votre Pokédex !
+                </p>
+                <p>Vous pouvez relancer la sélection toutes les 5 minutes.</p>
+              </div>
+              <div className="modal-footer d-flex justify-content-center">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
