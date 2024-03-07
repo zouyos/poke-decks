@@ -10,8 +10,14 @@ import AddButton from "../../components/AddButton/AddButton";
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
   const [savedPokemons, setSavedPokemons] = useState([]);
-  const [disable, setDisable] = useState(false);
+  const [disableReload, setDisableReload] = useState(false);
+  const [disableAdd, setDisableAdd] = useState(false);
   const [isHelpHovered, setIsHelpHovered] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(0);
+  const storedCurrentPokemons = JSON.parse(
+    localStorage.getItem("currentPokemons")
+  );
+  const storedSavedPokemons = JSON.parse(localStorage.getItem("savedPokemons"));
 
   async function fetchList() {
     try {
@@ -39,63 +45,79 @@ export default function Home() {
 
     setCurrentPokemons(pokemonsSelected);
     localStorage.setItem("currentPokemons", JSON.stringify(pokemonsSelected));
+    setDisableAdd(false);
   }
 
   useEffect(() => {
-    const storedCurrentPokemons = JSON.parse(
-      localStorage.getItem("currentPokemons")
-    );
     if (storedCurrentPokemons) {
       setCurrentPokemons(storedCurrentPokemons);
     } else {
       pickRandomSelection(3);
     }
 
-    const storedSavedPokemons = JSON.parse(
-      localStorage.getItem("savedPokemons")
-    );
     if (storedSavedPokemons) {
       setSavedPokemons(storedSavedPokemons);
     }
   }, []);
 
+  useEffect(() => {
+    let timerInterval;
+    if (disableReload) {
+      const endTime = Date.now() + 5000;
+      timerInterval = setInterval(() => {
+        const remaining = endTime - Date.now();
+        if (remaining <= 0) {
+          setRemainingTime(0);
+          clearInterval(timerInterval);
+        } else {
+          setRemainingTime(Math.ceil(remaining / 1000));
+        }
+      }, 1000);
+    }
+
+    return () => clearInterval(timerInterval);
+  }, [disableReload, disableAdd]);
+
   const handleReloadClick = () => {
     pickRandomSelection(3);
-    setDisable(true);
+    setDisableReload(true);
 
     setTimeout(() => {
       //Il faut changer le code en-dessous (faire en sorte que le disable ne soit false qu'une fois qu'on a cliqué sur un Pokemon)
-      setDisable(false);
+      setDisableReload(false);
     }, 5000);
   };
 
   const handleCardClick = (cardData, cardsData) => {
-    setSavedPokemons([...savedPokemons, cardData]);
     setCurrentPokemons(cardsData);
     localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
 
-    const storedSavedPokemons = JSON.parse(
-      localStorage.getItem("savedPokemons")
+    const checkId = storedSavedPokemons.some(
+      (obj) => obj.pokedex_id === cardData.pokedex_id
     );
 
-    const checkId = (id, array) => array.some((obj) => obj.pokedex_id === id);
-
-    if (!checkId(cardData.pokedex_id, storedSavedPokemons)) {
+    if (!checkId) {
       localStorage.setItem(
         "savedPokemons",
         JSON.stringify([...savedPokemons, cardData])
       );
+
+      setDisableReload(true);
+      setDisableAdd(true);
+
+      if (!disableReload) {
+        setTimeout(() => {
+          setDisableReload(false);
+          localStorage.removeItem("currentPokemons");
+          pickRandomSelection(3);
+        }, 5000);
+      } else {
+        //TODO
+        //utiliser setInterval ou remainingTime
+      }
     } else {
       alert("Vous possédez déjà ce Pokémon !");
     }
-
-    setDisable(true);
-
-    setTimeout(() => {
-      setDisable(false);
-      localStorage.removeItem("currentPokemons");
-      pickRandomSelection(3);
-    }, 5000);
   };
 
   return (
@@ -129,6 +151,7 @@ export default function Home() {
                       onClick={handleCardClick}
                       pokemon={currentPokemon}
                       pokemons={currentPokemons}
+                      disabled={disableAdd}
                     >
                       Ajouter au Pokédex
                     </AddButton>
@@ -136,8 +159,18 @@ export default function Home() {
                 );
               })}
           </div>
-          <div className="my-4 d-flex justify-content-center">
-            <ReloadButton onClick={handleReloadClick} disable={disable} />
+          <div className="my-4 d-flex flex-column justify-content-center align-items-center">
+            <ReloadButton
+              onClick={handleReloadClick}
+              disabled={disableReload}
+            />
+            {disableReload && (
+              <div className="my-3 text-danger fs-4">
+                Temps restant : {Math.floor(remainingTime / 60)}:
+                {remainingTime % 60 < 10 ? "0" : ""}
+                {remainingTime % 60}
+              </div>
+            )}
           </div>
         </div>
         {/* Modal */}

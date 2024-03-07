@@ -1,10 +1,17 @@
-export default function AddButton({ pokemon, onClick, pokemons, children }) {
+export default function AddButton({
+  pokemon,
+  onClick,
+  pokemons,
+  children,
+  disabled,
+}) {
   return (
-    <div
+    <button
       onClick={() => onClick(pokemon, pokemons)}
       className="btn btn-outline-danger"
+      disabled={disabled}
     >
       {children}
-    </div>
+    </button>
   );
 }
