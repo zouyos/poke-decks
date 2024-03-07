@@ -1,6 +1,6 @@
 import { PokeDetails } from "../PokeDetails/PokeDetails";
 import style from "./style.module.css";
-import { XSquareFill } from "react-bootstrap-icons";
+import { XSquare } from "react-bootstrap-icons";
 
 export default function Pokedex() {
   const storedSavedPokemons = JSON.parse(localStorage.getItem("savedPokemons"));
@@ -29,7 +29,7 @@ export default function Pokedex() {
           <div className="mb-5" style={{ width: "max-content" }} key={i}>
             <PokeDetails pokemon={pokemon}>
               <div className="d-flex justify-content-center">
-                <XSquareFill
+                <XSquare
                   onClick={() =>
                     window.confirm(
                       `Êtes-vous sûr de vouloir supprimer ce Pokémon : ${pokemon.name.fr} ?`
