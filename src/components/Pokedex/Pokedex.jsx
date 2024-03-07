@@ -52,7 +52,7 @@ export default function Pokedex() {
       <h1 className="text-center text-danger my-5">
         Bienvenue dans votre Pokédex
       </h1>
-      {storedSavedPokemons ? cards : warningDiv}
+      {storedSavedPokemons.length > 0 ? cards : warningDiv}
     </div>
   );
 }

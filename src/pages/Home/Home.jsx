@@ -14,10 +14,6 @@ export default function Home() {
   const [disableAdd, setDisableAdd] = useState(false);
   const [isHelpHovered, setIsHelpHovered] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
-  const storedCurrentPokemons = JSON.parse(
-    localStorage.getItem("currentPokemons")
-  );
-  const storedSavedPokemons = JSON.parse(localStorage.getItem("savedPokemons"));
 
   async function fetchList() {
     try {
@@ -49,12 +45,18 @@ export default function Home() {
   }
 
   useEffect(() => {
+    const storedCurrentPokemons = JSON.parse(
+      localStorage.getItem("currentPokemons")
+    );
     if (storedCurrentPokemons) {
       setCurrentPokemons(storedCurrentPokemons);
     } else {
       pickRandomSelection(3);
     }
 
+    const storedSavedPokemons = JSON.parse(
+      localStorage.getItem("savedPokemons")
+    );
     if (storedSavedPokemons) {
       setSavedPokemons(storedSavedPokemons);
     }
@@ -76,7 +78,7 @@ export default function Home() {
     }
 
     return () => clearInterval(timerInterval);
-  }, [disableReload, disableAdd]);
+  }, [disableReload]);
 
   const handleReloadClick = () => {
     pickRandomSelection(3);
@@ -91,10 +93,15 @@ export default function Home() {
   const handleCardClick = (cardData, cardsData) => {
     setCurrentPokemons(cardsData);
     localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
-
-    const checkId = storedSavedPokemons.some(
-      (obj) => obj.pokedex_id === cardData.pokedex_id
+    const storedSavedPokemons = JSON.parse(
+      localStorage.getItem("savedPokemons")
     );
+
+    const checkId = storedSavedPokemons
+      ? storedSavedPokemons.some(
+          (obj) => obj.pokedex_id === cardData.pokedex_id
+        )
+      : true;
 
     if (!checkId) {
       localStorage.setItem(
@@ -108,6 +115,7 @@ export default function Home() {
       if (!disableReload) {
         setTimeout(() => {
           setDisableReload(false);
+          setDisableAdd(false);
           localStorage.removeItem("currentPokemons");
           pickRandomSelection(3);
         }, 5000);
