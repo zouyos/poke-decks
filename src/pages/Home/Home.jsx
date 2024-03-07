@@ -40,15 +40,36 @@ export default function Home() {
 
   useEffect(() => {
     pickRandomSelection(3);
+
+    const storedCurrentPokemons = JSON.parse(
+      localStorage.getItem("currentPokemons")
+    );
+    if (storedCurrentPokemons) {
+      setCurrentPokemons(storedCurrentPokemons);
+    }
+
+    setTimeout(() => {
+      setDisable(false);
+      pickRandomSelection(3);
+    }, 5 * 60 * 1000);
   }, []);
 
-  const handleClick = () => {
+  const handleReloadClick = () => {
     pickRandomSelection(3);
 
-    // setDisable(true);
-    // setTimeout(() => {
-    //   setDisable(false);
-    // }, 5 * 60 * 1000);
+    setDisable(true);
+    setTimeout(() => {
+      setDisable(false);
+      pickRandomSelection(3);
+    }, 5 * 60 * 1000);
+  };
+
+  const handleCardClick = (cardData) => {
+    setCurrentPokemons([...currentPokemons, cardData]);
+    localStorage.setItem(
+      "currentPokemons",
+      JSON.stringify([...currentPokemons, cardData])
+    );
   };
 
   return (
@@ -76,11 +97,17 @@ export default function Home() {
           <div className="mt-4 d-flex justify-content-center">
             {currentPokemons &&
               currentPokemons.map((currentPokemon, i) => {
-                return <PokeDetails pokemon={currentPokemon} key={i} />;
+                return (
+                  <PokeDetails
+                    pokemon={currentPokemon}
+                    key={i}
+                    onClick={handleCardClick}
+                  />
+                );
               })}
           </div>
           <div className="my-4 d-flex justify-content-center">
-            <ReloadButton onClick={handleClick} disable={disable} />
+            <ReloadButton onClick={handleReloadClick} disable={disable} />
           </div>
         </div>
         {/* Modal */}

@@ -1,6 +1,6 @@
 import style from "./style.module.css";
 
-export function PokeDetails({ pokemon }) {
+export function PokeDetails({ pokemon, onClick }) {
   const pokemonTypes = pokemon.types.map((type, i) => {
     return (
       <ul className="list-unstyled" key={i}>
@@ -31,9 +31,12 @@ export function PokeDetails({ pokemon }) {
           </h2>
           <h5 className="text-decoration-underline mb-3">Type(s) :</h5>
           <div>{pokemonTypes}</div>
-          <a href="#" className="btn btn-outline-danger">
+          <div
+            onClick={() => onClick(pokemon)}
+            className="btn btn-outline-danger"
+          >
             Ajouter au Pokédex
-          </a>
+          </div>
         </div>
       </div>
     </>
