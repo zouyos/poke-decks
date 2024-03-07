@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { PokemonAPI } from "../../api/pokemon";
 import { QuestionCircleFill } from "react-bootstrap-icons";
 import ReloadButton from "../../components/ReloadButton/ReloadButton";
+import AddButton from "../../components/AddButton/AddButton";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
+  const [savedPokemons, setSavedPokemons] = useState([]);
   const [disable, setDisable] = useState(false);
   const [isHelpHovered, setIsHelpHovered] = useState(false);
 
@@ -36,40 +38,64 @@ export default function Home() {
     }
 
     setCurrentPokemons(pokemonsSelected);
+    localStorage.setItem("currentPokemons", JSON.stringify(pokemonsSelected));
   }
 
   useEffect(() => {
-    pickRandomSelection(3);
-
     const storedCurrentPokemons = JSON.parse(
       localStorage.getItem("currentPokemons")
     );
     if (storedCurrentPokemons) {
       setCurrentPokemons(storedCurrentPokemons);
+    } else {
+      pickRandomSelection(3);
     }
 
-    setTimeout(() => {
-      setDisable(false);
-      pickRandomSelection(3);
-    }, 5 * 60 * 1000);
+    const storedSavedPokemons = JSON.parse(
+      localStorage.getItem("savedPokemons")
+    );
+    if (storedSavedPokemons) {
+      setSavedPokemons(storedSavedPokemons);
+    }
   }, []);
 
   const handleReloadClick = () => {
     pickRandomSelection(3);
-
     setDisable(true);
+
     setTimeout(() => {
+      //Il faut changer le code en-dessous (faire en sorte que le disable ne soit false qu'une fois qu'on a cliqué sur un Pokemon)
       setDisable(false);
-      pickRandomSelection(3);
-    }, 5 * 60 * 1000);
+    }, 5000);
   };
 
-  const handleCardClick = (cardData) => {
-    setCurrentPokemons([...currentPokemons, cardData]);
-    localStorage.setItem(
-      "currentPokemons",
-      JSON.stringify([...currentPokemons, cardData])
+  const handleCardClick = (cardData, cardsData) => {
+    setSavedPokemons([...savedPokemons, cardData]);
+    setCurrentPokemons(cardsData);
+    localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
+
+    const storedSavedPokemons = JSON.parse(
+      localStorage.getItem("savedPokemons")
     );
+
+    const checkId = (id, array) => array.some((obj) => obj.pokedex_id === id);
+
+    if (!checkId(cardData.pokedex_id, storedSavedPokemons)) {
+      localStorage.setItem(
+        "savedPokemons",
+        JSON.stringify([...savedPokemons, cardData])
+      );
+    } else {
+      alert("Vous possédez déjà ce Pokémon !");
+    }
+
+    setDisable(true);
+
+    setTimeout(() => {
+      setDisable(false);
+      localStorage.removeItem("currentPokemons");
+      pickRandomSelection(3);
+    }, 5000);
   };
 
   return (
@@ -98,11 +124,15 @@ export default function Home() {
             {currentPokemons &&
               currentPokemons.map((currentPokemon, i) => {
                 return (
-                  <PokeDetails
-                    pokemon={currentPokemon}
-                    key={i}
-                    onClick={handleCardClick}
-                  />
+                  <PokeDetails pokemon={currentPokemon} key={i}>
+                    <AddButton
+                      onClick={handleCardClick}
+                      pokemon={currentPokemon}
+                      pokemons={currentPokemons}
+                    >
+                      Ajouter au Pokédex
+                    </AddButton>
+                  </PokeDetails>
                 );
               })}
           </div>
