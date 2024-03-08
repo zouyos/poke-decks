@@ -51,7 +51,7 @@ export default function Pokedex() {
 
   return (
     <div className="container-fluid">
-      <h1 className="text-center text-danger my-5">
+      <h1 className="text-center text-danger" style={{ margin: "60px 0" }}>
         Bienvenue dans votre Pokédex
       </h1>
       {storedSavedPokemons.length > 0 ? cards : warningDiv}
