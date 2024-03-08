@@ -12,13 +12,13 @@ export default function Home() {
   const [savedPokemons, setSavedPokemons] = useState([]);
   const [disableReload, setDisableReload] = useState(false);
   const [disableAdd, setDisableAdd] = useState(false);
-  const [timerRunning, setTimerRunning] = useState(false);
   const [isHelpHovered, setIsHelpHovered] = useState(false);
+  const [timerRunning, setTimerRunning] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
 
   async function fetchList() {
     try {
-      const list = await PokemonAPI.fetchList();
+      const list = await PokemonAPI.fetchByGen(1);
       if (list.length > 0) {
         return list;
       }
