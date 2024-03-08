@@ -12,6 +12,7 @@ export default function Home() {
   const [savedPokemons, setSavedPokemons] = useState([]);
   const [disableReload, setDisableReload] = useState(false);
   const [disableAdd, setDisableAdd] = useState(false);
+  const [timerRunning, setTimerRunning] = useState(false);
   const [isHelpHovered, setIsHelpHovered] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
 
@@ -64,7 +65,7 @@ export default function Home() {
 
   useEffect(() => {
     let timerInterval;
-    if (disableReload) {
+    if (timerRunning) {
       const endTime = Date.now() + 5000;
       timerInterval = setInterval(() => {
         const remaining = endTime - Date.now();
@@ -78,15 +79,16 @@ export default function Home() {
     }
 
     return () => clearInterval(timerInterval);
-  }, [disableReload]);
+  }, [timerRunning]);
 
   const handleReloadClick = () => {
     pickRandomSelection(3);
     setDisableReload(true);
+    setTimerRunning(true);
 
     setTimeout(() => {
-      //Il faut changer le code en-dessous (faire en sorte que le disable ne soit false qu'une fois qu'on a cliqué sur un Pokemon)
       setDisableReload(false);
+      setTimerRunning(false);
     }, 5000);
   };
 
@@ -111,9 +113,11 @@ export default function Home() {
 
       setDisableReload(true);
       setDisableAdd(true);
+      setTimerRunning(true);
 
       if (!disableReload) {
         setTimeout(() => {
+          setTimerRunning(false);
           setDisableReload(false);
           setDisableAdd(false);
           localStorage.removeItem("currentPokemons");
@@ -121,6 +125,7 @@ export default function Home() {
         }, 5000);
       } else {
         setTimeout(() => {
+          setTimerRunning(false);
           setDisableReload(false);
           setDisableAdd(false);
           localStorage.removeItem("currentPokemons");
@@ -176,7 +181,7 @@ export default function Home() {
               onClick={handleReloadClick}
               disabled={disableReload}
             />
-            {disableReload && (
+            {timerRunning && (
               <div className="my-3 text-danger fs-4">
                 Temps restant : {Math.floor(remainingTime / 60)}:
                 {remainingTime % 60 < 10 ? "0" : ""}
