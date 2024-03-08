@@ -1,17 +1,19 @@
+import { useState } from "react";
 import { PokeDetails } from "../PokeDetails/PokeDetails";
 import style from "./style.module.css";
 import { XSquare } from "react-bootstrap-icons";
 
 export default function Pokedex() {
-  const storedSavedPokemons = JSON.parse(localStorage.getItem("savedPokemons"));
+  const [storedSavedPokemons, setStoredSavedPokemons] = useState(
+    JSON.parse(localStorage.getItem("savedPokemons"))
+  );
 
   function handleClick(id) {
-    const index = storedSavedPokemons.findIndex(
-      (item) => item.pokedex_id === id
+    const updatedSavedPokemons = storedSavedPokemons.filter(
+      (item) => item.pokedex_id !== id
     );
-    storedSavedPokemons.splice(index, 1);
-    localStorage.setItem("savedPokemons", JSON.stringify(storedSavedPokemons));
-    window.location.reload();
+    localStorage.setItem("savedPokemons", JSON.stringify(updatedSavedPokemons));
+    setStoredSavedPokemons(updatedSavedPokemons);
   }
 
   const warningDiv = (

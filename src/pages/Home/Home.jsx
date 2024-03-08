@@ -120,8 +120,12 @@ export default function Home() {
           pickRandomSelection(3);
         }, 5000);
       } else {
-        //TODO
-        //utiliser setInterval ou remainingTime
+        setTimeout(() => {
+          setDisableReload(false);
+          setDisableAdd(false);
+          localStorage.removeItem("currentPokemons");
+          pickRandomSelection(3);
+        }, remainingTime * 1000);
       }
     } else {
       alert("Vous possédez déjà ce Pokémon !");
