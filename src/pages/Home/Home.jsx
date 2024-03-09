@@ -95,15 +95,16 @@ export default function Home() {
   const handleCardClick = (cardData, cardsData) => {
     setCurrentPokemons(cardsData);
     localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
-    const storedSavedPokemons = JSON.parse(
-      localStorage.getItem("savedPokemons")
-    );
 
-    const checkId = storedSavedPokemons
-      ? storedSavedPokemons.some(
-          (obj) => obj.pokedex_id === cardData.pokedex_id
-        )
-      : true;
+    const storedSavedPokemons =
+      JSON.parse(localStorage.getItem("savedPokemons")) || [];
+
+    const checkId =
+      storedSavedPokemons.length > 0
+        ? storedSavedPokemons.some(
+            (obj) => obj.pokedex_id === cardData.pokedex_id
+          )
+        : true;
 
     if (!checkId) {
       localStorage.setItem(

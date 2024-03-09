@@ -5,7 +5,7 @@ import { XSquare } from "react-bootstrap-icons";
 
 export default function Pokedex() {
   const [storedSavedPokemons, setStoredSavedPokemons] = useState(
-    JSON.parse(localStorage.getItem("savedPokemons"))
+    JSON.parse(localStorage.getItem("savedPokemons")) || []
   );
 
   function handleClick(id) {
