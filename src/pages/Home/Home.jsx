@@ -76,10 +76,6 @@ export default function Home() {
       setTimerRunning(true);
       setDisableReload(true);
 
-      // if (!startTime) {
-      //   localStorage.setItem("startTime", Date.now().toString());
-      // }
-
       timerInterval = setInterval(() => {
         const elapsed =
           Date.now() - parseInt(localStorage.getItem("startTime"));

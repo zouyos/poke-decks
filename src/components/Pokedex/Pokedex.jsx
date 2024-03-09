@@ -5,7 +5,7 @@ import { XSquareFill } from "react-bootstrap-icons";
 
 export default function Pokedex() {
   const [storedSavedPokemons, setStoredSavedPokemons] = useState(
-    JSON.parse(localStorage.getItem("savedPokemons")).sort(
+    JSON.parse(localStorage.getItem("savedPokemons"))?.sort(
       (a, b) => a.pokedex_id - b.pokedex_id
     ) || []
   );
