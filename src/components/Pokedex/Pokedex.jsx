@@ -5,7 +5,9 @@ import { XSquareFill } from "react-bootstrap-icons";
 
 export default function Pokedex() {
   const [storedSavedPokemons, setStoredSavedPokemons] = useState(
-    JSON.parse(localStorage.getItem("savedPokemons")) || []
+    JSON.parse(localStorage.getItem("savedPokemons")).sort(
+      (a, b) => a.pokedex_id - b.pokedex_id
+    ) || []
   );
 
   function handleClick(id) {
@@ -30,7 +32,7 @@ export default function Pokedex() {
         return (
           <div className="mb-5" style={{ width: "max-content" }} key={i}>
             <PokeDetails pokemon={pokemon}>
-              <div className="d-flex justify-content-center">
+              <div className="d-flex justify-content-end">
                 <XSquareFill
                   onClick={() =>
                     window.confirm(

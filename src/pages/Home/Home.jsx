@@ -68,7 +68,7 @@ export default function Home() {
 
     const startTime = localStorage.getItem("startTime");
     const storedRemainingTime = startTime
-      ? 5000 - (Date.now() - parseInt(startTime))
+      ? 60000 - (Date.now() - parseInt(startTime))
       : 0;
 
     if (timerRunning || storedRemainingTime > 0) {
@@ -83,7 +83,7 @@ export default function Home() {
       timerInterval = setInterval(() => {
         const elapsed =
           Date.now() - parseInt(localStorage.getItem("startTime"));
-        const remaining = 5000 - elapsed;
+        const remaining = 60000 - elapsed;
         if (remaining <= 0) {
           setRemainingTime(0);
           setTimerRunning(false);
@@ -116,7 +116,7 @@ export default function Home() {
     setTimeout(() => {
       setDisableReload(false);
       setTimerRunning(false);
-    }, 5000);
+    }, 60000);
   };
 
   const handleCardClick = (cardData, cardsData) => {
@@ -126,11 +126,11 @@ export default function Home() {
     const storedSavedPokemons =
       JSON.parse(localStorage.getItem("savedPokemons")) || [];
 
-    const checkId = storedSavedPokemons.some(
+    const existingId = storedSavedPokemons.some(
       (obj) => obj.pokedex_id === cardData.pokedex_id
     );
 
-    if (!checkId) {
+    if (!existingId) {
       localStorage.setItem(
         "savedPokemons",
         JSON.stringify([...savedPokemons, cardData])
@@ -222,7 +222,7 @@ export default function Home() {
                   Obtenez un deck de 3 Pokémons et choississez-en un à garder
                   dans votre Pokédex !
                 </p>
-                <p>Vous pouvez relancer la sélection toutes les 5 minutes.</p>
+                <p>Vous pouvez relancer la sélection toutes les minutes.</p>
               </div>
               <div className="modal-footer d-flex justify-content-center">
                 <button
