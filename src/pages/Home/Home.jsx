@@ -138,6 +138,8 @@ export default function Home() {
 
       setDisableAdd(true);
       localStorage.setItem("disableAdd", true);
+
+      alert(`${cardData.name.fr} a été ajouté au Pokédex !`);
     } else {
       alert("Vous possédez déjà ce Pokémon !");
     }
