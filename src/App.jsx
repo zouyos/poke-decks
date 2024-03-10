@@ -4,7 +4,7 @@ import style from "./style.module.css";
 
 export default function App() {
   return (
-    <div className={style.main_container}>
+    <div className={style.container}>
       <NavBar />
       <Outlet />
     </div>

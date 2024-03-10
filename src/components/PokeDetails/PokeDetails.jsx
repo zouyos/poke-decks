@@ -18,7 +18,7 @@ export function PokeDetails({ pokemon, children }) {
     <>
       <div
         className="card mx-3 border border-2 border-danger"
-        style={{ width: "18rem" }}
+        style={{ width: "16rem" }}
       >
         <img
           src={pokemon.sprites.regular}
