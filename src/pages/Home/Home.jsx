@@ -53,7 +53,8 @@ export default function Home() {
         if (pokemon.evolution.pre.length > 1) score += 50;
       }
 
-      if (["Psykokwak", "Caninos"].includes(pokemon.name.fr)) score += 50;
+      if (["Psykokwak", "Caninos", "Gravalanch"].includes(pokemon.name.fr))
+        score += 50;
 
       if (
         [
@@ -109,7 +110,7 @@ export default function Home() {
       pokemon.score = score;
       console.log();
     }
-    console.log(pokemons.sort((a, b) => a.score - b.score));
+    // console.log(pokemons.sort((a, b) => a.score - b.score));
     return pokemons;
   }
 
@@ -150,15 +151,16 @@ export default function Home() {
     const storedCurrentPokemons = JSON.parse(
       localStorage.getItem("currentPokemons")
     );
+    const storedSavedPokemons = JSON.parse(
+      localStorage.getItem("savedPokemons")
+    );
+
     if (storedCurrentPokemons) {
       setCurrentPokemons(storedCurrentPokemons);
     } else {
       pickRandomSelection(3);
     }
 
-    const storedSavedPokemons = JSON.parse(
-      localStorage.getItem("savedPokemons")
-    );
     if (storedSavedPokemons) {
       setSavedPokemons(storedSavedPokemons);
     }
@@ -216,7 +218,7 @@ export default function Home() {
     }, 60000);
   };
 
-  const handleCardClick = (cardData, cardsData) => {
+  const handleAddClick = (cardData, cardsData) => {
     setCurrentPokemons(cardsData);
     localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
 
@@ -264,13 +266,13 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="mt-4 d-flex justify-content-center">
+          <div className="mt-4 d-flex justify-content-center flex-wrap">
             {currentPokemons &&
               currentPokemons.map((currentPokemon, i) => {
                 return (
                   <PokeDetails pokemon={currentPokemon} key={i}>
                     <AddButton
-                      onClick={handleCardClick}
+                      onClick={handleAddClick}
                       pokemon={currentPokemon}
                       pokemons={currentPokemons}
                       disabled={disableAdd}

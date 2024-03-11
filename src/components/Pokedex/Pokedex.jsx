@@ -61,7 +61,7 @@ export default function Pokedex() {
     <div className="container-fluid">
       <h1
         className="text-center text-danger col"
-        style={{ margin: "50px 30px 0" }}
+        style={{ margin: "50px 50px 0" }}
       >
         Bienvenue dans votre Pokédex
       </h1>
