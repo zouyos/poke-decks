@@ -27,8 +27,23 @@ export default function Home() {
     }
   }
 
+  async function appendScoreToList() {
+    let pokemons = await fetchList();
+
+    for (const pokemon of pokemons) {
+      let score = 5;
+
+      if (Object.keys(pokemon.types).length > 1) score += 5;
+
+      if (["Pikachu", "Mewtwo", "Mew"].includes(pokemon.name.fr)) score = 150;
+
+      pokemon.score = score;
+    }
+    return pokemons;
+  }
+
   async function pickRandomSelection(numberOfPokemons) {
-    const pokemons = await fetchList();
+    const pokemons = await appendScoreToList();
     const pokemonsSelected = [];
     const selectedIds = new Set();
 
