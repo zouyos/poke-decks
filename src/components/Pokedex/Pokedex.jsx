@@ -70,7 +70,7 @@ export default function Pokedex() {
         style={{
           maxWidth: "fit-content",
           textAlign: "end",
-          margin: "0 8px 0 auto",
+          margin: "0 7px 0 auto",
         }}
       >
         Score Total : {totalScore}

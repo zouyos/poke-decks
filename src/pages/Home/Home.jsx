@@ -27,7 +27,7 @@ export default function Home() {
     }
   }
 
-  async function appendScoreToList() {
+  async function listWithScore() {
     let pokemons = await fetchList();
 
     for (const pokemon of pokemons) {
@@ -49,28 +49,43 @@ export default function Home() {
       if (pokemon.types.length > 1) score += 20;
 
       if (pokemon.evolution && pokemon.evolution.pre) {
-        score += 30;
-        if (pokemon.evolution.pre.length > 1) score += 50;
+        score += 20;
+        if (pokemon.evolution.pre.length > 1) score += 30;
       }
 
       if (
-        ["Pokémon Ombre", "Pokémon Légendaire"].includes(pokemon.category) ||
+        ["Pokémon Ombre", "Pokémon Psy"].includes(pokemon.category) ||
+        pokemon.name.fr === "Goupix" ||
         pokemon.category === "Pokémon Psy"
       )
         score += 50;
 
-      if (["Bulbizarre", "Salamèche", "Carapuce"].includes(pokemon.name.fr))
+      if (
+        ["Bulbizarre", "Salamèche", "Carapuce", "Feunard"].includes(
+          pokemon.name.fr
+        ) ||
+        ["Pokémon Ombre", "Pokémon Légendaire"].includes(pokemon.category)
+      )
         score += 100;
 
       if (
         pokemon.category === "Pokémon Terrifiant" ||
-        ["Herbizarre", "Reptincel", "Carabaffe"].includes(pokemon.name.fr)
+        [
+          "Herbizarre",
+          "Reptincel",
+          "Carabaffe",
+          "Voltali",
+          "Pyroli",
+          "Aquali",
+        ].includes(pokemon.name.fr)
       )
         score += 150;
 
       if (
         [
           "Pikachu",
+          "Raichu",
+          "Miaouss",
           "Mewtwo",
           "Mew",
           "Florizarre",
@@ -81,13 +96,14 @@ export default function Home() {
         score += 200;
 
       pokemon.score = score;
+      console.log();
     }
     // console.log(pokemons.sort((a, b) => a.score - b.score));
     return pokemons;
   }
 
   async function pickRandomSelection(numberOfPokemons) {
-    const pokemons = await appendScoreToList();
+    const pokemons = await listWithScore();
     const pokemonsSelected = [];
 
     const totalRate = pokemons.reduce(
