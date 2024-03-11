@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { PokeDetails } from "../PokeDetails/PokeDetails";
-import style from "./style.module.css";
 import { XSquareFill } from "react-bootstrap-icons";
 
 export default function Pokedex() {
@@ -25,8 +24,11 @@ export default function Pokedex() {
   }
 
   const warningDiv = (
-    <div className={style.center}>
-      <div className="fs-2 border border-danger text-danger p-4 rounded">
+    <div className="d-flex justify-content-center align-items-center text-center">
+      <div
+        className="fs-2 border border-danger text-danger p-4 rounded text-wrap"
+        style={{ marginTop: "200px" }}
+      >
         Vous n'avez aucun Pokémon pour l'instant
       </div>
     </div>
@@ -60,7 +62,7 @@ export default function Pokedex() {
   return (
     <div className="container-fluid">
       <h1
-        className="text-center text-danger col"
+        className="text-center text-danger text-wrap"
         style={{ margin: "50px 50px 0" }}
       >
         Bienvenue dans votre Pokédex
@@ -69,7 +71,7 @@ export default function Pokedex() {
         className="fs-5 text-danger border border-danger p-2 rounded"
         style={{
           maxWidth: "fit-content",
-          margin: "0 10px 20px auto",
+          margin: "20px 10px 20px auto",
         }}
       >
         Score Total : {totalScore}

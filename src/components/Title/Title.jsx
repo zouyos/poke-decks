@@ -7,7 +7,7 @@ export function Title({ image, title, subtitle }) {
         <img className={style.image} src={image} alt="Logo" />
         <h2 className={style.title}>{title}</h2>
       </div>
-      <h5 className={style.subtitle}>{subtitle}</h5>
+      <h5 className={`${style.subtitle} text-wrap`}>{subtitle}</h5>
     </div>
   );
 }

@@ -266,7 +266,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="mt-4 d-flex justify-content-center flex-wrap">
+          <div className="mt-3 d-flex justify-content-center flex-wrap">
             {currentPokemons &&
               currentPokemons.map((currentPokemon, i) => {
                 return (

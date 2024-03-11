@@ -1,7 +1,0 @@
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: calc(100vh - 446px);
-}

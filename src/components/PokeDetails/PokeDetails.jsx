@@ -17,7 +17,7 @@ export function PokeDetails({ pokemon, children }) {
   return (
     <>
       <div
-        className="card mx-3 border border-2 border-danger"
+        className="card mx-3 border border-2 border-danger my-2"
         style={{ width: "16rem" }}
       >
         <p className="text-danger py-1 px-2">Score : {pokemon.score}</p>
