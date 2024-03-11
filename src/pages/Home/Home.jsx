@@ -53,7 +53,11 @@ export default function Home() {
         if (pokemon.evolution.pre.length > 1) score += 50;
       }
 
-      if (["Psykokwak", "Caninos", "Gravalanch"].includes(pokemon.name.fr))
+      if (
+        ["Psykokwak", "Caninos", "Gravalanch", "Osselait"].includes(
+          pokemon.name.fr
+        )
+      )
         score += 50;
 
       if (
@@ -99,16 +103,16 @@ export default function Home() {
           "Raichu",
           "Miaouss",
           "Mewtwo",
-          "Mew",
           "Florizarre",
           "Tortank",
-          "Dracofeu",
+          "Dracaufeu",
         ].includes(pokemon.name.fr)
       )
         score += 200;
 
+      if (pokemon.name.fr === "Mew") score += 300;
+
       pokemon.score = score;
-      console.log();
     }
     // console.log(pokemons.sort((a, b) => a.score - b.score));
     return pokemons;

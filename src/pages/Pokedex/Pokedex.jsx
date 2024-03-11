@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PokeDetails } from "../PokeDetails/PokeDetails";
+import { PokeDetails } from "../../components/PokeDetails/PokeDetails";
 import { XSquareFill } from "react-bootstrap-icons";
 
 export default function Pokedex() {
