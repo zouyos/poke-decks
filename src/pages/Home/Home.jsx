@@ -31,33 +31,85 @@ export default function Home() {
     let pokemons = await fetchList();
 
     for (const pokemon of pokemons) {
-      let score = 5;
+      let score = 50;
 
-      if (Object.keys(pokemon.types).length > 1) score += 5;
+      if (pokemon.catch_rate <= 175 && pokemon.catch_rate > 120) {
+        score += 50;
+      }
+      if (pokemon.catch_rate <= 120 && pokemon.catch_rate > 45) {
+        score += 50;
+      }
+      if (pokemon.catch_rate <= 45 && pokemon.catch_rate > 3) {
+        score += 50;
+      }
+      if (pokemon.catch_rate <= 3) {
+        score += 250;
+      }
 
-      if (["Pikachu", "Mewtwo", "Mew"].includes(pokemon.name.fr)) score = 150;
+      if (pokemon.types.length > 1) score += 20;
+
+      if (pokemon.evolution && pokemon.evolution.pre) {
+        score += 30;
+        if (pokemon.evolution.pre.length > 1) score += 50;
+      }
+
+      if (
+        ["Pokémon Ombre", "Pokémon Légendaire"].includes(pokemon.category) ||
+        pokemon.category === "Pokémon Psy"
+      )
+        score += 50;
+
+      if (["Bulbizarre", "Salamèche", "Carapuce"].includes(pokemon.name.fr))
+        score += 100;
+
+      if (
+        pokemon.category === "Pokémon Terrifiant" ||
+        ["Herbizarre", "Reptincel", "Carabaffe"].includes(pokemon.name.fr)
+      )
+        score += 150;
+
+      if (
+        [
+          "Pikachu",
+          "Mewtwo",
+          "Mew",
+          "Florizarre",
+          "Tortank",
+          "Dracofeu",
+        ].includes(pokemon.name.fr)
+      )
+        score += 200;
 
       pokemon.score = score;
     }
+    // console.log(pokemons.sort((a, b) => a.score - b.score));
     return pokemons;
   }
 
   async function pickRandomSelection(numberOfPokemons) {
     const pokemons = await appendScoreToList();
     const pokemonsSelected = [];
-    const selectedIds = new Set();
+
+    const totalRate = pokemons.reduce(
+      (acc, pokemon) => acc + (1 - (pokemon.score - 50) / (500 - 50)) * 100,
+      0
+    );
 
     while (pokemonsSelected.length < numberOfPokemons) {
-      let randomInt = Math.floor(Math.random() * 151);
-      if (!selectedIds.has(randomInt)) {
-        selectedIds.add(randomInt);
-        pokemonsSelected.push(pokemons[randomInt]);
+      let rand = Math.random() * totalRate;
+      let cumulativeRate = 0;
+
+      for (const pokemon of pokemons) {
+        cumulativeRate += (1 - (pokemon.score - 50) / (500 - 50)) * 100;
+        if (rand <= cumulativeRate) {
+          pokemonsSelected.push(pokemon);
+          break;
+        }
       }
     }
 
     setCurrentPokemons(pokemonsSelected);
     localStorage.setItem("currentPokemons", JSON.stringify(pokemonsSelected));
-    setDisableAdd(false);
   }
 
   useEffect(() => {
@@ -234,6 +286,11 @@ export default function Home() {
                   dans votre Pokédex !
                 </p>
                 <p>Vous pouvez relancer la sélection toutes les minutes.</p>
+                <p className="fst-italic">
+                  Certains Pokémon on un taux d'apparition plus élevé que
+                  d'autres, restez à l'affût de leur score et essayez d'attraper
+                  les Pokémons les plus rares !
+                </p>
               </div>
               <div className="modal-footer d-flex justify-content-center">
                 <button
