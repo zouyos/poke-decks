@@ -54,16 +54,27 @@ export default function Home() {
       }
 
       if (
-        ["Pokémon Ombre", "Pokémon Psy"].includes(pokemon.category) ||
-        pokemon.name.fr === "Goupix" ||
-        pokemon.category === "Pokémon Psy"
+        ["Psykokwak", "Caninos"].includes(pokemon.name.fr) ||
+        ["Pokémon Psy"].includes(pokemon.category)
       )
         score += 50;
 
       if (
-        ["Bulbizarre", "Salamèche", "Carapuce", "Feunard"].includes(
-          pokemon.name.fr
-        ) ||
+        [
+          "Bulbizarre",
+          "Salamèche",
+          "Carapuce",
+          "Feunard",
+          "Akwakwak",
+          "Galopa",
+          "Onix",
+          "Insécateur",
+          "Mackogneur",
+          "Grolem",
+          "Artikodin",
+          "Electhor",
+          "Sulfura",
+        ].includes(pokemon.name.fr) ||
         ["Pokémon Ombre", "Pokémon Légendaire"].includes(pokemon.category)
       )
         score += 100;
@@ -77,6 +88,8 @@ export default function Home() {
           "Voltali",
           "Pyroli",
           "Aquali",
+          "Ronflex",
+          "Lokhlass",
         ].includes(pokemon.name.fr)
       )
         score += 150;
@@ -98,7 +111,7 @@ export default function Home() {
       pokemon.score = score;
       console.log();
     }
-    // console.log(pokemons.sort((a, b) => a.score - b.score));
+    console.log(pokemons.sort((a, b) => a.score - b.score));
     return pokemons;
   }
 
@@ -111,15 +124,22 @@ export default function Home() {
       0
     );
 
-    while (pokemonsSelected.length < numberOfPokemons) {
+    for (let i = 0; i < numberOfPokemons; i++) {
       let rand = Math.random() * totalRate;
       let cumulativeRate = 0;
 
       for (const pokemon of pokemons) {
         cumulativeRate += (1 - (pokemon.score - 50) / (500 - 50)) * 100;
         if (rand <= cumulativeRate) {
-          pokemonsSelected.push(pokemon);
-          break;
+          if (
+            !pokemonsSelected.some(
+              (selectedPokemon) =>
+                selectedPokemon.pokedex_id === pokemon.pokedex_id
+            )
+          ) {
+            pokemonsSelected.push(pokemon);
+            break;
+          }
         }
       }
     }
