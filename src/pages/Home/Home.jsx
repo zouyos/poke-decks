@@ -50,14 +50,10 @@ export default function Home() {
 
       if (pokemon.evolution && pokemon.evolution.pre) {
         score += 20;
-        if (pokemon.evolution.pre.length > 1) score += 30;
+        if (pokemon.evolution.pre.length > 1) score += 50;
       }
 
-      if (
-        ["Psykokwak", "Caninos"].includes(pokemon.name.fr) ||
-        ["Pokémon Psy"].includes(pokemon.category)
-      )
-        score += 50;
+      if (["Psykokwak", "Caninos"].includes(pokemon.name.fr)) score += 50;
 
       if (
         [
@@ -75,7 +71,9 @@ export default function Home() {
           "Electhor",
           "Sulfura",
         ].includes(pokemon.name.fr) ||
-        ["Pokémon Ombre", "Pokémon Légendaire"].includes(pokemon.category)
+        ["Pokémon Ombre", "Pokémon Légendaire", "Pokémon Psy"].includes(
+          pokemon.category
+        )
       )
         score += 100;
 

@@ -61,7 +61,7 @@ export default function Pokedex() {
     <div className="container-fluid">
       <h1
         className="text-center text-danger col"
-        style={{ margin: "50px 22px 0" }}
+        style={{ margin: "50px 30px 0" }}
       >
         Bienvenue dans votre Pokédex
       </h1>
@@ -69,8 +69,7 @@ export default function Pokedex() {
         className="fs-5 text-danger border border-danger p-2 rounded"
         style={{
           maxWidth: "fit-content",
-          textAlign: "end",
-          margin: "0 7px 0 auto",
+          margin: "0 10px 20px auto",
         }}
       >
         Score Total : {totalScore}
