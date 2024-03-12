@@ -14,6 +14,11 @@ export default function Pokedex() {
     if (storedSavedPokemons.length > 0) {
       storedSavedPokemons.sort((a, b) => a.pokedex_id - b.pokedex_id);
       setSavedPokemons(storedSavedPokemons);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (savedPokemons.length > 0) {
       setDisableSearch(false);
     } else {
       setDisableSearch(true);

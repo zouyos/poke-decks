@@ -16,6 +16,11 @@ export default function Home() {
   const [timerRunning, setTimerRunning] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
 
+  const storedCurrentPokemons =
+    JSON.parse(localStorage.getItem("currentPokemons")) || [];
+  const storedSavedPokemons =
+    JSON.parse(localStorage.getItem("savedPokemons")) || [];
+
   async function fetchList() {
     try {
       const list = await PokemonAPI.fetchByGen(1);
@@ -156,20 +161,13 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const storedCurrentPokemons = JSON.parse(
-      localStorage.getItem("currentPokemons")
-    );
-    const storedSavedPokemons = JSON.parse(
-      localStorage.getItem("savedPokemons")
-    );
-
-    if (storedCurrentPokemons) {
+    if (storedCurrentPokemons.length > 0) {
       setCurrentPokemons(storedCurrentPokemons);
     } else {
       pickRandomSelection(3);
     }
 
-    if (storedSavedPokemons) {
+    if (storedSavedPokemons.length > 0) {
       setSavedPokemons(storedSavedPokemons);
     }
   }, []);
@@ -229,9 +227,6 @@ export default function Home() {
   const handleAddClick = (cardData, cardsData) => {
     setCurrentPokemons(cardsData);
     localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
-
-    const storedSavedPokemons =
-      JSON.parse(localStorage.getItem("savedPokemons")) || [];
 
     const existingId = storedSavedPokemons.some(
       (obj) => obj.pokedex_id === cardData.pokedex_id
