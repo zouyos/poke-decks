@@ -76,9 +76,7 @@ export default function Home() {
           "Electhor",
           "Sulfura",
         ].includes(pokemon.name.fr) ||
-        ["Pokémon Ombre", "Pokémon Légendaire", "Pokémon Psy"].includes(
-          pokemon.category
-        )
+        ["Pokémon Ombre", "Pokémon Psy"].includes(pokemon.category)
       )
         score += 100;
 
@@ -98,6 +96,7 @@ export default function Home() {
         score += 150;
 
       if (
+        pokemon.category === "Pokémon Légendaire" ||
         [
           "Pikachu",
           "Raichu",
@@ -113,6 +112,11 @@ export default function Home() {
       if (pokemon.name.fr === "Mew") score += 300;
 
       pokemon.score = score;
+      for (const type of pokemon.types) {
+        if (type.name === "Électrik") {
+          type.name = "Électrique";
+        }
+      }
     }
     // console.log(pokemons.sort((a, b) => a.score - b.score));
     return pokemons;
@@ -262,7 +266,10 @@ export default function Home() {
           <div className="d-flex justify-content-center">
             <div data-bs-toggle="modal" data-bs-target="#help">
               <QuestionCircleFill
-                style={{ cursor: "pointer" }}
+                style={{
+                  cursor: "pointer",
+                }}
+                className="rounded-pill"
                 onMouseEnter={() => setIsHelpHovered(true)}
                 onMouseLeave={() => setIsHelpHovered(false)}
                 size={30}

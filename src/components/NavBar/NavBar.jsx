@@ -6,7 +6,10 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar bg-danger">
+    <nav
+      className="navbar bg-danger"
+      style={{ boxShadow: "0 4px 4px rgba(0, 0, 0, 0.2)" }}
+    >
       <div className="container-fluid">
         <div
           className="navbar-brand text-light d-flex align-items-center"

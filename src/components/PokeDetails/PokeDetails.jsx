@@ -7,7 +7,8 @@ export function PokeDetails({ pokemon, children }) {
         <li className={pokemon.types.length < 2 ? style.typeContainer : ""}>
           <div>
             <img src={type.image} alt={type.name} className={style.type} />
-            {type.name === "Électrik" ? "Électrique" : type.name}
+            {/* {type.name === "Électrik" ? "Électrique" : type.name} */}
+            {type.name}
           </div>
         </li>
       </ul>
@@ -18,7 +19,7 @@ export function PokeDetails({ pokemon, children }) {
     <>
       <div
         className="card mx-3 border border-2 border-danger my-2"
-        style={{ width: "16rem" }}
+        style={{ width: "16rem", boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)" }}
       >
         <p className="text-danger py-1 px-2">Score : {pokemon.score}</p>
         <img
