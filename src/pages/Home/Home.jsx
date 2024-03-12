@@ -59,9 +59,13 @@ export default function Home() {
       }
 
       if (
-        ["Psykokwak", "Caninos", "Gravalanch", "Osselait"].includes(
-          pokemon.name.fr
-        )
+        [
+          "Psykokwak",
+          "Caninos",
+          "Gravalanch",
+          "Osselait",
+          "Ossatueur",
+        ].includes(pokemon.name.fr)
       )
         score += 50;
 

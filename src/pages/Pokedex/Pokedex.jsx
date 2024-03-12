@@ -68,7 +68,7 @@ export default function Pokedex() {
   );
 
   const cards = (
-    <div className="mt-4 row d-flex justify-content-center flex-wrap">
+    <div className="row d-flex justify-content-center flex-wrap">
       {filteredList.map((pokemon, i) => {
         return (
           <div className="mb-5" style={{ width: "max-content" }} key={i}>
@@ -118,7 +118,9 @@ export default function Pokedex() {
           />
         </div>
       </div>
-      {savedPokemons.length > 0 ? cards : warningDiv}
+      <div className="mt-4">
+        {savedPokemons.length > 0 ? cards : warningDiv}
+      </div>
     </div>
   );
 }
