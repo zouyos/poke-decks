@@ -60,7 +60,7 @@ export default function Pokedex() {
     <div className="d-flex justify-content-center align-items-center text-center">
       <div
         className="fs-2 border border-danger text-danger p-4 rounded text-wrap"
-        style={{ marginTop: "120px" }}
+        style={{ marginTop: "100px" }}
       >
         Vous n'avez aucun Pokémon pour l'instant
       </div>
@@ -118,9 +118,7 @@ export default function Pokedex() {
           />
         </div>
       </div>
-      <div className="mt-2">
-        {savedPokemons.length > 0 ? cards : warningDiv}
-      </div>
+      {savedPokemons.length > 0 ? cards : warningDiv}
     </div>
   );
 }
