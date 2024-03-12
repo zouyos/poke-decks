@@ -9,9 +9,8 @@ export default function Pokedex() {
   const [disableSearch, setDisableSearch] = useState(true);
 
   useEffect(() => {
-    const storedSavedPokemons = JSON.parse(
-      localStorage.getItem("savedPokemons")
-    );
+    const storedSavedPokemons =
+      JSON.parse(localStorage.getItem("savedPokemons")) || [];
     if (storedSavedPokemons.length > 0) {
       storedSavedPokemons.sort((a, b) => a.pokedex_id - b.pokedex_id);
       setSavedPokemons(storedSavedPokemons);

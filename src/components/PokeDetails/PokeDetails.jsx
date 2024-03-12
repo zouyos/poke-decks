@@ -7,7 +7,6 @@ export function PokeDetails({ pokemon, children }) {
         <li className={pokemon.types.length < 2 ? style.typeContainer : ""}>
           <div>
             <img src={type.image} alt={type.name} className={style.type} />
-            {/* {type.name === "Électrik" ? "Électrique" : type.name} */}
             {type.name}
           </div>
         </li>
