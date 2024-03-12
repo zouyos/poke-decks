@@ -71,7 +71,7 @@ export default function Pokedex() {
     <div className="row d-flex justify-content-center flex-wrap">
       {filteredList.map((pokemon, i) => {
         return (
-          <div className="mb-5" style={{ width: "max-content" }} key={i}>
+          <div style={{ width: "max-content" }} key={i}>
             <PokeDetails pokemon={pokemon}>
               <div className="d-flex justify-content-end">
                 <XSquareFill
