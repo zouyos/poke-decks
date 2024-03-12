@@ -68,11 +68,11 @@ export default function Pokedex() {
   );
 
   const cards = (
-    <div className="row d-flex justify-content-center flex-wrap">
+    <div className="row d-flex justify-content-center flex-wrap mb-5">
       {filteredList.map((pokemon, i) => {
         return (
-          <div style={{ width: "max-content" }} key={i}>
-            <PokeDetails pokemon={pokemon}>
+          <div style={{ width: "max-content" }}>
+            <PokeDetails pokemon={pokemon} key={i}>
               <div className="d-flex justify-content-end">
                 <XSquareFill
                   onClick={() =>
