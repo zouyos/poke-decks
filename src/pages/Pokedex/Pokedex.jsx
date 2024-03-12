@@ -101,7 +101,7 @@ export default function Pokedex() {
         Bienvenue dans votre Pokédex
       </h1>
       <p
-        className="fs-5 text-danger border border-danger p-2 rounded"
+        className="fs-5 text-danger border border-danger p-2 rounded mb-3"
         style={{
           maxWidth: "fit-content",
           margin: "20px 10px 20px auto",
@@ -109,7 +109,7 @@ export default function Pokedex() {
       >
         Score Total : {totalScore}
       </p>
-      <div className="row justify-content-center mb-5">
+      <div className="row justify-content-center mb-4">
         <div className="col-sm-12 col-md-4">
           <SearchBar
             placeholder="Rechercher un Pokémon ou un Type..."
@@ -118,7 +118,7 @@ export default function Pokedex() {
           />
         </div>
       </div>
-      <div className="mt-4">
+      <div className="mt-2">
         {savedPokemons.length > 0 ? cards : warningDiv}
       </div>
     </div>
