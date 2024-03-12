@@ -90,7 +90,7 @@ export default function Home() {
         score += 100;
 
       if (
-        pokemon.category === "Pokémon Terrifiant" ||
+        pokemon.category === "Pokémon Légendaire" ||
         [
           "Herbizarre",
           "Reptincel",
@@ -105,7 +105,7 @@ export default function Home() {
         score += 150;
 
       if (
-        pokemon.category === "Pokémon Légendaire" ||
+        pokemon.category === "Pokémon Terrifiant" ||
         [
           "Pikachu",
           "Raichu",
