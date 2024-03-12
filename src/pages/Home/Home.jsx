@@ -181,7 +181,7 @@ export default function Home() {
 
     const startTime = localStorage.getItem("startTime");
     const storedRemainingTime = startTime
-      ? 60000 - (Date.now() - parseInt(startTime))
+      ? 30000 - (Date.now() - parseInt(startTime))
       : 0;
 
     if (timerRunning || storedRemainingTime > 0) {
@@ -192,7 +192,7 @@ export default function Home() {
       timerInterval = setInterval(() => {
         const elapsed =
           Date.now() - parseInt(localStorage.getItem("startTime"));
-        const remaining = 60000 - elapsed;
+        const remaining = 30000 - elapsed;
         if (remaining <= 0) {
           setRemainingTime(0);
           setTimerRunning(false);
@@ -331,7 +331,7 @@ export default function Home() {
                   Obtenez un deck de 3 Pokémons et choississez-en un à garder
                   dans votre Pokédex !
                 </p>
-                <p>Vous pouvez relancer la sélection toutes les minutes.</p>
+                <p>Vous pouvez relancer la sélection toutes 30 secondes.</p>
                 <p className="fst-italic">
                   Certains Pokémon on un taux d'apparition plus élevé que
                   d'autres, restez à l'affût de leur score et essayez d'attraper
