@@ -109,7 +109,7 @@ export default function Home() {
       )
         score += 200;
 
-      if (pokemon.name.fr === "Mew") score += 300;
+      if (pokemon.name.fr === "Mew") score += 304;
 
       pokemon.score = score;
       for (const type of pokemon.types) {
