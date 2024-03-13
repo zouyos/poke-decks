@@ -21,37 +21,6 @@ export default function Home() {
   const storedSavedPokemons =
     JSON.parse(localStorage.getItem("savedPokemons")) || [];
 
-  function isLocalStorageAvailable() {
-    let test = "test";
-    try {
-      localStorage.setItem(test, test);
-      localStorage.removeItem(test);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  const flashDiv = document.getElementById("flash");
-  const addFlash = (message, type) => {
-    const wrapper = document.createElement("div");
-    wrapper.innerHTML = [
-      `<div class="alert alert-${type} alert-dismissible mt-2" role="alert">`,
-      `   <div>${message}</div>`,
-      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-      "</div>",
-    ].join("");
-
-    flashDiv.append(wrapper);
-  };
-
-  if (!isLocalStorageAvailable()) {
-    addFlash(
-      "Pour que le site fonctionne correctement, veuillez activer les données de stockage de votre navigateur",
-      "warning"
-    );
-  }
-
   async function fetchList() {
     try {
       const list = await PokemonAPI.fetchByGen(1);
@@ -277,7 +246,6 @@ export default function Home() {
       localStorage.setItem("disableAdd", true);
 
       alert(`${cardData.name.fr} a été ajouté au Pokédex !`);
-      // addFlash(`${cardData.name.fr} a été ajouté au Pokédex !`, "success");
     } else {
       alert("Vous possédez déjà ce Pokémon !");
     }
@@ -287,7 +255,6 @@ export default function Home() {
     <>
       <div className="container-fluid p-2">
         <div className="d-flex flex-column justify-content-center align-items-center">
-          <div id="flash" style={{ position: "absolute bottom right" }}></div>
           <div className="my-3">
             <Title
               image={logo}
