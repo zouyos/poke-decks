@@ -20,7 +20,7 @@ export function PokeDetails({ pokemon, children }) {
         className="card mx-3 border border-2 border-danger my-2"
         style={{ width: "16rem", boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)" }}
       >
-        <p className="text-danger py-1 px-2">Score : {pokemon.score}</p>
+        <p className="text-danger pt-1 px-2">Score : {pokemon.score}</p>
         <img
           src={pokemon.sprites.regular}
           className="card-img-top"
