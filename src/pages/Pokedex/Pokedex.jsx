@@ -94,14 +94,11 @@ export default function Pokedex() {
 
   return (
     <div className="container-fluid">
-      <h1
-        className="text-center text-danger text-wrap"
-        style={{ margin: "50px 50px 0" }}
-      >
+      <h1 className="text-center text-danger text-wrap mt-4 mb-2">
         Bienvenue dans votre Pokédex
       </h1>
       <p
-        className="fs-5 text-danger border border-danger p-2 rounded mb-3"
+        className="fs-5 text-danger border border-danger p-2 rounded mb-1"
         style={{
           maxWidth: "fit-content",
           margin: "20px 10px 20px auto",
@@ -109,7 +106,7 @@ export default function Pokedex() {
       >
         Score Total : {totalScore}
       </p>
-      <div className="row justify-content-center mb-4">
+      <div className="row justify-content-center mb-5">
         <div className="col-sm-12 col-md-4">
           <SearchBar
             placeholder="Rechercher un Pokémon ou un Type..."

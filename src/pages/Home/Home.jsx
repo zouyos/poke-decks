@@ -6,6 +6,7 @@ import { PokemonAPI } from "../../api/pokemon";
 import { QuestionCircleFill } from "react-bootstrap-icons";
 import ReloadButton from "../../components/ReloadButton/ReloadButton";
 import AddButton from "../../components/AddButton/AddButton";
+import { appendScore } from "../../config/config";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
@@ -35,98 +36,7 @@ export default function Home() {
   async function listWithScore() {
     let pokemons = await fetchList();
 
-    for (const pokemon of pokemons) {
-      let score = 50;
-
-      if (pokemon.catch_rate <= 175 && pokemon.catch_rate > 120) {
-        score += 50;
-      }
-      if (pokemon.catch_rate <= 120 && pokemon.catch_rate > 45) {
-        score += 50;
-      }
-      if (pokemon.catch_rate <= 45 && pokemon.catch_rate > 3) {
-        score += 50;
-      }
-      if (pokemon.catch_rate <= 3) {
-        score += 250;
-      }
-
-      if (pokemon.types.length > 1) score += 20;
-
-      if (pokemon.evolution && pokemon.evolution.pre) {
-        score += 20;
-        if (pokemon.evolution.pre.length > 1) score += 50;
-      }
-
-      if (
-        [
-          "Psykokwak",
-          "Caninos",
-          "Gravalanch",
-          "Osselait",
-          "Ossatueur",
-        ].includes(pokemon.name.fr)
-      )
-        score += 50;
-
-      if (
-        [
-          "Bulbizarre",
-          "Salamèche",
-          "Carapuce",
-          "Feunard",
-          "Akwakwak",
-          "Galopa",
-          "Onix",
-          "Insécateur",
-          "Mackogneur",
-          "Grolem",
-          "Artikodin",
-          "Electhor",
-          "Sulfura",
-        ].includes(pokemon.name.fr) ||
-        ["Pokémon Ombre", "Pokémon Psy"].includes(pokemon.category)
-      )
-        score += 100;
-
-      if (
-        pokemon.category === "Pokémon Légendaire" ||
-        [
-          "Herbizarre",
-          "Reptincel",
-          "Carabaffe",
-          "Voltali",
-          "Pyroli",
-          "Aquali",
-          "Ronflex",
-          "Lokhlass",
-        ].includes(pokemon.name.fr)
-      )
-        score += 150;
-
-      if (
-        pokemon.category === "Pokémon Terrifiant" ||
-        [
-          "Pikachu",
-          "Raichu",
-          "Miaouss",
-          "Mewtwo",
-          "Florizarre",
-          "Tortank",
-          "Dracaufeu",
-        ].includes(pokemon.name.fr)
-      )
-        score += 200;
-
-      if (pokemon.name.fr === "Mew") score += 304;
-
-      pokemon.score = score;
-      for (const type of pokemon.types) {
-        if (type.name === "Électrik") {
-          type.name = "Électrique";
-        }
-      }
-    }
+    appendScore(pokemons);
     // console.log(pokemons.sort((a, b) => a.score - b.score));
     return pokemons;
   }
@@ -255,7 +165,7 @@ export default function Home() {
     <>
       <div className="container-fluid p-2">
         <div className="d-flex flex-column justify-content-center align-items-center">
-          <div className="my-3">
+          <div className="mt-2 mb-3">
             <Title
               image={logo}
               title="Poke'Decks"
@@ -293,18 +203,20 @@ export default function Home() {
                 );
               })}
           </div>
-          <div className="my-4 d-flex flex-column justify-content-center align-items-center">
-            <ReloadButton
-              onClick={handleReloadClick}
-              disabled={disableReload}
-            />
+          <div className="mt-2 mb-3 d-flex flex-column justify-content-center align-items-center">
             {timerRunning && (
-              <div className="my-3 text-danger fs-4">
+              <div className="mb-2 text-danger fs-4">
                 Temps restant : {Math.floor(remainingTime / 60)}:
                 {remainingTime % 60 < 10 ? "0" : ""}
                 {remainingTime % 60}
               </div>
             )}
+            <div className="mt-2">
+              <ReloadButton
+                onClick={handleReloadClick}
+                disabled={disableReload}
+              />
+            </div>
           </div>
         </div>
         {/* Modal */}
