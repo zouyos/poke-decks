@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { PokeDetails } from "../../components/PokeDetails/PokeDetails";
 import { XSquareFill } from "react-bootstrap-icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import ScrollToTopButton from "../../components/ScrollToTopButton/ScrollToTopButton";
 
 export default function Pokedex() {
   const [savedPokemons, setSavedPokemons] = useState([]);
@@ -98,7 +99,7 @@ export default function Pokedex() {
         Bienvenue dans votre Pokédex
       </h1>
       <p
-        className="fs-5 text-danger border border-danger p-2 rounded mb-1"
+        className="fs-5 text-danger border border-danger p-2 rounded mb-4"
         style={{
           maxWidth: "fit-content",
           margin: "20px 10px 20px auto",
@@ -106,7 +107,7 @@ export default function Pokedex() {
       >
         Score Total : {totalScore}
       </p>
-      <div className="row justify-content-center mb-5">
+      <div className="row justify-content-center mb-4">
         <div className="col-sm-12 col-md-4">
           <SearchBar
             placeholder="Rechercher un Pokémon ou un Type..."
