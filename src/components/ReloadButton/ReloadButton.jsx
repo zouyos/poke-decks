@@ -1,6 +1,6 @@
 import { ArrowRepeat } from "react-bootstrap-icons";
 
-export default function ReloadButton({ onClick, disabled }) {
+export default function ReloadButton({ onClick, disabled, alert }) {
   return (
     <button
       onClick={onClick}

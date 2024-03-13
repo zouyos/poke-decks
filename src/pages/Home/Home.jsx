@@ -21,24 +21,6 @@ export default function Home() {
   const storedSavedPokemons =
     JSON.parse(localStorage.getItem("savedPokemons")) || [];
 
-  const flash = document.getElementById("flash");
-  const addFlash = (message, type) => {
-    const wrapper = (
-      <div className={`alert alert-${type} alert-dismissible`} role="alert">
-        <div>{message}</div>
-        <button
-          type="button"
-          className="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
-      </div>
-    );
-    wrapper.join("");
-
-    flash.append(wrapper);
-  };
-
   function isLocalStorageAvailable() {
     let test = "test";
     try {
@@ -49,6 +31,19 @@ export default function Home() {
       return false;
     }
   }
+
+  const flashDiv = document.getElementById("flash");
+  const addFlash = (message, type) => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} alert-dismissible mt-2" role="alert">`,
+      `   <div>${message}</div>`,
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      "</div>",
+    ].join("");
+
+    flashDiv.append(wrapper);
+  };
 
   if (!isLocalStorageAvailable()) {
     addFlash(
@@ -282,6 +277,7 @@ export default function Home() {
       localStorage.setItem("disableAdd", true);
 
       alert(`${cardData.name.fr} a été ajouté au Pokédex !`);
+      // addFlash(`${cardData.name.fr} a été ajouté au Pokédex !`, "success");
     } else {
       alert("Vous possédez déjà ce Pokémon !");
     }
@@ -291,7 +287,7 @@ export default function Home() {
     <>
       <div className="container-fluid p-2">
         <div className="d-flex flex-column justify-content-center align-items-center">
-          <div id="flash"></div>
+          <div id="flash" style={{ position: "absolute bottom right" }}></div>
           <div className="my-3">
             <Title
               image={logo}
