@@ -20,10 +20,12 @@ export default function Home() {
   const [hideNotif, setHideNotif] = useState(true);
   const [message, setMessage] = useState("");
 
-  const storedCurrentPokemons =
-    JSON.parse(localStorage.getItem("currentPokemons")) || [];
-  const storedSavedPokemons =
-    JSON.parse(localStorage.getItem("savedPokemons")) || [];
+  const storedCurrentPokemons = localStorage.getItem("currentPokemons")
+    ? JSON.parse(localStorage.getItem("currentPokemons"))
+    : [];
+  const storedSavedPokemons = localStorage.getItem("savedPokemons")
+    ? JSON.parse(localStorage.getItem("savedPokemons"))
+    : [];
 
   async function fetchList() {
     try {
@@ -41,6 +43,7 @@ export default function Home() {
 
     appendScore(pokemons);
     // console.log(pokemons.sort((a, b) => a.score - b.score));
+    // score total possible = 22804
     return pokemons;
   }
 
@@ -145,7 +148,7 @@ export default function Home() {
     setCurrentPokemons(cardsData);
     localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
 
-    const existingId = storedSavedPokemons.some(
+    const existingId = storedSavedPokemons?.some(
       (obj) => obj.pokedex_id === cardData.pokedex_id
     );
 
