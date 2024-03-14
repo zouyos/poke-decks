@@ -257,9 +257,9 @@ export default function Home() {
                 </p>
                 <p>Vous pouvez relancer la sélection toutes 30 secondes.</p>
                 <p className="fst-italic">
-                  Certains Pokémon on un taux d'apparition plus élevé que
-                  d'autres, restez à l'affût de leur score et essayez d'attraper
-                  les Pokémons les plus rares !
+                  Certains Pokémons ont un taux d'apparition moins élevé que
+                  d'autres, restez à l'affût de leurs scores et essayez
+                  d'attraper les Pokémons les plus rares !
                 </p>
               </div>
               <div className="modal-footer d-flex justify-content-center">
