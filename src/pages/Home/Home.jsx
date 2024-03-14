@@ -7,6 +7,7 @@ import { QuestionCircleFill } from "react-bootstrap-icons";
 import ReloadButton from "../../components/ReloadButton/ReloadButton";
 import AddButton from "../../components/AddButton/AddButton";
 import { appendScore } from "../../config/config";
+import Notifs from "../../components/Notifs/Notifs";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
@@ -16,6 +17,8 @@ export default function Home() {
   const [isHelpHovered, setIsHelpHovered] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
+  const [hideNotif, setHideNotif] = useState(true);
+  const [message, setMessage] = useState("");
 
   const storedCurrentPokemons =
     JSON.parse(localStorage.getItem("currentPokemons")) || [];
@@ -155,7 +158,9 @@ export default function Home() {
       setDisableAdd(true);
       localStorage.setItem("disableAdd", true);
 
-      alert(`${cardData.name.fr} a été ajouté au Pokédex !`);
+      // alert(`${cardData.name.fr} a été ajouté au Pokédex !`);
+      setHideNotif(false);
+      setMessage(`${cardData.name.fr} a été ajouté au Pokédex !`);
     } else {
       alert("Vous possédez déjà ce Pokémon !");
     }
@@ -165,6 +170,13 @@ export default function Home() {
     <>
       <div className="container-fluid p-2">
         <div className="d-flex flex-column justify-content-center align-items-center">
+          {!hideNotif && (
+            <Notifs
+              variant="success"
+              message={message}
+              onClose={setHideNotif}
+            />
+          )}
           <div className="mt-2 mb-3">
             <Title
               image={logo}

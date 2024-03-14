@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { PokeDetails } from "../../components/PokeDetails/PokeDetails";
 import { XSquareFill } from "react-bootstrap-icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import Notifs from "../../components/Notifs/Notifs";
 
 export default function Pokedex() {
   const [savedPokemons, setSavedPokemons] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [disableSearch, setDisableSearch] = useState(true);
+  const [hideNotif, setHideNotif] = useState(true);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const storedSavedPokemons =
       JSON.parse(localStorage.getItem("savedPokemons")) || [];
+
     if (storedSavedPokemons.length > 0) {
       storedSavedPokemons.sort((a, b) => a.pokedex_id - b.pokedex_id);
       setSavedPokemons(storedSavedPokemons);
@@ -48,12 +52,14 @@ export default function Pokedex() {
     totalScore += score;
   }
 
-  function handleClick(id) {
+  function handleClick(id, name) {
     const updatedSavedPokemons = savedPokemons.filter(
       (item) => item.pokedex_id !== id
     );
     localStorage.setItem("savedPokemons", JSON.stringify(updatedSavedPokemons));
     setSavedPokemons(updatedSavedPokemons);
+    setHideNotif(false);
+    setMessage(`${name} a bien été retiré du Pokédex`);
   }
 
   const warningDiv = (
@@ -71,14 +77,14 @@ export default function Pokedex() {
     <div className="row d-flex justify-content-center flex-wrap mb-5">
       {filteredList.map((pokemon, i) => {
         return (
-          <div style={{ width: "max-content" }}>
-            <PokeDetails pokemon={pokemon} key={i}>
+          <div style={{ width: "max-content" }} key={i}>
+            <PokeDetails pokemon={pokemon}>
               <div className="d-flex justify-content-end">
                 <XSquareFill
                   onClick={() =>
                     window.confirm(
                       `Êtes-vous sûr de vouloir supprimer ce Pokémon : ${pokemon.name.fr} ?`
-                    ) && handleClick(pokemon.pokedex_id)
+                    ) && handleClick(pokemon.pokedex_id, pokemon.name.fr)
                   }
                   size={20}
                   color="#dc3546"
@@ -94,6 +100,9 @@ export default function Pokedex() {
 
   return (
     <div className="container-fluid">
+      {!hideNotif && (
+        <Notifs variant="danger" message={message} onClose={setHideNotif} />
+      )}
       <h1 className="text-center text-danger text-wrap mt-4 mb-2">
         Bienvenue dans votre Pokédex
       </h1>
