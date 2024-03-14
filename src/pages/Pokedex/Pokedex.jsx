@@ -100,9 +100,11 @@ export default function Pokedex() {
 
   return (
     <div className="container-fluid">
-      {!hideNotif && (
-        <Notifs variant="danger" message={message} onClose={setHideNotif} />
-      )}
+      <div className="d-flex justify-content-center">
+        {!hideNotif && (
+          <Notifs variant="danger" message={message} onClose={setHideNotif} />
+        )}
+      </div>
       <h1 className="text-center text-danger text-wrap mt-4 mb-2">
         Bienvenue dans votre Pokédex
       </h1>
@@ -110,7 +112,7 @@ export default function Pokedex() {
         className="fs-5 text-danger border border-danger p-2 rounded mb-4"
         style={{
           maxWidth: "fit-content",
-          margin: "20px 10px 20px auto",
+          margin: "20px 9px 20px auto",
         }}
       >
         Score Total : {totalScore}

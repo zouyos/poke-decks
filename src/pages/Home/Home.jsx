@@ -129,6 +129,7 @@ export default function Home() {
   }, []);
 
   const handleReloadClick = () => {
+    setHideNotif(true);
     if (localStorage.getItem("disableAdd")) {
       setDisableAdd(false);
       localStorage.removeItem("disableAdd");
@@ -161,7 +162,6 @@ export default function Home() {
       setDisableAdd(true);
       localStorage.setItem("disableAdd", true);
 
-      // alert(`${cardData.name.fr} a été ajouté au Pokédex !`);
       setHideNotif(false);
       setMessage(`${cardData.name.fr} a été ajouté au Pokédex !`);
     } else {
