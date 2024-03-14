@@ -60,6 +60,9 @@ export default function Pokedex() {
     setSavedPokemons(updatedSavedPokemons);
     setHideNotif(false);
     setMessage(`${name} a bien été retiré du Pokédex`);
+    setTimeout(() => {
+      setHideNotif(true);
+    }, 5000);
   }
 
   const warningDiv = (

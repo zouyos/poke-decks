@@ -164,6 +164,9 @@ export default function Home() {
 
       setHideNotif(false);
       setMessage(`${cardData.name.fr} a été ajouté au Pokédex !`);
+      setTimeout(() => {
+        setHideNotif(true);
+      }, 5000);
     } else {
       alert("Vous possédez déjà ce Pokémon !");
     }
