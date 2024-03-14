@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { PokeDetails } from "../../components/PokeDetails/PokeDetails";
 import { XSquareFill } from "react-bootstrap-icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import ScrollToTopButton from "../../components/ScrollToTopButton/ScrollToTopButton";
 
 export default function Pokedex() {
   const [savedPokemons, setSavedPokemons] = useState([]);

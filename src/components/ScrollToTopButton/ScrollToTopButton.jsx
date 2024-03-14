@@ -15,7 +15,7 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.pageYOffset > 300) {
+      if (window.scrollY > 300) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -31,7 +31,7 @@ const ScrollToTopButton = () => {
 
   return (
     <ArrowUpCircle
-      color={"rgba(146, 148, 151, 0.8)"}
+      color={"rgba(146, 148, 151, 0.5)"}
       size={50}
       className={style.button}
       onClick={scrollToTop}

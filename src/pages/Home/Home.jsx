@@ -7,7 +7,6 @@ import { QuestionCircleFill } from "react-bootstrap-icons";
 import ReloadButton from "../../components/ReloadButton/ReloadButton";
 import AddButton from "../../components/AddButton/AddButton";
 import { appendScore } from "../../config/config";
-import ScrollToTopButton from "../../components/ScrollToTopButton/ScrollToTopButton";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
