@@ -109,28 +109,32 @@ export default function Pokedex() {
           <Notifs variant="danger" message={message} onClose={setHideNotif} />
         )}
       </div>
-      <h1 className="text-center text-danger text-wrap mt-4 mb-2">
-        Bienvenue dans votre Pokédex
+      <h1
+        className="text-center text-danger text-wrap mt-4 mb-3"
+        style={{ fontSize: "50px" }}
+      >
+        Pokédex
       </h1>
       <p
-        className="fs-5 text-danger border border-danger p-1 rounded mb-2"
+        className="my-1"
         style={{
           maxWidth: "fit-content",
-          margin: "20px 9px 20px auto",
+          margin: "20px 20px 20px auto",
         }}
       >
-        Nombre de Pokémons : {storedSavedPokemons.length}
+        Nombre de Pokémons :{" "}
+        <span className="fw-bold">{storedSavedPokemons.length}</span>
       </p>
       <p
-        className="fs-5 text-danger border border-danger p-1 rounded mb-4 mt-0"
+        className="text-danger my-1"
         style={{
           maxWidth: "fit-content",
-          margin: "20px 9px 20px auto",
+          margin: "20px 20px 20px auto",
         }}
       >
-        Score Total : {totalScore}
+        Score Total : <span className="fw-bold">{totalScore}</span>
       </p>
-      <div className="row justify-content-center mb-4">
+      <div className="row justify-content-center mt-4 mb-5">
         <div className="col-sm-12 col-md-4">
           <SearchBar
             placeholder="Rechercher un Pokémon ou un Type..."
