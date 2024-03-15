@@ -38,6 +38,7 @@ const appendScore = (pokemons) => {
         "Akwakwak",
         "Galopa",
         "Onix",
+        "Dracolosse",
         "Insécateur",
         "Mackogneur",
         "Grolem",

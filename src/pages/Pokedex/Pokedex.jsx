@@ -11,10 +11,11 @@ export default function Pokedex() {
   const [hideNotif, setHideNotif] = useState(true);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    const storedSavedPokemons =
-      JSON.parse(localStorage.getItem("savedPokemons")) || [];
+  const storedSavedPokemons = localStorage.getItem("savedPokemons")
+    ? JSON.parse(localStorage.getItem("savedPokemons"))
+    : [];
 
+  useEffect(() => {
     if (storedSavedPokemons.length > 0) {
       storedSavedPokemons.sort((a, b) => a.pokedex_id - b.pokedex_id);
       setSavedPokemons(storedSavedPokemons);
@@ -112,7 +113,16 @@ export default function Pokedex() {
         Bienvenue dans votre Pokédex
       </h1>
       <p
-        className="fs-5 text-danger border border-danger p-2 rounded mb-4"
+        className="fs-5 text-danger border border-danger p-1 rounded mb-2"
+        style={{
+          maxWidth: "fit-content",
+          margin: "20px 9px 20px auto",
+        }}
+      >
+        Nombre de Pokémons : {storedSavedPokemons.length}
+      </p>
+      <p
+        className="fs-5 text-danger border border-danger p-1 rounded mb-4 mt-0"
         style={{
           maxWidth: "fit-content",
           margin: "20px 9px 20px auto",

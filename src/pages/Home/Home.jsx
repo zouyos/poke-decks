@@ -19,6 +19,8 @@ export default function Home() {
   const [remainingTime, setRemainingTime] = useState(0);
   const [hideNotif, setHideNotif] = useState(true);
   const [message, setMessage] = useState("");
+  const [time, setTime] = useState(30000);
+  const [totalScore, setTotalScore] = useState(0);
 
   const storedCurrentPokemons = localStorage.getItem("currentPokemons")
     ? JSON.parse(localStorage.getItem("currentPokemons"))
@@ -43,7 +45,7 @@ export default function Home() {
 
     appendScore(pokemons);
     // console.log(pokemons.sort((a, b) => a.score - b.score));
-    // score total possible = 22804
+    // score total possible = 22904
     return pokemons;
   }
 
@@ -97,7 +99,7 @@ export default function Home() {
 
     const startTime = localStorage.getItem("startTime");
     const storedRemainingTime = startTime
-      ? 30000 - (Date.now() - parseInt(startTime))
+      ? time - (Date.now() - parseInt(startTime))
       : 0;
 
     if (timerRunning || storedRemainingTime > 0) {
@@ -108,7 +110,7 @@ export default function Home() {
       timerInterval = setInterval(() => {
         const elapsed =
           Date.now() - parseInt(localStorage.getItem("startTime"));
-        const remaining = 30000 - elapsed;
+        const remaining = time - elapsed;
         if (remaining <= 0) {
           setRemainingTime(0);
           setTimerRunning(false);
@@ -128,28 +130,53 @@ export default function Home() {
     if (localStorage.getItem("disableAdd")) setDisableAdd(true);
   }, []);
 
+  useEffect(() => {
+    if (storedSavedPokemons.length > 0) {
+      let score = 0;
+      for (const pokemon of storedSavedPokemons) {
+        score += pokemon.score;
+      }
+      setTotalScore(score);
+
+      if (totalScore >= 10000 && totalScore < 20000) {
+        setTime(15000);
+      } else if (totalScore >= 20000) {
+        setTime(0);
+      }
+    }
+
+    if (storedSavedPokemons.length >= 151) {
+      setHideNotif(false);
+      setMessage(
+        "Bravo vous avez attrapé tous les Pokémons ! Vous êtes un super dresseur."
+      );
+      setTimeout(() => {
+        setHideNotif(true);
+      }, 5000);
+    }
+  }, [storedSavedPokemons]);
+
   const handleReloadClick = () => {
     setHideNotif(true);
-    if (localStorage.getItem("disableAdd")) {
-      setDisableAdd(false);
-      localStorage.removeItem("disableAdd");
+    if (totalScore >= 20000) {
+      pickRandomSelection(3);
+    } else {
+      if (localStorage.getItem("disableAdd")) {
+        setDisableAdd(false);
+        localStorage.removeItem("disableAdd");
+      }
+      pickRandomSelection(3);
+      setDisableReload(true);
+      setTimerRunning(true);
+      localStorage.setItem("startTime", Date.now().toString());
     }
-    pickRandomSelection(3);
-    setDisableReload(true);
-    setTimerRunning(true);
-    localStorage.setItem("startTime", Date.now().toString());
-
-    setTimeout(() => {
-      setDisableReload(false);
-      setTimerRunning(false);
-    }, 60000);
   };
 
   const handleAddClick = (cardData, cardsData) => {
     setCurrentPokemons(cardsData);
     localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
 
-    const existingId = storedSavedPokemons?.some(
+    const existingId = storedSavedPokemons.some(
       (obj) => obj.pokedex_id === cardData.pokedex_id
     );
 
@@ -259,13 +286,21 @@ export default function Home() {
               <div className="modal-body text-center fs-5">
                 <p>
                   Obtenez un deck de 3 Pokémons et choississez-en un à garder
-                  dans votre Pokédex !
+                  dans votre Pokédex. Il y a 150 Pokémons à attraper et vous
+                  pouvez relancer la sélection toutes 30 secondes.
                 </p>
-                <p>Vous pouvez relancer la sélection toutes 30 secondes.</p>
                 <p className="fst-italic">
                   Certains Pokémons ont un taux d'apparition moins élevé que
                   d'autres, restez à l'affût de leurs scores et essayez
                   d'attraper les Pokémons les plus rares !
+                </p>
+                <p>
+                  Lorsque vous aurez atteint 10 000 points vous pourrez relancer
+                  la séléction toutes les 15 secondes seulement
+                </p>
+                <p>
+                  Et si vous atteignez 20 000 points, vous n'aurez plus besoin
+                  d'attendre pour relancer la sélection !
                 </p>
               </div>
               <div className="modal-footer d-flex justify-content-center">
