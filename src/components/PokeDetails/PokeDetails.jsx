@@ -1,6 +1,7 @@
 import style from "./style.module.css";
+import pokedex from "../../assets/img/pokedex_icon.png";
 
-export function PokeDetails({ pokemon, children }) {
+export function PokeDetails({ pokemon, pokedexIcon, children }) {
   const pokemonTypes = pokemon.types.map((type, i) => {
     return (
       <ul className="list-unstyled" key={i}>
@@ -20,7 +21,17 @@ export function PokeDetails({ pokemon, children }) {
         className="card mx-3 border border-2 border-danger my-2"
         style={{ width: "16rem", boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)" }}
       >
-        <p className="text-danger pt-1 px-2">Score : {pokemon.score}</p>
+        <div className="d-flex justify-content-between">
+          <p className="text-danger pt-1 px-2 mb-0">Score : {pokemon.score}</p>
+          {pokedexIcon && (
+            <img
+              src={pokedex}
+              alt="Icône Pokédex"
+              className="px-2 pt-2 mb-0"
+              style={{ width: "auto", height: "30px" }}
+            />
+          )}
+        </div>
         <img
           src={pokemon.sprites.regular}
           className="card-img-top"

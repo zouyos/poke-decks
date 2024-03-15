@@ -11,7 +11,6 @@ import Notifs from "../../components/Notifs/Notifs";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
-  const [savedPokemons, setSavedPokemons] = useState([]);
   const [disableReload, setDisableReload] = useState(false);
   const [disableAdd, setDisableAdd] = useState(false);
   const [isHelpHovered, setIsHelpHovered] = useState(false);
@@ -87,10 +86,6 @@ export default function Home() {
       setCurrentPokemons(storedCurrentPokemons);
     } else {
       pickRandomSelection(3);
-    }
-
-    if (storedSavedPokemons.length > 0) {
-      setSavedPokemons(storedSavedPokemons);
     }
   }, []);
 
@@ -183,7 +178,7 @@ export default function Home() {
     if (!existingId) {
       localStorage.setItem(
         "savedPokemons",
-        JSON.stringify([...savedPokemons, cardData])
+        JSON.stringify([...storedSavedPokemons, cardData])
       );
 
       setDisableAdd(true);
@@ -234,8 +229,19 @@ export default function Home() {
           <div className="mt-3 d-flex justify-content-center flex-wrap">
             {currentPokemons &&
               currentPokemons.map((currentPokemon, i) => {
+                let pokedexIconTrue = false;
+                const existingId = storedSavedPokemons.some(
+                  (obj) => obj.pokedex_id === currentPokemon.pokedex_id
+                );
+                if (existingId) {
+                  pokedexIconTrue = true;
+                }
                 return (
-                  <PokeDetails pokemon={currentPokemon} key={i}>
+                  <PokeDetails
+                    pokemon={currentPokemon}
+                    pokedexIcon={pokedexIconTrue}
+                    key={i}
+                  >
                     <AddButton
                       onClick={handleAddClick}
                       pokemon={currentPokemon}
@@ -286,8 +292,8 @@ export default function Home() {
               <div className="modal-body text-center fs-5">
                 <p>
                   Obtenez un deck de 3 Pokémons et choississez-en un à garder
-                  dans votre Pokédex. Il y a 150 Pokémons à attraper et vous
-                  pouvez relancer la sélection toutes 30 secondes.
+                  dans votre Pokédex. Vous pouvez relancer la sélection toutes
+                  les 30 secondes.
                 </p>
                 <p className="fst-italic">
                   Certains Pokémons ont un taux d'apparition moins élevé que
@@ -296,12 +302,13 @@ export default function Home() {
                 </p>
                 <p>
                   Lorsque vous aurez atteint 10 000 points vous pourrez relancer
-                  la séléction toutes les 15 secondes seulement
+                  la séléction toutes les 15 secondes seulement.
                 </p>
                 <p>
-                  Et si vous atteignez 20 000 points, vous n'aurez plus besoin
-                  d'attendre pour relancer la sélection !
+                  Si vous atteignez 20 000 points, vous n'aurez plus besoin
+                  d'attendre pour relancer la sélection.
                 </p>
+                <p>Il y a 151 Pokémons à collectionner, attrapez-les tous !</p>
               </div>
               <div className="modal-footer d-flex justify-content-center">
                 <button

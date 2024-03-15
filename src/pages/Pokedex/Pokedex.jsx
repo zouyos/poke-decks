@@ -82,7 +82,7 @@ export default function Pokedex() {
       {filteredList.map((pokemon, i) => {
         return (
           <div style={{ width: "max-content" }} key={i}>
-            <PokeDetails pokemon={pokemon}>
+            <PokeDetails pokemon={pokemon} pokedexIcon={false}>
               <div className="d-flex justify-content-end">
                 <XSquareFill
                   onClick={() =>
