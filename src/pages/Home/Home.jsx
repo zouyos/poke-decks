@@ -62,9 +62,17 @@ export default function Home() {
   async function pickRandomSelection(numberOfPokemons) {
     const pokemons = await listWithScore();
     const pokemonsSelected = [];
+    const minScore = 50;
+    const maxScore = 500;
+    const targetMin = 5; // in %
+    const targetMax = 100;
 
     const totalRate = pokemons.reduce(
-      (acc, pokemon) => acc + (1 - (pokemon.score - 50) / (500 - 50)) * 100,
+      (acc, pokemon) =>
+        acc +
+        ((1 - (pokemon.score - minScore) / (maxScore - minScore)) *
+          (targetMax - targetMin) +
+          targetMin),
       0
     );
 
@@ -73,7 +81,10 @@ export default function Home() {
       let cumulativeRate = 0;
 
       for (const pokemon of pokemons) {
-        cumulativeRate += (1 - (pokemon.score - 50) / (500 - 50)) * 100;
+        cumulativeRate +=
+          (1 - (pokemon.score - minScore) / (maxScore - minScore)) *
+            (targetMax - targetMin) +
+          targetMin;
         if (rand <= cumulativeRate) {
           if (
             !pokemonsSelected.some(

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { PokeDetails } from "../../components/PokeDetails/PokeDetails";
-import { XSquareFill, StarFill, Clock } from "react-bootstrap-icons";
+import { StarFill, Clock } from "react-bootstrap-icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Notifs from "../../components/Notifs/Notifs";
 import { Modal } from "react-bootstrap";
 import pokeball from "../../assets/img/pokeball.png";
+import PokedexTable from "../../components/PokedexTable/PokedexTable";
 
 export default function Pokedex() {
   const [savedPokemons, setSavedPokemons] = useState([]);
@@ -108,42 +108,6 @@ export default function Pokedex() {
     }, 5000);
   }
 
-  const warningDiv = (
-    <div className="d-flex justify-content-center align-items-center text-center">
-      <div
-        className="fs-2 border border-danger text-danger p-4 rounded text-wrap"
-        style={{ marginTop: "100px" }}
-      >
-        Vous n'avez aucun Pokémon pour l'instant
-      </div>
-    </div>
-  );
-
-  const cards = (
-    <div className="row d-flex justify-content-center flex-wrap mb-5">
-      {filteredList.map((pokemon, i) => {
-        return (
-          <div style={{ width: "max-content" }} key={i}>
-            <PokeDetails pokemon={pokemon} pokedexIcon={false}>
-              <div className="d-flex justify-content-end">
-                <XSquareFill
-                  onClick={() =>
-                    window.confirm(
-                      `Êtes-vous sûr de vouloir supprimer ce Pokémon : ${pokemon.name.fr} ?`
-                    ) && handleClick(pokemon.pokedex_id, pokemon.name.fr)
-                  }
-                  size={20}
-                  color="#dc3546"
-                  style={{ cursor: "pointer" }}
-                />
-              </div>
-            </PokeDetails>
-          </div>
-        );
-      })}
-    </div>
-  );
-
   let palier = "";
   switch (true) {
     case bonus === 0:
@@ -245,7 +209,13 @@ export default function Pokedex() {
             />
           </div>
         </div>
-        {savedPokemons.length > 0 ? cards : warningDiv}
+        {
+          <PokedexTable
+            pokemons={filteredList}
+            handleClick={handleClick}
+            savedPokemons={savedPokemons}
+          />
+        }
       </div>
       <Modal show={modalShow} onHide={handleModalClose}>
         <Modal.Header closeButton>

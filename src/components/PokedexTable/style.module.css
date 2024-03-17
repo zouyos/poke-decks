@@ -1,0 +1,17 @@
+.image {
+  width: 120px;
+  height: auto;
+}
+
+.type {
+  width: 30px;
+  height: auto;
+  margin-right: 8px;
+}
+
+.warning {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
