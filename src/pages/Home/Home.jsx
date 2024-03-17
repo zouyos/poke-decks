@@ -1,6 +1,6 @@
 import logo from "../../assets/img/logo.png";
 import { Title } from "../../components/Title/Title";
-import { PokeDetails } from "../../components/PokeDetails/PokeDetails";
+import { Card } from "../../components/Card/Card";
 import { useEffect, useState } from "react";
 import { PokemonAPI } from "../../api/pokemon";
 import { QuestionCircleFill } from "react-bootstrap-icons";
@@ -9,6 +9,7 @@ import AddButton from "../../components/AddButton/AddButton";
 import { appendScore } from "../../config/config";
 import Notifs from "../../components/Notifs/Notifs";
 import { Button, Modal } from "react-bootstrap";
+import style from "./style.module.css";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
@@ -253,16 +254,9 @@ export default function Home() {
 
   return (
     <>
-      <div className="container-fluid p-2">
+      <div className={`${style.container} container-fluid`}>
         <div className="d-flex flex-column justify-content-center align-items-center">
-          {!hideNotif && (
-            <Notifs
-              variant={variant}
-              message={message}
-              onClose={setHideNotif}
-            />
-          )}
-          <div className="mt-2 mb-3">
+          <div className="my-3">
             <Title
               image={logo}
               title="Poke'Decks"
@@ -294,7 +288,7 @@ export default function Home() {
                   pokedexIconTrue = true;
                 }
                 return (
-                  <PokeDetails
+                  <Card
                     pokemon={currentPokemon}
                     pokedexIcon={pokedexIconTrue}
                     key={i}
@@ -307,7 +301,7 @@ export default function Home() {
                     >
                       Ajouter au Pokédex
                     </AddButton>
-                  </PokeDetails>
+                  </Card>
                 );
               })}
           </div>
@@ -327,6 +321,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {!hideNotif && (
+          <Notifs variant={variant} message={message} onClose={setHideNotif} />
+        )}
         <Modal show={modalShow} onHide={handleModalClose}>
           <Modal.Header className="bg-danger">
             <Modal.Title

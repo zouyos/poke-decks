@@ -1,7 +1,7 @@
 import style from "./style.module.css";
 import pokedex from "../../assets/img/pokedex_icon.png";
 
-export function PokeDetails({ pokemon, pokedexIcon, children }) {
+export function Card({ pokemon, pokedexIcon, children }) {
   const pokemonTypes = pokemon.types.map((type, i) => {
     return (
       <ul className="list-unstyled" key={i}>
@@ -22,13 +22,20 @@ export function PokeDetails({ pokemon, pokedexIcon, children }) {
         style={{ width: "16rem", boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)" }}
       >
         <div className="d-flex justify-content-between">
-          <p className="text-danger pt-1 px-2 mb-0">Score : {pokemon.score}</p>
+          <p className="text-danger py-1 px-2 mb-0 fw-bold">
+            {pokemon.score} pts
+          </p>
           {pokedexIcon && (
             <img
               src={pokedex}
               alt="Icône Pokédex"
               className="px-2 pt-2 mb-0"
-              style={{ width: "auto", height: "30px" }}
+              style={{
+                width: "auto",
+                height: "30px",
+                position: "absolute",
+                right: "0",
+              }}
             />
           )}
         </div>

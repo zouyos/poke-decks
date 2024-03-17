@@ -1,4 +1,4 @@
-import { XSquare } from "react-bootstrap-icons";
+import { XSquareFill } from "react-bootstrap-icons";
 import Table from "react-bootstrap/Table";
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
@@ -30,10 +30,12 @@ const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
   const tds = pokemons.map((pokemon, i) => {
     return (
       <tr key={i}>
-        <td className="text-center fs-4 fw-bold">#{pokemon.pokedex_id}</td>
-        <td>
+        <td className="text-center fs-3 fw-bold align-middle">
+          #{pokemon.pokedex_id}
+        </td>
+        <td className="align-middle">
           <div className="d-flex flex-column justify-content-center align-items-center">
-            <div className="mb-1 fst-italic text-center text-wrap">
+            <div className="fst-italic text-center text-wrap mt-1">
               {pokemon.name.fr}
             </div>
             <img
@@ -41,9 +43,12 @@ const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
               alt={pokemon.name.fr}
               className={style.image}
             />
+            <div className="text-center text-danger text-wrap my-1">
+              {pokemon.score} pts
+            </div>
           </div>
         </td>
-        <td>
+        <td className="align-middle">
           <div className="d-flex justify-content-center align-items-center flex-wrap">
             {pokemon.types.map((type, i) => (
               <span className="m-2" key={i}>
@@ -56,9 +61,9 @@ const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
             ))}
           </div>
         </td>
-        <td>
+        <td className="align-middle">
           <div className="d-flex justify-content-center align-items-center">
-            <XSquare
+            <XSquareFill
               onClick={() =>
                 window.confirm(
                   `Êtes-vous sûr de vouloir supprimer ce Pokémon : ${pokemon.name.fr} ?`
@@ -83,10 +88,10 @@ const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
     >
       <thead>
         <tr>
-          <th className="text-center">Pokédex ID</th>
-          <th className="text-center">Identité</th>
-          <th className="text-center">Types</th>
-          <th className="text-center"></th>
+          <th className="text-center align-middle">Pokédex ID</th>
+          <th className="text-center align-middle">Identité</th>
+          <th className="text-center align-middle">Types</th>
+          <th className="text-center align-middle"></th>
         </tr>
       </thead>
       <tbody>{noPokemons ? warning : tds}</tbody>

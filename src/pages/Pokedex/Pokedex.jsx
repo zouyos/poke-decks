@@ -163,15 +163,7 @@ export default function Pokedex() {
   return (
     <>
       <div className="container-fluid">
-        <div className="d-flex justify-content-center">
-          {!hideNotif && (
-            <Notifs
-              variant={variant}
-              message={message}
-              onClose={setHideNotif}
-            />
-          )}
-        </div>
+        <div className="d-flex justify-content-center"></div>
         <h1
           className="text-center text-danger text-wrap my-4"
           style={{ fontSize: "50px" }}
@@ -217,6 +209,9 @@ export default function Pokedex() {
           />
         }
       </div>
+      {!hideNotif && (
+        <Notifs variant={variant} message={message} onClose={setHideNotif} />
+      )}
       <Modal show={modalShow} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title className="text-danger">Bonus</Modal.Title>

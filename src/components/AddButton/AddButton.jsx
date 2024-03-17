@@ -8,7 +8,7 @@ export default function AddButton({
   return (
     <button
       onClick={() => onClick(pokemon, pokemons)}
-      className="btn btn-outline-danger"
+      className="btn btn-danger"
       disabled={disabled}
     >
       {children}

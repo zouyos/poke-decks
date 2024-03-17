@@ -1,0 +1,5 @@
+.container {
+  min-height: calc(100vh - 84px);
+  background: url("../../assets/img/background.jpg") no-repeat bottom right /
+    contain;
+}
