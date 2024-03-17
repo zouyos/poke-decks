@@ -11,6 +11,7 @@ import Notifs from "../../components/Notifs/Notifs";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
+  const [savedPokemons, setSavedPokemons] = useState([]);
   const [disableReload, setDisableReload] = useState(false);
   const [disableAdd, setDisableAdd] = useState(false);
   const [isHelpHovered, setIsHelpHovered] = useState(false);
@@ -20,6 +21,7 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [time, setTime] = useState(30000);
   const [totalScore, setTotalScore] = useState(0);
+  const [numberOfPokemons, setNumberOfPokemons] = useState(3);
 
   const storedCurrentPokemons = localStorage.getItem("currentPokemons")
     ? JSON.parse(localStorage.getItem("currentPokemons"))
@@ -57,7 +59,7 @@ export default function Home() {
       0
     );
 
-    for (let i = 0; i < numberOfPokemons; i++) {
+    while (pokemonsSelected.length < numberOfPokemons) {
       let rand = Math.random() * totalRate;
       let cumulativeRate = 0;
 
@@ -70,6 +72,7 @@ export default function Home() {
                 selectedPokemon.pokedex_id === pokemon.pokedex_id
             )
           ) {
+            // pokemon.score += 5000;
             pokemonsSelected.push(pokemon);
             break;
           }
@@ -87,14 +90,66 @@ export default function Home() {
     } else {
       pickRandomSelection(3);
     }
+    if (storedSavedPokemons.length > 0) {
+      setSavedPokemons(storedSavedPokemons);
+    }
+
+    if (localStorage.getItem("disableAdd")) setDisableAdd(true);
   }, []);
+
+  useEffect(() => {
+    if (storedSavedPokemons.length > 0) {
+      let result = 0;
+      for (const pokemon of savedPokemons) {
+        const score = pokemon.score;
+        result += score;
+      }
+      const updatedTotalScore = result;
+      setTotalScore(updatedTotalScore);
+
+      if (updatedTotalScore < 5000) {
+        setTime(30000);
+        localStorage.setItem("time", 30000);
+        localStorage.setItem("numberOfPokemons", 3);
+      } else if (updatedTotalScore >= 5000 && updatedTotalScore < 10000) {
+        setTime(20000);
+        localStorage.setItem("time", 20000);
+        localStorage.setItem("numberOfPokemons", 3);
+      } else if (updatedTotalScore >= 10000 && updatedTotalScore < 15000) {
+        setTime(20000);
+        localStorage.setItem("time", 20000);
+        localStorage.setItem("numberOfPokemons", 4);
+      } else if (updatedTotalScore >= 15000 && updatedTotalScore < 20000) {
+        setTime(10000);
+        localStorage.setItem("time", 10000);
+        localStorage.setItem("numberOfPokemons", 4);
+      } else if (updatedTotalScore > 20000) {
+        setTime(0);
+        localStorage.setItem("time", 0);
+        localStorage.setItem("numberOfPokemons", 5);
+      }
+      setTime(parseInt(localStorage.getItem("time")));
+      setNumberOfPokemons(parseInt(localStorage.getItem("numberOfPokemons")));
+    }
+
+    if (storedSavedPokemons.length >= 151) {
+      setHideNotif(false);
+      setMessage(
+        "Bravo vous avez attrapé tous les Pokémons ! Vous êtes un super dresseur."
+      );
+      setTimeout(() => {
+        setHideNotif(true);
+      }, 5000);
+    }
+  }, [savedPokemons, currentPokemons, disableAdd, disableReload]);
 
   useEffect(() => {
     let timerInterval;
 
     const startTime = localStorage.getItem("startTime");
+    const storedTime = localStorage.getItem("time");
     const storedRemainingTime = startTime
-      ? time - (Date.now() - parseInt(startTime))
+      ? storedTime - (Date.now() - parseInt(startTime))
       : 0;
 
     if (timerRunning || storedRemainingTime > 0) {
@@ -105,7 +160,7 @@ export default function Home() {
       timerInterval = setInterval(() => {
         const elapsed =
           Date.now() - parseInt(localStorage.getItem("startTime"));
-        const remaining = time - elapsed;
+        const remaining = storedTime - elapsed;
         if (remaining <= 0) {
           setRemainingTime(0);
           setTimerRunning(false);
@@ -121,46 +176,21 @@ export default function Home() {
     return () => clearInterval(timerInterval);
   }, [timerRunning]);
 
-  useEffect(() => {
-    if (localStorage.getItem("disableAdd")) setDisableAdd(true);
-  }, []);
-
-  useEffect(() => {
-    if (storedSavedPokemons.length > 0) {
-      let score = 0;
-      for (const pokemon of storedSavedPokemons) {
-        score += pokemon.score;
-      }
-      setTotalScore(score);
-
-      if (totalScore >= 10000 && totalScore < 20000) {
-        setTime(15000);
-      } else if (totalScore >= 20000) {
-        setTime(0);
-      }
-    }
-
-    if (storedSavedPokemons.length >= 151) {
-      setHideNotif(false);
-      setMessage(
-        "Bravo vous avez attrapé tous les Pokémons ! Vous êtes un super dresseur."
-      );
-      setTimeout(() => {
-        setHideNotif(true);
-      }, 5000);
-    }
-  }, [storedSavedPokemons]);
-
   const handleReloadClick = () => {
+    console.log(numberOfPokemons);
     setHideNotif(true);
     if (totalScore >= 20000) {
-      pickRandomSelection(3);
+      if (localStorage.getItem("disableAdd")) {
+        setDisableAdd(false);
+        localStorage.removeItem("disableAdd");
+      }
+      pickRandomSelection(numberOfPokemons);
     } else {
       if (localStorage.getItem("disableAdd")) {
         setDisableAdd(false);
         localStorage.removeItem("disableAdd");
       }
-      pickRandomSelection(3);
+      pickRandomSelection(numberOfPokemons);
       setDisableReload(true);
       setTimerRunning(true);
       localStorage.setItem("startTime", Date.now().toString());
@@ -176,10 +206,12 @@ export default function Home() {
     );
 
     if (!existingId) {
+      const updatedSavedPokemons = [...storedSavedPokemons, cardData];
       localStorage.setItem(
         "savedPokemons",
-        JSON.stringify([...storedSavedPokemons, cardData])
+        JSON.stringify(updatedSavedPokemons)
       );
+      setSavedPokemons(updatedSavedPokemons);
 
       setDisableAdd(true);
       localStorage.setItem("disableAdd", true);
@@ -293,7 +325,7 @@ export default function Home() {
                 <p>
                   Obtenez un deck de 3 Pokémons et choississez-en un à garder
                   dans votre Pokédex. Vous pouvez relancer la sélection toutes
-                  les 30 secondes.
+                  les 30 secondes
                 </p>
                 <p className="fst-italic">
                   Certains Pokémons ont un taux d'apparition moins élevé que
@@ -301,14 +333,12 @@ export default function Home() {
                   d'attraper les Pokémons les plus rares !
                 </p>
                 <p>
-                  Lorsque vous aurez atteint 10 000 points vous pourrez relancer
-                  la séléction toutes les 15 secondes seulement.
+                  Vous obtiendrez un bonus tous les 5000 points (vous pouvez
+                  consulter vos bonus dans le Pokédex)
                 </p>
-                <p>
-                  Si vous atteignez 20 000 points, vous n'aurez plus besoin
-                  d'attendre pour relancer la sélection.
+                <p className="text-danger fw-bold">
+                  Il y a 151 Pokémons à collectionner, attrapez-les tous !
                 </p>
-                <p>Il y a 151 Pokémons à collectionner, attrapez-les tous !</p>
               </div>
               <div className="modal-footer d-flex justify-content-center">
                 <button

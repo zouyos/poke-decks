@@ -10,6 +10,7 @@ export default function Pokedex() {
   const [disableSearch, setDisableSearch] = useState(true);
   const [hideNotif, setHideNotif] = useState(true);
   const [message, setMessage] = useState("");
+  const [totalScore, setTotalScore] = useState(0);
 
   const storedSavedPokemons = localStorage.getItem("savedPokemons")
     ? JSON.parse(localStorage.getItem("savedPokemons"))
@@ -28,6 +29,14 @@ export default function Pokedex() {
     } else {
       setDisableSearch(true);
     }
+
+    let result = 0;
+    for (const pokemon of savedPokemons) {
+      const score = pokemon.score;
+      result += score;
+    }
+    localStorage.setItem("totalScore", result);
+    setTotalScore(result);
   }, [savedPokemons]);
 
   const filteredList = savedPokemons.filter((pokemon) => {
@@ -46,12 +55,6 @@ export default function Pokedex() {
 
     return containsName || containsType;
   });
-
-  let totalScore = 0;
-  for (const pokemon of savedPokemons) {
-    const score = pokemon.score;
-    totalScore += score;
-  }
 
   function handleClick(id, name) {
     const updatedSavedPokemons = savedPokemons.filter(
@@ -119,7 +122,7 @@ export default function Pokedex() {
         className="my-1"
         style={{
           maxWidth: "fit-content",
-          margin: "20px 20px 20px auto",
+          margin: "20px 15px 20px auto",
         }}
       >
         Nombre de Pokémons :{" "}
@@ -129,7 +132,7 @@ export default function Pokedex() {
         className="text-danger my-1"
         style={{
           maxWidth: "fit-content",
-          margin: "20px 20px 20px auto",
+          margin: "20px 15px 20px auto",
         }}
       >
         Score Total : <span className="fw-bold">{totalScore}</span>
