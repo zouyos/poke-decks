@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { PokeDetails } from "../../components/PokeDetails/PokeDetails";
-import { XSquareFill, StarFill } from "react-bootstrap-icons";
+import { XSquareFill, StarFill, Clock } from "react-bootstrap-icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Notifs from "../../components/Notifs/Notifs";
 import { Modal } from "react-bootstrap";
+import pokeball from "../../assets/img/pokeball.png";
 
 export default function Pokedex() {
   const [savedPokemons, setSavedPokemons] = useState([]);
@@ -165,13 +166,31 @@ export default function Pokedex() {
     <div>
       {bonus > 0 ? (
         <div>
-          <p>Temps de relance : {time / 1000} secondes</p>
-          <p>Deck de départ : {numberOfPokemons}</p>
+          <p>
+            <span className="d-flex align-items-center">
+              <Clock
+                size={20}
+                color="#dc3546"
+                className="me-2 mt-1"
+                // style={{ marginLeft: "2px" }}
+              />{" "}
+              Temps de relance : {time / 1000} secondes
+            </span>
+          </p>
+          <p>
+            <span className="d-flex align-items-center">
+              <img
+                src={pokeball}
+                style={{ width: "21px" }}
+                alt="Pokeball"
+                className="me-2"
+              />
+              Deck de départ : {numberOfPokemons}
+            </span>
+          </p>
         </div>
       ) : (
-        <p>
-          Vous n'avez pas de bonus pour le moment. Prochain palier : {palier}
-        </p>
+        <p>Vous n'avez pas de bonus pour le moment</p>
       )}
     </div>
   );
