@@ -168,13 +168,8 @@ export default function Pokedex() {
         <div>
           <p>
             <span className="d-flex align-items-center">
-              <Clock
-                size={20}
-                color="#dc3546"
-                className="me-2 mt-1"
-                // style={{ marginLeft: "2px" }}
-              />{" "}
-              Temps de relance : {time / 1000} secondes
+              <Clock size={20} color="#dc3546" className="me-2 mt-1" /> Temps de
+              relance : {time / 1000} secondes
             </span>
           </p>
           <p>

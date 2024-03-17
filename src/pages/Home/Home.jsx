@@ -51,7 +51,11 @@ export default function Home() {
 
     appendScore(pokemons);
     // console.log(pokemons.sort((a, b) => a.score - b.score));
-    // score total possible = 22904
+    // let score = 0;
+    // for (const pokemon of pokemons) {
+    //   score += pokemon.score;
+    // }
+    // console.log(score);
     return pokemons;
   }
 

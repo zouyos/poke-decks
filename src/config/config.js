@@ -25,7 +25,8 @@ const appendScore = (pokemons) => {
     if (
       ["Psykokwak", "Caninos", "Gravalanch", "Osselait", "Ossatueur"].includes(
         pokemon.name.fr
-      )
+      ) ||
+      pokemon.types.some((type) => ["Dragon"].includes(type.name))
     )
       score += 50;
 
