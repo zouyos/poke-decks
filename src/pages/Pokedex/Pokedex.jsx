@@ -11,6 +11,7 @@ export default function Pokedex() {
   const [searchText, setSearchText] = useState("");
   const [disableSearch, setDisableSearch] = useState(true);
   const [hideNotif, setHideNotif] = useState(true);
+  const [variant, setVariant] = useState("primary");
   const [message, setMessage] = useState("");
   const [totalScore, setTotalScore] = useState(0);
   const [modalShow, setModalShow] = useState(false);
@@ -99,6 +100,7 @@ export default function Pokedex() {
     );
     localStorage.setItem("savedPokemons", JSON.stringify(updatedSavedPokemons));
     setSavedPokemons(updatedSavedPokemons);
+    setVariant("danger");
     setHideNotif(false);
     setMessage(`${name} a bien été retiré du Pokédex`);
     setTimeout(() => {
@@ -161,7 +163,11 @@ export default function Pokedex() {
       break;
   }
 
-  const palierP = <p>Prochain palier : {palier}</p>;
+  const palierP = (
+    <p>
+      Prochain palier : <span className="text-danger">{palier}</span>
+    </p>
+  );
   const bonusP = (
     <div>
       {bonus > 0 ? (
@@ -195,7 +201,11 @@ export default function Pokedex() {
       <div className="container-fluid">
         <div className="d-flex justify-content-center">
           {!hideNotif && (
-            <Notifs variant="danger" message={message} onClose={setHideNotif} />
+            <Notifs
+              variant={variant}
+              message={message}
+              onClose={setHideNotif}
+            />
           )}
         </div>
         <h1

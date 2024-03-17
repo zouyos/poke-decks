@@ -19,8 +19,8 @@ export default function Home() {
   const [timerRunning, setTimerRunning] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
   const [hideNotif, setHideNotif] = useState(true);
+  const [variant, setVariant] = useState("primary");
   const [message, setMessage] = useState("");
-  const [time, setTime] = useState(30000);
   const [totalScore, setTotalScore] = useState(0);
   const [numberOfPokemons, setNumberOfPokemons] = useState(3);
   const [modalShow, setModalShow] = useState(false);
@@ -140,6 +140,7 @@ export default function Home() {
     }
 
     if (storedSavedPokemons.length >= 151) {
+      setVariant("success");
       setHideNotif(false);
       setMessage(
         "Bravo vous avez attrapé tous les Pokémons ! Vous êtes un super dresseur."
@@ -223,13 +224,19 @@ export default function Home() {
       setDisableAdd(true);
       localStorage.setItem("disableAdd", true);
 
+      setVariant("success");
       setHideNotif(false);
       setMessage(`${cardData.name.fr} a été ajouté au Pokédex !`);
       setTimeout(() => {
         setHideNotif(true);
       }, 5000);
     } else {
-      alert("Vous possédez déjà ce Pokémon !");
+      setVariant("danger");
+      setHideNotif(false);
+      setMessage("Vous possédez déjà ce Pokémon");
+      setTimeout(() => {
+        setHideNotif(true);
+      }, 5000);
     }
   };
 
@@ -239,7 +246,7 @@ export default function Home() {
         <div className="d-flex flex-column justify-content-center align-items-center">
           {!hideNotif && (
             <Notifs
-              variant="success"
+              variant={variant}
               message={message}
               onClose={setHideNotif}
             />
@@ -312,13 +319,13 @@ export default function Home() {
         <Modal show={modalShow} onHide={handleModalClose}>
           <Modal.Header className="bg-danger">
             <Modal.Title
-              className="fs-3 text-light text-center"
+              className="fs-4 text-light text-center"
               style={{ margin: "0 auto" }}
             >
               Comment jouer ?
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body className="text-center fs-5">
+          <Modal.Body className="text-center">
             <p>
               Obtenez un deck de 3 Pokémons et choississez-en un à garder dans
               votre Pokédex. Vous pouvez relancer la sélection toutes les 30
