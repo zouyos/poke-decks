@@ -8,6 +8,7 @@ import ReloadButton from "../../components/ReloadButton/ReloadButton";
 import AddButton from "../../components/AddButton/AddButton";
 import { appendScore } from "../../config/config";
 import Notifs from "../../components/Notifs/Notifs";
+import { Button, Modal } from "react-bootstrap";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
@@ -22,6 +23,10 @@ export default function Home() {
   const [time, setTime] = useState(30000);
   const [totalScore, setTotalScore] = useState(0);
   const [numberOfPokemons, setNumberOfPokemons] = useState(3);
+  const [modalShow, setModalShow] = useState(false);
+
+  const handleModalClose = () => setModalShow(false);
+  const handleModalShow = () => setModalShow(true);
 
   const storedCurrentPokemons = localStorage.getItem("currentPokemons")
     ? JSON.parse(localStorage.getItem("currentPokemons"))
@@ -72,7 +77,7 @@ export default function Home() {
                 selectedPokemon.pokedex_id === pokemon.pokedex_id
             )
           ) {
-            // pokemon.score += 5000;
+            pokemon.score += 5000;
             pokemonsSelected.push(pokemon);
             break;
           }
@@ -108,27 +113,26 @@ export default function Home() {
       setTotalScore(updatedTotalScore);
 
       if (updatedTotalScore < 5000) {
-        setTime(30000);
         localStorage.setItem("time", 30000);
         localStorage.setItem("numberOfPokemons", 3);
+        localStorage.setItem("bonus", 0);
       } else if (updatedTotalScore >= 5000 && updatedTotalScore < 10000) {
-        setTime(20000);
         localStorage.setItem("time", 20000);
         localStorage.setItem("numberOfPokemons", 3);
+        localStorage.setItem("bonus", 1);
       } else if (updatedTotalScore >= 10000 && updatedTotalScore < 15000) {
-        setTime(20000);
         localStorage.setItem("time", 20000);
         localStorage.setItem("numberOfPokemons", 4);
+        localStorage.setItem("bonus", 2);
       } else if (updatedTotalScore >= 15000 && updatedTotalScore < 20000) {
-        setTime(10000);
         localStorage.setItem("time", 10000);
         localStorage.setItem("numberOfPokemons", 4);
+        localStorage.setItem("bonus", 3);
       } else if (updatedTotalScore > 20000) {
-        setTime(0);
         localStorage.setItem("time", 0);
         localStorage.setItem("numberOfPokemons", 5);
+        localStorage.setItem("bonus", 4);
       }
-      setTime(parseInt(localStorage.getItem("time")));
       setNumberOfPokemons(parseInt(localStorage.getItem("numberOfPokemons")));
     }
 
@@ -245,7 +249,7 @@ export default function Home() {
             />
           </div>
           <div className="d-flex justify-content-center">
-            <div data-bs-toggle="modal" data-bs-target="#help">
+            <div onClick={handleModalShow}>
               <QuestionCircleFill
                 style={{
                   cursor: "pointer",
@@ -302,56 +306,44 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* Modal */}
-        <div
-          className="modal fade"
-          id="help"
-          tabindex="-1"
-          aria-labelledby="helpLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header bg-danger">
-                <div
-                  className="modal-title fs-4 text-light"
-                  id="helpLabel"
-                  style={{ margin: "0 auto" }}
-                >
-                  Comment Jouer ?
-                </div>
-              </div>
-              <div className="modal-body text-center fs-5">
-                <p>
-                  Obtenez un deck de 3 Pokémons et choississez-en un à garder
-                  dans votre Pokédex. Vous pouvez relancer la sélection toutes
-                  les 30 secondes
-                </p>
-                <p className="fst-italic">
-                  Certains Pokémons ont un taux d'apparition moins élevé que
-                  d'autres, restez à l'affût de leurs scores et essayez
-                  d'attraper les Pokémons les plus rares !
-                </p>
-                <p>
-                  Vous obtiendrez un bonus tous les 5000 points (vous pouvez
-                  consulter vos bonus dans le Pokédex)
-                </p>
-                <p className="text-danger fw-bold">
-                  Il y a 151 Pokémons à collectionner, attrapez-les tous !
-                </p>
-              </div>
-              <div className="modal-footer d-flex justify-content-center">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal show={modalShow} onHide={handleModalClose}>
+          <Modal.Header className="bg-danger">
+            <Modal.Title
+              className="fs-3 text-light text-center"
+              style={{ margin: "0 auto" }}
+            >
+              Comment jouer ?
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center fs-5">
+            <p>
+              Obtenez un deck de 3 Pokémons et choississez-en un à garder dans
+              votre Pokédex. Vous pouvez relancer la sélection toutes les 30
+              secondes
+            </p>
+            <p className="fst-italic">
+              Certains Pokémons ont un taux d'apparition moins élevé que
+              d'autres, restez à l'affût de leurs scores et essayez d'attraper
+              les Pokémons les plus rares !
+            </p>
+            <p>
+              Vous obtiendrez un bonus tous les 5000 points (vous pouvez
+              consulter vos bonus dans le Pokédex)
+            </p>
+            <p className="text-danger fw-bold">
+              Il y a 151 Pokémons à collectionner, attrapez-les tous !
+            </p>{" "}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={handleModalClose}
+              style={{ margin: "0 auto" }}
+            >
+              Fermer
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </>
   );
