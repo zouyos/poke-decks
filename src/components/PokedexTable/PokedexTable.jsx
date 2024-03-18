@@ -1,9 +1,14 @@
-import { XSquare } from "react-bootstrap-icons";
+import { XSquare, XSquareFill } from "react-bootstrap-icons";
 import Table from "react-bootstrap/Table";
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 
-const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
+const PokedexTable = ({
+  pokemons,
+  handleDeleteClick,
+  savedPokemons,
+  handleDeleteAllClick,
+}) => {
   const [noPokemons, setNoPokemons] = useState(true);
 
   useEffect(() => {
@@ -15,16 +20,18 @@ const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
   }, [savedPokemons]);
 
   const warning = (
-    <td colSpan={4}>
-      <div className={`${style.warning} text-white bg-dark text-wrap`}>
-        <div
-          className="fs-2 border border-danger p-4 rounded text-wrap"
-          style={{ margin: "150px 0" }}
-        >
-          Vous n'avez aucun Pokémon pour l'instant
+    <tr>
+      <td colSpan={4}>
+        <div className={`${style.warning} text-white bg-dark text-wrap`}>
+          <div
+            className="fs-2 border border-danger p-4 rounded text-wrap"
+            style={{ margin: "150px 0" }}
+          >
+            Vous n'avez aucun Pokémon pour l'instant
+          </div>
         </div>
-      </div>
-    </td>
+      </td>
+    </tr>
   );
 
   const tds = pokemons.map((pokemon, i) => {
@@ -67,7 +74,7 @@ const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
               onClick={() =>
                 window.confirm(
                   `Êtes-vous sûr de vouloir supprimer ce Pokémon : ${pokemon.name.fr} ?`
-                ) && handleClick(pokemon.pokedex_id, pokemon.name.fr)
+                ) && handleDeleteClick(pokemon.pokedex_id, pokemon.name.fr)
               }
               size={20}
               color="#dc3546"
@@ -91,7 +98,22 @@ const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
           <th className="text-center align-middle">Pokédex ID</th>
           <th className="text-center align-middle">Identité</th>
           <th className="text-center align-middle">Types</th>
-          <th className="text-center align-middle"></th>
+          <th className="text-center align-middle">
+            <div className="d-flex justify-content-center align-items-center">
+              {savedPokemons.length > 0 && (
+                <XSquareFill
+                  onClick={() =>
+                    window.confirm(
+                      "Êtes-vous sûr de vouloir supprimer tous les Pokémons ?"
+                    ) && handleDeleteAllClick()
+                  }
+                  size={20}
+                  color="#dc3546"
+                  style={{ cursor: "pointer" }}
+                />
+              )}
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody>{noPokemons ? warning : tds}</tbody>

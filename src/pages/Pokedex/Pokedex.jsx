@@ -3,7 +3,7 @@ import { StarFill, Clock } from "react-bootstrap-icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Notif from "../../components/Notif/Notif";
 import { Modal } from "react-bootstrap";
-import pokeball from "../../assets/img/pokeball.png";
+import cards from "../../assets/img/playing_cards.png";
 import PokedexTable from "../../components/PokedexTable/PokedexTable";
 
 export default function Pokedex() {
@@ -94,7 +94,7 @@ export default function Pokedex() {
     return containsName || containsType;
   });
 
-  function handleClick(id, name) {
+  function handleDeleteClick(id, name) {
     const updatedSavedPokemons = savedPokemons.filter(
       (item) => item.pokedex_id !== id
     );
@@ -103,6 +103,18 @@ export default function Pokedex() {
     setVariant("danger");
     setHideNotif(false);
     setMessage(`${name} a bien été retiré du Pokédex`);
+    setTimeout(() => {
+      setHideNotif(true);
+    }, 5000);
+  }
+
+  function handleDeleteAllClick() {
+    const updatedSavedPokemons = [];
+    localStorage.setItem("savedPokemons", JSON.stringify(updatedSavedPokemons));
+    setSavedPokemons(updatedSavedPokemons);
+    setVariant("danger");
+    setHideNotif(false);
+    setMessage("Tous les Pokémons on éte supprimés");
     setTimeout(() => {
       setHideNotif(true);
     }, 5000);
@@ -138,17 +150,20 @@ export default function Pokedex() {
         <div>
           <p>
             <span className="d-flex align-items-center">
-              <Clock size={20} color="#dc3546" className="me-2 mt-1" /> Temps de
-              relance : {time / 1000} secondes
+              <Clock
+                size={20}
+                color="#dc3546"
+                style={{ margin: "3px 12px 0 3px" }}
+              />
+              Temps de relance : {time / 1000} secondes
             </span>
           </p>
           <p>
             <span className="d-flex align-items-center">
               <img
-                src={pokeball}
-                style={{ width: "21px" }}
-                alt="Pokeball"
-                className="me-2"
+                src={cards}
+                style={{ width: "27px", margin: "2px 9px 0 0" }}
+                alt="Icône Cartes"
               />
               Deck de départ : {numberOfPokemons}
             </span>
@@ -204,7 +219,8 @@ export default function Pokedex() {
         {
           <PokedexTable
             pokemons={filteredList}
-            handleClick={handleClick}
+            handleDeleteClick={handleDeleteClick}
+            handleDeleteAllClick={handleDeleteAllClick}
             savedPokemons={savedPokemons}
           />
         }
@@ -220,7 +236,7 @@ export default function Pokedex() {
         <Modal.Header closeButton>
           <Modal.Title className="text-danger">Bonus</Modal.Title>
         </Modal.Header>
-        <Modal.Body> {bonusP}</Modal.Body>
+        <Modal.Body>{bonusP}</Modal.Body>
         {bonus < 4 && <Modal.Footer>{palierP}</Modal.Footer>}
       </Modal>
     </>

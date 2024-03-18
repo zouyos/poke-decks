@@ -112,7 +112,7 @@ export default function Home() {
     if (storedCurrentPokemons.length > 0) {
       setCurrentPokemons(storedCurrentPokemons);
     } else {
-      pickRandomSelection(3);
+      pickRandomSelection(numberOfPokemons);
     }
     if (storedSavedPokemons.length > 0) {
       setSavedPokemons(storedSavedPokemons);
@@ -202,7 +202,6 @@ export default function Home() {
   }, [timerRunning]);
 
   const handleReloadClick = () => {
-    console.log(numberOfPokemons);
     setHideNotif(true);
     if (totalScore >= 20000) {
       if (localStorage.getItem("disableAdd")) {
