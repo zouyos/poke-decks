@@ -123,7 +123,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (storedSavedPokemons.length > 0 && storedSavedPokemons.length < 151) {
+    if (storedSavedPokemons.length > 0) {
       let result = 0;
       for (const pokemon of savedPokemons) {
         const score = pokemon.score;
