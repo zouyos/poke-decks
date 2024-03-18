@@ -359,7 +359,7 @@ export default function Home() {
           </Modal.Header>
           <Modal.Body className="text-center">
             <p>
-              Obtenez un deck de 3 Pokémons et choississez-en un à garder dans
+              Obtenez un deck de 3 Pokémons et choisissez-en un à garder dans
               votre Pokédex. Vous pouvez relancer la sélection toutes les 30
               secondes
             </p>
