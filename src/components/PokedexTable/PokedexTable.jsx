@@ -67,7 +67,7 @@ const PokedexTable = ({
                   alt={`Type ${type.image}`}
                   className={style.type}
                 />
-                <div className={style.typeName}>{type.name}</div>
+                {/* <div className={style.typeName}>{type.name}</div> */}
               </span>
             ))}
           </div>
@@ -101,7 +101,7 @@ const PokedexTable = ({
         <tr>
           <th className="text-center align-middle">Pokédex ID</th>
           <th className="text-center align-middle">Identité</th>
-          <th className="text-center align-middle">Types</th>
+          <th className="text-center align-middle">Type(s)</th>
           <th className="text-center align-middle">
             <div className="d-flex justify-content-center align-items-center">
               {savedPokemons.length > 0 && (
