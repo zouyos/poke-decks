@@ -145,7 +145,7 @@ export default function Pokedex() {
   const bonusP = (
     <div>
       {bonus === 0 ? (
-        <p>Vous n'avez pas de bonus pour le moment</p>
+        <p className="mb-0">Vous n'avez pas de bonus pour le moment</p>
       ) : bonus === 1 ? (
         bonusClock
       ) : (

@@ -59,7 +59,7 @@ const PokedexTable = ({
           <div className="d-flex justify-content-center align-items-center flex-wrap">
             {pokemon.types.map((type, i) => (
               <span
-                className="m-2 d-flex flex-column justify-content-center align-items-center"
+                className="m-1 d-flex flex-column justify-content-center align-items-center"
                 key={i}
               >
                 <img
