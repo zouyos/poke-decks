@@ -376,9 +376,9 @@ export default function Home() {
               Il y a 151 Pokémons à collectionner, attrapez-les tous !
             </p>
             <p style={{ fontSize: "14px", fontStyle: "italic" }}>
-              (Le jeu utilise les données de stockage locales de votre
-              navigateur pour fonctionner. Veillez à ne pas les supprimer pour
-              une expérience optimale)
+              (Le jeu utilise les données de stockage de votre navigateur pour
+              fonctionner. Veillez à ne pas les supprimer pour une expérience
+              optimale)
             </p>
           </Modal.Body>
           <Modal.Footer>
