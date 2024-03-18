@@ -123,7 +123,7 @@ export default function Pokedex() {
   const bonusClock = (
     <p className="mb-0">
       <span className="d-flex align-items-center">
-        <Clock size={20} color="#dc3546" style={{ margin: "1px 13px 0 3px" }} />
+        <Clock size={20} color="#dc3546" style={{ margin: "0 13px 0 3px" }} />
         Temps de relance : {time / 1000} secondes
       </span>
     </p>
