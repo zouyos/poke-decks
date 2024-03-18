@@ -1,4 +1,4 @@
-import { XSquareFill } from "react-bootstrap-icons";
+import { XSquare } from "react-bootstrap-icons";
 import Table from "react-bootstrap/Table";
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
@@ -63,14 +63,14 @@ const PokedexTable = ({ pokemons, handleClick, savedPokemons }) => {
         </td>
         <td className="align-middle">
           <div className="d-flex justify-content-center align-items-center">
-            <XSquareFill
+            <XSquare
               onClick={() =>
                 window.confirm(
                   `Êtes-vous sûr de vouloir supprimer ce Pokémon : ${pokemon.name.fr} ?`
                 ) && handleClick(pokemon.pokedex_id, pokemon.name.fr)
               }
               size={20}
-              color="#ffffff"
+              color="#dc3546"
               style={{ cursor: "pointer" }}
             />
           </div>

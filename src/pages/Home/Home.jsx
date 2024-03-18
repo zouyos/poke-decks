@@ -7,9 +7,10 @@ import { QuestionCircleFill } from "react-bootstrap-icons";
 import ReloadButton from "../../components/ReloadButton/ReloadButton";
 import AddButton from "../../components/AddButton/AddButton";
 import { appendScore } from "../../config/config";
-import Notifs from "../../components/Notifs/Notifs";
+import Notif from "../../components/Notif/Notif";
 import { Button, Modal } from "react-bootstrap";
 import style from "./style.module.css";
+import pikachu from "../../assets/img/pikachu.png";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
@@ -22,9 +23,12 @@ export default function Home() {
   const [hideNotif, setHideNotif] = useState(true);
   const [variant, setVariant] = useState("primary");
   const [message, setMessage] = useState("");
+  const [alertHeading, setAlertHeading] = useState("");
   const [totalScore, setTotalScore] = useState(0);
   const [numberOfPokemons, setNumberOfPokemons] = useState(3);
   const [modalShow, setModalShow] = useState(false);
+  const [game, setGame] = useState(true);
+  const [image, setImage] = useState(false);
 
   const handleModalClose = () => setModalShow(false);
   const handleModalShow = () => setModalShow(true);
@@ -118,7 +122,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (storedSavedPokemons.length > 0) {
+    if (storedSavedPokemons.length > 0 && storedSavedPokemons.length < 151) {
       let result = 0;
       for (const pokemon of savedPokemons) {
         const score = pokemon.score;
@@ -152,11 +156,12 @@ export default function Home() {
     }
 
     if (storedSavedPokemons.length >= 151) {
+      setGame(false);
+      setImage(true);
       setVariant("success");
       setHideNotif(false);
-      setMessage(
-        "Bravo vous avez attrapé tous les Pokémons ! Vous êtes un super dresseur."
-      );
+      setAlertHeading("Félicitations !");
+      setMessage("Vous avez collecté tous les Pokémons !");
       setTimeout(() => {
         setHideNotif(true);
       }, 5000);
@@ -277,53 +282,72 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="mt-3 d-flex justify-content-center flex-wrap">
-            {currentPokemons &&
-              currentPokemons.map((currentPokemon, i) => {
-                let pokedexIconTrue = false;
-                const existingId = storedSavedPokemons.some(
-                  (obj) => obj.pokedex_id === currentPokemon.pokedex_id
-                );
-                if (existingId) {
-                  pokedexIconTrue = true;
-                }
-                return (
-                  <Card
-                    pokemon={currentPokemon}
-                    pokedexIcon={pokedexIconTrue}
-                    key={i}
-                  >
-                    <AddButton
-                      onClick={handleAddClick}
-                      pokemon={currentPokemon}
-                      pokemons={currentPokemons}
-                      disabled={disableAdd}
-                    >
-                      Ajouter au Pokédex
-                    </AddButton>
-                  </Card>
-                );
-              })}
-          </div>
-          <div className="mt-2 mb-3 d-flex flex-column justify-content-center align-items-center">
-            {timerRunning && (
-              <div className="mb-2 text-danger fs-4">
-                Temps restant : {Math.floor(remainingTime / 60)}:
-                {remainingTime % 60 < 10 ? "0" : ""}
-                {remainingTime % 60}
+          {game ? (
+            <div className="game">
+              <div className="mt-3 d-flex justify-content-center flex-wrap">
+                {currentPokemons &&
+                  currentPokemons.map((currentPokemon, i) => {
+                    let pokedexIconTrue = false;
+                    const existingId = storedSavedPokemons.some(
+                      (obj) => obj.pokedex_id === currentPokemon.pokedex_id
+                    );
+                    if (existingId) {
+                      pokedexIconTrue = true;
+                    }
+                    return (
+                      <Card
+                        pokemon={currentPokemon}
+                        pokedexIcon={pokedexIconTrue}
+                        key={i}
+                      >
+                        <AddButton
+                          onClick={handleAddClick}
+                          pokemon={currentPokemon}
+                          pokemons={currentPokemons}
+                          disabled={disableAdd}
+                        >
+                          Ajouter au Pokédex
+                        </AddButton>
+                      </Card>
+                    );
+                  })}
               </div>
-            )}
-            <div className="mt-2">
-              <ReloadButton
-                onClick={handleReloadClick}
-                disabled={disableReload}
-              />
+              <div className="mt-2 mb-3 d-flex flex-column justify-content-center align-items-center">
+                {timerRunning && (
+                  <div className="mb-2 text-danger fs-4">
+                    Temps restant : {Math.floor(remainingTime / 60)}:
+                    {remainingTime % 60 < 10 ? "0" : ""}
+                    {remainingTime % 60}
+                  </div>
+                )}
+                <div className="mt-2">
+                  <ReloadButton
+                    onClick={handleReloadClick}
+                    disabled={disableReload}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            image && (
+              <div className={style.imageContainer}>
+                <img src={pikachu} alt="Pikachu" className={style.image} />
+              </div>
+            )
+          )}
         </div>
+
         {!hideNotif && (
-          <Notifs variant={variant} message={message} onClose={setHideNotif} />
+          <div className="d-flex justify-content-center">
+            <Notif
+              heading={alertHeading}
+              variant={variant}
+              message={message}
+              onClose={setHideNotif}
+            />
+          </div>
         )}
+
         <Modal show={modalShow} onHide={handleModalClose}>
           <Modal.Header className="bg-danger">
             <Modal.Title

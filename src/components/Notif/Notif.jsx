@@ -1,7 +1,7 @@
 import Alert from "react-bootstrap/Alert";
 import style from "./style.module.css";
 
-function Notifs({ variant, message, onClose }) {
+function Notif({ variant, message, onClose, heading }) {
   return (
     <>
       <Alert
@@ -10,10 +10,13 @@ function Notifs({ variant, message, onClose }) {
         dismissible
         onClose={() => onClose(true)}
       >
-        {message}
+        {heading && (
+          <Alert.Heading className="text-wrap">{heading}</Alert.Heading>
+        )}
+        <span className="text-wrap">{message}</span>
       </Alert>
     </>
   );
 }
 
-export default Notifs;
+export default Notif;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StarFill, Clock } from "react-bootstrap-icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import Notifs from "../../components/Notifs/Notifs";
+import Notif from "../../components/Notif/Notif";
 import { Modal } from "react-bootstrap";
 import pokeball from "../../assets/img/pokeball.png";
 import PokedexTable from "../../components/PokedexTable/PokedexTable";
@@ -209,9 +209,13 @@ export default function Pokedex() {
           />
         }
       </div>
+
       {!hideNotif && (
-        <Notifs variant={variant} message={message} onClose={setHideNotif} />
+        <div className="d-flex justify-content-center">
+          <Notif variant={variant} message={message} onClose={setHideNotif} />
+        </div>
       )}
+
       <Modal show={modalShow} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title className="text-danger">Bonus</Modal.Title>
