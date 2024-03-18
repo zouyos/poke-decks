@@ -120,6 +120,43 @@ export default function Pokedex() {
     }, 5000);
   }
 
+  const bonusClock = (
+    <p className="mb-0">
+      <span className="d-flex align-items-center">
+        <Clock size={20} color="#dc3546" style={{ margin: "1px 13px 0 3px" }} />
+        Temps de relance : {time / 1000} secondes
+      </span>
+    </p>
+  );
+
+  const bonusDeck = (
+    <p className="mb-0">
+      <span className="d-flex align-items-center">
+        <img
+          src={cards}
+          style={{ width: "27px", margin: "2px 9px 0 0" }}
+          alt="Icône Cartes"
+        />
+        Deck de départ : {numberOfPokemons}
+      </span>
+    </p>
+  );
+
+  const bonusP = (
+    <div>
+      {bonus === 0 ? (
+        <p>Vous n'avez pas de bonus pour le moment</p>
+      ) : bonus === 1 ? (
+        bonusClock
+      ) : (
+        <>
+          <div className="mt-1 mb-3">{bonusClock}</div>
+          <div className="mt-3 mb-1">{bonusDeck}</div>
+        </>
+      )}
+    </div>
+  );
+
   let palier = "";
   switch (true) {
     case bonus === 0:
@@ -143,36 +180,6 @@ export default function Pokedex() {
     <p>
       Prochain palier : <span className="text-danger">{palier}</span>
     </p>
-  );
-  const bonusP = (
-    <div>
-      {bonus > 0 ? (
-        <div>
-          <p>
-            <span className="d-flex align-items-center">
-              <Clock
-                size={20}
-                color="#dc3546"
-                style={{ margin: "1px 13px 0 3px" }}
-              />
-              Temps de relance : {time / 1000} secondes
-            </span>
-          </p>
-          <p>
-            <span className="d-flex align-items-center">
-              <img
-                src={cards}
-                style={{ width: "27px", margin: "2px 9px 0 0" }}
-                alt="Icône Cartes"
-              />
-              Deck de départ : {numberOfPokemons}
-            </span>
-          </p>
-        </div>
-      ) : (
-        <p>Vous n'avez pas de bonus pour le moment</p>
-      )}
-    </div>
   );
 
   return (

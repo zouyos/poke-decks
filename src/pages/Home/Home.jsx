@@ -97,6 +97,7 @@ export default function Home() {
                 selectedPokemon.pokedex_id === pokemon.pokedex_id
             )
           ) {
+            // pokemon.score += 5000;
             pokemonsSelected.push(pokemon);
             break;
           }
@@ -373,7 +374,12 @@ export default function Home() {
             </p>
             <p className="text-danger fw-bold">
               Il y a 151 Pokémons à collectionner, attrapez-les tous !
-            </p>{" "}
+            </p>
+            <p style={{ fontSize: "14px", fontStyle: "italic" }}>
+              (Le jeu utilise les données de stockage locales de votre
+              navigateur pour fonctionner. Veillez à ne pas les supprimer pour
+              une expérience optimale)
+            </p>
           </Modal.Body>
           <Modal.Footer>
             <Button

@@ -6,7 +6,12 @@
 .type {
   width: 35px;
   height: auto;
-  margin-right: 8px;
+}
+
+.typeName {
+  font-size: 14px;
+  margin-top: 2px;
+  font-style: italic;
 }
 
 .warning {
