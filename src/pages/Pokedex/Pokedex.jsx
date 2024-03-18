@@ -153,7 +153,7 @@ export default function Pokedex() {
               <Clock
                 size={20}
                 color="#dc3546"
-                style={{ margin: "3px 12px 0 3px" }}
+                style={{ margin: "1px 13px 0 3px" }}
               />
               Temps de relance : {time / 1000} secondes
             </span>
