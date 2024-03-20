@@ -330,7 +330,7 @@ export default function Home() {
             </div>
           ) : (
             image && (
-              <div className={style.imageContainer}>
+              <div className="d-flex justify-content-center">
                 <img src={pikachu} alt="Pikachu" className={style.image} />
               </div>
             )
