@@ -5,6 +5,7 @@ import Notif from "../../components/Notif/Notif";
 import { Modal } from "react-bootstrap";
 import cards from "../../assets/img/playing_cards.png";
 import PokedexTable from "../../components/PokedexTable/PokedexTable";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 export default function Pokedex() {
   const [savedPokemons, setSavedPokemons] = useState([]);
@@ -19,23 +20,15 @@ export default function Pokedex() {
   const handleModalClose = () => setModalShow(false);
   const handleModalShow = () => setModalShow(true);
 
-  const storedSavedPokemons = localStorage.getItem("savedPokemons")
-    ? JSON.parse(localStorage.getItem("savedPokemons"))
-    : [];
-  const numberOfPokemons = localStorage.getItem("numberOfPokemons")
-    ? JSON.parse(localStorage.getItem("numberOfPokemons"))
-    : 3;
-  const time = localStorage.getItem("time")
-    ? JSON.parse(localStorage.getItem("time"))
-    : 30000;
-  const bonus = localStorage.getItem("bonus")
-    ? JSON.parse(localStorage.getItem("bonus"))
-    : 0;
+  const { getItem, setItem } = useLocalStorage(
+    ["savedPokemons", "numberOfPokemons", "time", "bonus"],
+    [[], 3, 30000, 0]
+  );
 
   useEffect(() => {
-    if (storedSavedPokemons.length > 0) {
-      storedSavedPokemons.sort((a, b) => a.pokedex_id - b.pokedex_id);
-      setSavedPokemons(storedSavedPokemons);
+    if (getItem("savedPokemons").length > 0) {
+      getItem("savedPokemons").sort((a, b) => a.pokedex_id - b.pokedex_id);
+      setSavedPokemons(getItem("savedPokemons"));
     }
   }, []);
 
@@ -52,28 +45,27 @@ export default function Pokedex() {
       result += score;
     }
     const updatedTotalScore = result;
-    localStorage.setItem("totalScore", updatedTotalScore);
     setTotalScore(updatedTotalScore);
     if (updatedTotalScore < 5000) {
-      localStorage.setItem("time", 30000);
-      localStorage.setItem("numberOfPokemons", 3);
-      localStorage.setItem("bonus", 0);
+      setItem("time", 30000);
+      setItem("numberOfPokemons", 3);
+      setItem("bonus", 0);
     } else if (updatedTotalScore >= 5000 && updatedTotalScore < 10000) {
-      localStorage.setItem("time", 20000);
-      localStorage.setItem("numberOfPokemons", 3);
-      localStorage.setItem("bonus", 1);
+      setItem("time", 20000);
+      setItem("numberOfPokemons", 3);
+      setItem("bonus", 1);
     } else if (updatedTotalScore >= 10000 && updatedTotalScore < 15000) {
-      localStorage.setItem("time", 20000);
-      localStorage.setItem("numberOfPokemons", 4);
-      localStorage.setItem("bonus", 2);
+      setItem("time", 20000);
+      setItem("numberOfPokemons", 4);
+      setItem("bonus", 2);
     } else if (updatedTotalScore >= 15000 && updatedTotalScore < 20000) {
-      localStorage.setItem("time", 10000);
-      localStorage.setItem("numberOfPokemons", 4);
-      localStorage.setItem("bonus", 3);
+      setItem("time", 10000);
+      setItem("numberOfPokemons", 4);
+      setItem("bonus", 3);
     } else if (updatedTotalScore > 20000) {
-      localStorage.setItem("time", 0);
-      localStorage.setItem("numberOfPokemons", 5);
-      localStorage.setItem("bonus", 4);
+      setItem("time", 0);
+      setItem("numberOfPokemons", 5);
+      setItem("bonus", 4);
     }
   }, [savedPokemons]);
 
@@ -98,7 +90,7 @@ export default function Pokedex() {
     const updatedSavedPokemons = savedPokemons.filter(
       (item) => item.pokedex_id !== id
     );
-    localStorage.setItem("savedPokemons", JSON.stringify(updatedSavedPokemons));
+    setItem("savedPokemons", updatedSavedPokemons);
     setSavedPokemons(updatedSavedPokemons);
     setVariant("danger");
     setHideNotif(false);
@@ -110,7 +102,7 @@ export default function Pokedex() {
 
   function handleDeleteAllClick() {
     const updatedSavedPokemons = [];
-    localStorage.setItem("savedPokemons", JSON.stringify(updatedSavedPokemons));
+    setItem("savedPokemons", updatedSavedPokemons);
     setSavedPokemons(updatedSavedPokemons);
     setVariant("danger");
     setHideNotif(false);
@@ -124,7 +116,7 @@ export default function Pokedex() {
     <p className="mb-0">
       <span className="d-flex align-items-center">
         <Clock size={20} color="#dc3546" style={{ margin: "0 13px 0 3px" }} />
-        Temps de relance : {time / 1000} secondes
+        Temps de relance : {getItem("time") / 1000} secondes
       </span>
     </p>
   );
@@ -137,16 +129,16 @@ export default function Pokedex() {
           style={{ width: "27px", margin: "2px 9px 0 0" }}
           alt="Icône Cartes"
         />
-        Deck de départ : {numberOfPokemons}
+        Deck de départ : {getItem("numberOfPokemons")}
       </span>
     </p>
   );
 
   const bonusP = (
     <div>
-      {bonus === 0 ? (
+      {getItem("bonus") === 0 ? (
         <p className="mb-0">Vous n'avez pas de bonus pour le moment</p>
-      ) : bonus === 1 ? (
+      ) : getItem("bonus") === 1 ? (
         bonusClock
       ) : (
         <>
@@ -159,16 +151,16 @@ export default function Pokedex() {
 
   let palier = "";
   switch (true) {
-    case bonus === 0:
+    case getItem("bonus") === 0:
       palier = "5000";
       break;
-    case bonus === 1:
+    case getItem("bonus") === 1:
       palier = "10000";
       break;
-    case bonus === 2:
+    case getItem("bonus") === 2:
       palier = "15000";
       break;
-    case bonus === 3:
+    case getItem("bonus") === 3:
       palier = "20000";
       break;
     default:
@@ -212,7 +204,7 @@ export default function Pokedex() {
         </div>
         <p className="mx-1 mb-0 text-wrap">
           Nombre de Pokémons :{" "}
-          <span className="fw-bold">{storedSavedPokemons.length}</span>
+          <span className="fw-bold">{getItem("savedPokemons").length}</span>
         </p>
         <div className="row justify-content-center mt-4 mb-5">
           <div className="col-sm-12 col-md-4">
@@ -244,7 +236,7 @@ export default function Pokedex() {
           <Modal.Title className="text-danger">Bonus</Modal.Title>
         </Modal.Header>
         <Modal.Body>{bonusP}</Modal.Body>
-        {bonus < 4 && <Modal.Footer>{palierP}</Modal.Footer>}
+        {getItem("bonus") < 4 && <Modal.Footer>{palierP}</Modal.Footer>}
       </Modal>
     </>
   );

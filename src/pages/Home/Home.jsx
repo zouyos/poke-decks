@@ -11,6 +11,7 @@ import Notif from "../../components/Notif/Notif";
 import { Button, Modal } from "react-bootstrap";
 import style from "./style.module.css";
 import pikachu from "../../assets/img/pikachu.png";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
@@ -33,12 +34,17 @@ export default function Home() {
   const handleModalClose = () => setModalShow(false);
   const handleModalShow = () => setModalShow(true);
 
-  const storedCurrentPokemons = localStorage.getItem("currentPokemons")
-    ? JSON.parse(localStorage.getItem("currentPokemons"))
-    : [];
-  const storedSavedPokemons = localStorage.getItem("savedPokemons")
-    ? JSON.parse(localStorage.getItem("savedPokemons"))
-    : [];
+  const { getItem, setItem, removeItem } = useLocalStorage(
+    [
+      "currentPokemons",
+      "savedPokemons",
+      "disableAdd",
+      "time",
+      "numberOfPokemons",
+      "startTime",
+    ],
+    [[], [], false, 30000, 3, 0]
+  );
 
   async function fetchList() {
     try {
@@ -106,24 +112,25 @@ export default function Home() {
     }
 
     setCurrentPokemons(pokemonsSelected);
-    localStorage.setItem("currentPokemons", JSON.stringify(pokemonsSelected));
+    setItem("currentPokemons", pokemonsSelected);
+    // setItem("savedPokemons", pokemons);
   }
 
   useEffect(() => {
-    if (storedCurrentPokemons.length > 0) {
-      setCurrentPokemons(storedCurrentPokemons);
+    if (getItem("currentPokemons").length > 0) {
+      setCurrentPokemons(getItem("currentPokemons"));
     } else {
       pickRandomSelection(numberOfPokemons);
     }
-    if (storedSavedPokemons.length > 0) {
-      setSavedPokemons(storedSavedPokemons);
+    if (getItem("savedPokemons").length > 0) {
+      setSavedPokemons(getItem("savedPokemons"));
     }
 
-    if (localStorage.getItem("disableAdd")) setDisableAdd(true);
+    if (getItem("disableAdd")) setDisableAdd(true);
   }, []);
 
   useEffect(() => {
-    if (storedSavedPokemons.length > 0) {
+    if (getItem("savedPokemons").length > 0) {
       let result = 0;
       for (const pokemon of savedPokemons) {
         const score = pokemon.score;
@@ -133,30 +140,30 @@ export default function Home() {
       setTotalScore(updatedTotalScore);
 
       if (updatedTotalScore < 5000) {
-        localStorage.setItem("time", 30000);
-        localStorage.setItem("numberOfPokemons", 3);
-        localStorage.setItem("bonus", 0);
+        setItem("time", 30000);
+        setItem("numberOfPokemons", 3);
+        setItem("bonus", 0);
       } else if (updatedTotalScore >= 5000 && updatedTotalScore < 10000) {
-        localStorage.setItem("time", 20000);
-        localStorage.setItem("numberOfPokemons", 3);
-        localStorage.setItem("bonus", 1);
+        setItem("time", 20000);
+        setItem("numberOfPokemons", 3);
+        setItem("bonus", 1);
       } else if (updatedTotalScore >= 10000 && updatedTotalScore < 15000) {
-        localStorage.setItem("time", 20000);
-        localStorage.setItem("numberOfPokemons", 4);
-        localStorage.setItem("bonus", 2);
+        setItem("time", 20000);
+        setItem("numberOfPokemons", 4);
+        setItem("bonus", 2);
       } else if (updatedTotalScore >= 15000 && updatedTotalScore < 20000) {
-        localStorage.setItem("time", 10000);
-        localStorage.setItem("numberOfPokemons", 4);
-        localStorage.setItem("bonus", 3);
+        setItem("time", 10000);
+        setItem("numberOfPokemons", 4);
+        setItem("bonus", 3);
       } else if (updatedTotalScore > 20000) {
-        localStorage.setItem("time", 0);
-        localStorage.setItem("numberOfPokemons", 5);
-        localStorage.setItem("bonus", 4);
+        setItem("time", 0);
+        setItem("numberOfPokemons", 5);
+        setItem("bonus", 4);
       }
-      setNumberOfPokemons(parseInt(localStorage.getItem("numberOfPokemons")));
+      setNumberOfPokemons(getItem("numberOfPokemons"));
     }
 
-    if (storedSavedPokemons.length >= 151) {
+    if (getItem("savedPokemons").length >= 151) {
       setGame(false);
       setImage(true);
       setVariant("success");
@@ -172,10 +179,8 @@ export default function Home() {
   useEffect(() => {
     let timerInterval;
 
-    const startTime = localStorage.getItem("startTime");
-    const storedTime = localStorage.getItem("time");
-    const storedRemainingTime = startTime
-      ? storedTime - (Date.now() - parseInt(startTime))
+    const storedRemainingTime = getItem("startTime")
+      ? getItem("time") - (Date.now() - getItem("startTime"))
       : 0;
 
     if (timerRunning || storedRemainingTime > 0) {
@@ -184,15 +189,14 @@ export default function Home() {
       setDisableReload(true);
 
       timerInterval = setInterval(() => {
-        const elapsed =
-          Date.now() - parseInt(localStorage.getItem("startTime"));
-        const remaining = storedTime - elapsed;
+        const elapsed = Date.now() - getItem("startTime");
+        const remaining = getItem("time") - elapsed;
         if (remaining <= 0) {
           setRemainingTime(0);
           setTimerRunning(false);
           setDisableReload(false);
           clearInterval(timerInterval);
-          localStorage.removeItem("startTime");
+          removeItem("startTime");
         } else {
           setRemainingTime(Math.ceil(remaining / 1000));
         }
@@ -205,41 +209,38 @@ export default function Home() {
   const handleReloadClick = () => {
     setHideNotif(true);
     if (totalScore >= 20000) {
-      if (localStorage.getItem("disableAdd")) {
+      if (getItem("disableAdd")) {
         setDisableAdd(false);
-        localStorage.removeItem("disableAdd");
+        removeItem("disableAdd");
       }
       pickRandomSelection(numberOfPokemons);
     } else {
-      if (localStorage.getItem("disableAdd")) {
+      if (getItem("disableAdd")) {
         setDisableAdd(false);
-        localStorage.removeItem("disableAdd");
+        removeItem("disableAdd");
       }
       pickRandomSelection(numberOfPokemons);
       setDisableReload(true);
       setTimerRunning(true);
-      localStorage.setItem("startTime", Date.now().toString());
+      setItem("startTime", Date.now().toString());
     }
   };
 
   const handleAddClick = (cardData, cardsData) => {
     setCurrentPokemons(cardsData);
-    localStorage.setItem("currentPokemons", JSON.stringify(cardsData));
+    setItem("currentPokemons", cardsData);
 
-    const existingId = storedSavedPokemons.some(
+    const existingId = getItem("savedPokemons").some(
       (obj) => obj.pokedex_id === cardData.pokedex_id
     );
 
     if (!existingId) {
-      const updatedSavedPokemons = [...storedSavedPokemons, cardData];
-      localStorage.setItem(
-        "savedPokemons",
-        JSON.stringify(updatedSavedPokemons)
-      );
+      const updatedSavedPokemons = [...getItem("savedPokemons"), cardData];
+      setItem("savedPokemons", updatedSavedPokemons);
       setSavedPokemons(updatedSavedPokemons);
 
       setDisableAdd(true);
-      localStorage.setItem("disableAdd", true);
+      setItem("disableAdd", true);
 
       setVariant("success");
       setHideNotif(false);
@@ -288,7 +289,7 @@ export default function Home() {
                 {currentPokemons &&
                   currentPokemons.map((currentPokemon, i) => {
                     let pokedexIconTrue = false;
-                    const existingId = storedSavedPokemons.some(
+                    const existingId = getItem("savedPokemons").some(
                       (obj) => obj.pokedex_id === currentPokemon.pokedex_id
                     );
                     if (existingId) {
