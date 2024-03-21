@@ -196,6 +196,7 @@ export default function Pokedex() {
               maxWidth: "fit-content",
               margin: "0 4px 0 auto",
               cursor: "pointer",
+              boxShadow: "4px 2px 4px rgba(0,0,0,0.4)",
             }}
             onClick={handleModalShow}
           >
