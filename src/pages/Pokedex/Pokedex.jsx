@@ -25,10 +25,12 @@ export default function Pokedex() {
     [[], 3, 30000, 0]
   );
 
+  const storedSavedPokemons = getItem("savedPokemons");
+
   useEffect(() => {
-    if (getItem("savedPokemons").length > 0) {
-      getItem("savedPokemons").sort((a, b) => a.pokedex_id - b.pokedex_id);
-      setSavedPokemons(getItem("savedPokemons"));
+    if (storedSavedPokemons.length > 0) {
+      storedSavedPokemons.sort((a, b) => a.pokedex_id - b.pokedex_id);
+      setSavedPokemons(storedSavedPokemons);
     }
   }, []);
 
@@ -204,7 +206,7 @@ export default function Pokedex() {
         </div>
         <p className="mx-1 mb-0 text-wrap">
           Nombre de Pokémons :{" "}
-          <span className="fw-bold">{getItem("savedPokemons").length}</span>
+          <span className="fw-bold">{storedSavedPokemons.length}</span>
         </p>
         <div className="row justify-content-center mt-4 mb-5">
           <div className="col-sm-12 col-md-4">

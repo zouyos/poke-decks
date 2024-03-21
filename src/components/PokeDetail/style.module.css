@@ -10,3 +10,10 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.card {
+  margin: 10px 14px;
+  width: 20rem;
+  box-shadow: 3px 3px rgba(220, 53, 70, 0.9), -1em 0 0.4em rgba(0, 0, 0, 0.25);
+  border: transparent;
+}

@@ -1,6 +1,6 @@
 import logo from "../../assets/img/logo.png";
 import { Title } from "../../components/Title/Title";
-import { Card } from "../../components/Card/Card";
+import { PokeDetail } from "../../components/PokeDetail/PokeDetail";
 import { useEffect, useState } from "react";
 import { PokemonAPI } from "../../api/pokemon";
 import { QuestionCircleFill } from "react-bootstrap-icons";
@@ -296,7 +296,7 @@ export default function Home() {
                       pokedexIconTrue = true;
                     }
                     return (
-                      <Card
+                      <PokeDetail
                         pokemon={currentPokemon}
                         pokedexIcon={pokedexIconTrue}
                         key={i}
@@ -309,7 +309,7 @@ export default function Home() {
                         >
                           Ajouter au Pokédex
                         </AddButton>
-                      </Card>
+                      </PokeDetail>
                     );
                   })}
               </div>
