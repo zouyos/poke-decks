@@ -26,6 +26,7 @@ export default function Pokedex() {
   );
 
   const storedSavedPokemons = getItem("savedPokemons");
+  const bonus = getItem("bonus");
 
   useEffect(() => {
     if (storedSavedPokemons.length > 0) {
@@ -138,9 +139,9 @@ export default function Pokedex() {
 
   const bonusP = (
     <div>
-      {getItem("bonus") === 0 ? (
+      {bonus === 0 ? (
         <p className="mb-0">Vous n'avez pas de bonus pour le moment</p>
-      ) : getItem("bonus") === 1 ? (
+      ) : bonus === 1 ? (
         bonusClock
       ) : (
         <>
@@ -153,16 +154,16 @@ export default function Pokedex() {
 
   let palier = "";
   switch (true) {
-    case getItem("bonus") === 0:
+    case bonus === 0:
       palier = "5000";
       break;
-    case getItem("bonus") === 1:
+    case bonus === 1:
       palier = "10000";
       break;
-    case getItem("bonus") === 2:
+    case bonus === 2:
       palier = "15000";
       break;
-    case getItem("bonus") === 3:
+    case bonus === 3:
       palier = "20000";
       break;
     default:
@@ -239,7 +240,7 @@ export default function Pokedex() {
           <Modal.Title className="text-danger">Bonus</Modal.Title>
         </Modal.Header>
         <Modal.Body>{bonusP}</Modal.Body>
-        {getItem("bonus") < 4 && <Modal.Footer>{palierP}</Modal.Footer>}
+        {bonus < 4 && <Modal.Footer>{palierP}</Modal.Footer>}
       </Modal>
     </>
   );
