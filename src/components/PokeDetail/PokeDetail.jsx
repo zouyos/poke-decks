@@ -1,6 +1,7 @@
 import style from "./style.module.css";
 import pokedex from "../../assets/img/pokedex_icon.png";
 import { Card } from "react-bootstrap";
+import { changeScoreColor } from "../../config/config";
 
 export function PokeDetail({ pokemon, pokedexIcon, children }) {
   const pokemonTypes = pokemon.types.map((type, i) => {
@@ -16,25 +17,14 @@ export function PokeDetail({ pokemon, pokedexIcon, children }) {
     );
   });
 
-  // function changeScoreColor(score) {
-  //   if (score < 100) {
-  //     return "text-success";
-  //   } else if (score >= 100 && score < 200) {
-  //     return "text-primary";
-  //   } else if (score >= 200 && score < 300) {
-  //     return "text-warning";
-  //   } else if (score >= 300 && score < 400) {
-  //     return "text-danger";
-  //   } else if (score >= 400) {
-  //     return "text-dark";
-  //   }
-  // }
-
   return (
     <>
       <Card className={style.card}>
         <div className="d-flex justify-content-between">
-          <p className={`text-danger py-1 px-2 mb-0 fw-bold`}>
+          <p
+            className="py-1 px-2 mb-0 fw-bold"
+            style={{ color: changeScoreColor(pokemon.name.fr) }}
+          >
             {pokemon.score} pts
           </p>
           {pokedexIcon && (
