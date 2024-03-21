@@ -44,7 +44,7 @@ export function PokeDetail({ pokemon, pokedexIcon, children }) {
               className="px-2 pt-2 mb-0"
               style={{
                 width: "auto",
-                height: "30px",
+                height: "40px",
                 position: "absolute",
                 right: "0",
               }}
