@@ -42,8 +42,9 @@ export default function Home() {
       "time",
       "numberOfPokemons",
       "startTime",
+      "disableReload",
     ],
-    [[], [], false, 30000, 3, 0]
+    [[], [], false, 30000, 3, 0, false]
   );
 
   async function fetchList() {
@@ -130,6 +131,18 @@ export default function Home() {
     }
 
     if (getItem("disableAdd")) setDisableAdd(true);
+
+    const handleKeyPress = (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        handleReload();
+      }
+    };
+
+    window.addEventListener("keyup", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keyup", handleKeyPress);
+    };
   }, []);
 
   useEffect(() => {
@@ -192,6 +205,7 @@ export default function Home() {
       setRemainingTime(Math.ceil(storedRemainingTime / 1000));
       setTimerRunning(true);
       setDisableReload(true);
+      setItem("disableReload", true);
 
       timerInterval = setInterval(() => {
         const elapsed = Date.now() - getItem("startTime");
@@ -200,8 +214,9 @@ export default function Home() {
           setRemainingTime(0);
           setTimerRunning(false);
           setDisableReload(false);
-          clearInterval(timerInterval);
+          removeItem("disableReload");
           removeItem("startTime");
+          clearInterval(timerInterval);
         } else {
           setRemainingTime(Math.ceil(remaining / 1000));
         }
@@ -211,23 +226,25 @@ export default function Home() {
     return () => clearInterval(timerInterval);
   }, [timerRunning]);
 
-  const handleReloadClick = () => {
-    setHideNotif(true);
-    if (totalScore >= 20000) {
-      if (getItem("disableAdd")) {
-        setDisableAdd(false);
-        removeItem("disableAdd");
+  const handleReload = () => {
+    if (!getItem("disableReload")) {
+      setHideNotif(true);
+      if (totalScore >= 20000) {
+        if (getItem("disableAdd")) {
+          setDisableAdd(false);
+          removeItem("disableAdd");
+        }
+        pickRandomSelection(numberOfPokemons);
+      } else {
+        if (getItem("disableAdd")) {
+          setDisableAdd(false);
+          removeItem("disableAdd");
+        }
+        pickRandomSelection(numberOfPokemons);
+        setDisableReload(true);
+        setTimerRunning(true);
+        setItem("startTime", Date.now().toString());
       }
-      pickRandomSelection(numberOfPokemons);
-    } else {
-      if (getItem("disableAdd")) {
-        setDisableAdd(false);
-        removeItem("disableAdd");
-      }
-      pickRandomSelection(numberOfPokemons);
-      setDisableReload(true);
-      setTimerRunning(true);
-      setItem("startTime", Date.now().toString());
     }
   };
 
@@ -330,7 +347,7 @@ export default function Home() {
                 )}
                 <div className="mt-2">
                   <ReloadButton
-                    onClick={handleReloadClick}
+                    onClick={handleReload}
                     disabled={disableReload}
                   />
                 </div>
