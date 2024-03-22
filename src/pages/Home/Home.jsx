@@ -46,9 +46,6 @@ export default function Home() {
     [[], [], false, 30000, 3, 0]
   );
 
-  const storedCurrentPokemons = getItem("currentPokemons");
-  const storedSavedPokemons = getItem("savedPokemons");
-
   async function fetchList() {
     try {
       const list = await PokemonAPI.fetchByGen(1);
@@ -120,6 +117,9 @@ export default function Home() {
   }
 
   useEffect(() => {
+    const storedCurrentPokemons = getItem("currentPokemons");
+    const storedSavedPokemons = getItem("savedPokemons");
+
     if (storedCurrentPokemons.length > 0) {
       setCurrentPokemons(storedCurrentPokemons);
     } else {
@@ -133,6 +133,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const storedSavedPokemons = getItem("savedPokemons");
+
     if (storedSavedPokemons.length > 0) {
       let result = 0;
       for (const pokemon of savedPokemons) {
@@ -233,6 +235,8 @@ export default function Home() {
     setCurrentPokemons(cardsData);
     setItem("currentPokemons", cardsData);
 
+    const storedSavedPokemons = getItem("savedPokemons");
+
     const existingId = storedSavedPokemons.some(
       (obj) => obj.pokedex_id === cardData.pokedex_id
     );
@@ -292,7 +296,7 @@ export default function Home() {
                 {currentPokemons &&
                   currentPokemons.map((currentPokemon, i) => {
                     let pokedexIconTrue = false;
-                    const existingId = storedSavedPokemons.some(
+                    const existingId = getItem("savedPokemons").some(
                       (obj) => obj.pokedex_id === currentPokemon.pokedex_id
                     );
                     if (existingId) {
