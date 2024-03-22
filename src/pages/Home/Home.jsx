@@ -264,11 +264,7 @@ export default function Home() {
 
   return (
     <>
-      <div
-        className={`${style.container} container-fluid`}
-        onKeyUp={(e) => (e.key === "Enter" || e.key === " ") && handleReload()}
-        tabIndex={0}
-      >
+      <div className={`${style.container} container-fluid`}>
         <div className="d-flex flex-column justify-content-center align-items-center">
           <div className="my-3">
             <Title
