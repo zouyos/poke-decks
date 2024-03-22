@@ -15,7 +15,6 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
-  const [savedPokemons, setSavedPokemons] = useState([]);
   const [disableReload, setDisableReload] = useState(false);
   const [disableAdd, setDisableAdd] = useState(false);
   const [isHelpHovered, setIsHelpHovered] = useState(false);
@@ -118,31 +117,13 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const storedCurrentPokemons = getItem("currentPokemons");
-    const storedSavedPokemons = getItem("savedPokemons");
-
-    if (storedCurrentPokemons.length > 0) {
-      setCurrentPokemons(storedCurrentPokemons);
+    if (getItem("currentPokemons").length > 0) {
+      setCurrentPokemons(getItem("currentPokemons"));
     } else {
       pickRandomSelection(numberOfPokemons);
     }
-    if (storedSavedPokemons.length > 0) {
-      setSavedPokemons(storedSavedPokemons);
-    }
 
     if (getItem("disableAdd")) setDisableAdd(true);
-
-    const handleKeyPress = (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        handleReload();
-      }
-    };
-
-    window.addEventListener("keyup", handleKeyPress);
-
-    return () => {
-      window.removeEventListener("keyup", handleKeyPress);
-    };
   }, []);
 
   useEffect(() => {
@@ -150,7 +131,7 @@ export default function Home() {
 
     if (storedSavedPokemons.length > 0) {
       let result = 0;
-      for (const pokemon of savedPokemons) {
+      for (const pokemon of storedSavedPokemons) {
         const score = pokemon.score;
         result += score;
       }
@@ -192,7 +173,7 @@ export default function Home() {
         setHideNotif(true);
       }, 5000);
     }
-  }, [savedPokemons, currentPokemons, disableAdd, disableReload]);
+  }, [currentPokemons, disableAdd, disableReload]);
 
   useEffect(() => {
     let timerInterval;
@@ -261,7 +242,6 @@ export default function Home() {
     if (!existingId) {
       const updatedSavedPokemons = [...storedSavedPokemons, cardData];
       setItem("savedPokemons", updatedSavedPokemons);
-      setSavedPokemons(updatedSavedPokemons);
 
       setDisableAdd(true);
       setItem("disableAdd", true);
@@ -284,7 +264,11 @@ export default function Home() {
 
   return (
     <>
-      <div className={`${style.container} container-fluid`}>
+      <div
+        className={`${style.container} container-fluid`}
+        onKeyUp={(e) => (e.key === "Enter" || e.key === " ") && handleReload()}
+        tabIndex={0}
+      >
         <div className="d-flex flex-column justify-content-center align-items-center">
           <div className="my-3">
             <Title
