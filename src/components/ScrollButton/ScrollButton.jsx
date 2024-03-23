@@ -28,10 +28,10 @@ const ScrollButton = () => {
     const handleScroll = () => {
       setIsBottom(
         window.innerHeight + document.documentElement.scrollTop >=
-          document.documentElement.offsetHeight
+          document.documentElement.offsetHeight - 100
       );
 
-      if (window.scrollY > 200) {
+      if (window.scrollY > 100) {
         setIsButtonTopVisible(true);
         if (!isBottom) {
           setIsButtonDownVisible(true);
@@ -42,18 +42,15 @@ const ScrollButton = () => {
       }
     };
 
+    if (isBottom) {
+      setIsButtonDownVisible(false);
+    }
+
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
-
-  useEffect(() => {
-    if (isBottom) {
-      setIsButtonDownVisible(false);
-      console.log("hello");
-    }
   }, [isBottom]);
 
   return (
