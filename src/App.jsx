@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
-import ScrollToTopButton from "./components/ScrollToTopButton/ScrollToTopButton";
+import ScrollButton from "./components/ScrollButton/ScrollButton";
 
 export default function App() {
   return (
     <>
       <NavBar />
       <Outlet />
-      <ScrollToTopButton />
+      <ScrollButton />
     </>
   );
 }

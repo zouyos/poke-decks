@@ -3,8 +3,10 @@ import { useEffect } from "react";
 import { ArrowUpCircle, ArrowDownCircle } from "react-bootstrap-icons";
 import style from "./style.module.css";
 
-const ScrollToTopButton = () => {
-  const [isVisible, setIsVisible] = useState(false);
+const ScrollButton = () => {
+  const [isButtonTopVisible, setIsButtonTopVisible] = useState(false);
+  const [isButtonDownVisible, setIsButtonDownVisible] = useState(false);
+  const [isBottom, setIsBottom] = useState(false);
 
   const scrollToPosition = (position) => {
     if (position === "top") {
@@ -24,10 +26,19 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      setIsBottom(
+        window.innerHeight + document.documentElement.scrollTop >=
+          document.documentElement.offsetHeight
+      );
+
       if (window.scrollY > 200) {
-        setIsVisible(true);
+        setIsButtonTopVisible(true);
+        if (!isBottom) {
+          setIsButtonDownVisible(true);
+        }
       } else {
-        setIsVisible(false);
+        setIsButtonTopVisible(false);
+        setIsButtonDownVisible(false);
       }
     };
 
@@ -38,6 +49,13 @@ const ScrollToTopButton = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isBottom) {
+      setIsButtonDownVisible(false);
+      console.log("hello");
+    }
+  }, [isBottom]);
+
   return (
     <div className={style.centeredFixedDiv}>
       <ArrowUpCircle
@@ -45,17 +63,17 @@ const ScrollToTopButton = () => {
         size={50}
         className={style.buttonTop}
         onClick={() => scrollToPosition("top")}
-        style={{ display: isVisible ? "block" : "none" }}
+        style={{ display: isButtonTopVisible ? "block" : "none" }}
       />
       <ArrowDownCircle
         color={"rgba(146, 148, 151, 0.5)"}
         size={50}
         className={style.buttonDown}
         onClick={() => scrollToPosition("bottom")}
-        style={{ display: isVisible ? "block" : "none" }}
+        style={{ display: isButtonDownVisible ? "block" : "none" }}
       />
     </div>
   );
 };
 
-export default ScrollToTopButton;
+export default ScrollButton;
