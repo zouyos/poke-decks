@@ -55,24 +55,20 @@ const ScrollButton = () => {
 
   return (
     <div>
-      {isButtonTopVisible && (
-        <ArrowUpCircle
-          color={"rgba(146, 148, 151, 0.5)"}
-          size={50}
-          className={style.buttonTop}
-          onClick={() => scrollToPosition("top")}
-          // style={{ display: isButtonTopVisible ? "block" : "none" }}
-        />
-      )}
-      {isButtonDownVisible && (
-        <ArrowDownCircle
-          color={"rgba(146, 148, 151, 0.5)"}
-          size={50}
-          className={style.buttonDown}
-          onClick={() => scrollToPosition("bottom")}
-          // style={{ display: isButtonDownVisible ? "block" : "none" }}
-        />
-      )}
+      <ArrowUpCircle
+        color={"rgba(146, 148, 151, 0.5)"}
+        size={50}
+        className={style.buttonTop}
+        onClick={() => scrollToPosition("top")}
+        style={{ display: isButtonTopVisible ? "block" : "none" }}
+      />
+      <ArrowDownCircle
+        color={"rgba(146, 148, 151, 0.5)"}
+        size={50}
+        className={style.buttonDown}
+        onClick={() => scrollToPosition("bottom")}
+        style={{ display: isButtonDownVisible ? "block" : "none" }}
+      />
     </div>
   );
 };
