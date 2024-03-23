@@ -5,10 +5,8 @@
 }
 
 .typeContainer {
-  height: 86px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  width: fit-content;
+  margin-bottom: 20px;
 }
 
 .card {

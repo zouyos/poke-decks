@@ -41,9 +41,8 @@ export default function Home() {
       "time",
       "numberOfPokemons",
       "startTime",
-      "disableReload",
     ],
-    [[], [], false, 30000, 3, 0, false]
+    [[], [], false, 30000, 3, 0]
   );
 
   async function fetchList() {
@@ -186,7 +185,6 @@ export default function Home() {
       setRemainingTime(Math.ceil(storedRemainingTime / 1000));
       setTimerRunning(true);
       setDisableReload(true);
-      setItem("disableReload", true);
 
       timerInterval = setInterval(() => {
         const elapsed = Date.now() - getItem("startTime");
@@ -195,7 +193,6 @@ export default function Home() {
           setRemainingTime(0);
           setTimerRunning(false);
           setDisableReload(false);
-          removeItem("disableReload");
           removeItem("startTime");
           clearInterval(timerInterval);
         } else {
@@ -208,24 +205,22 @@ export default function Home() {
   }, [timerRunning]);
 
   const handleReload = () => {
-    if (!getItem("disableReload")) {
-      setHideNotif(true);
-      if (totalScore >= 20000) {
-        if (getItem("disableAdd")) {
-          setDisableAdd(false);
-          removeItem("disableAdd");
-        }
-        pickRandomSelection(numberOfPokemons);
-      } else {
-        if (getItem("disableAdd")) {
-          setDisableAdd(false);
-          removeItem("disableAdd");
-        }
-        pickRandomSelection(numberOfPokemons);
-        setDisableReload(true);
-        setTimerRunning(true);
-        setItem("startTime", Date.now().toString());
+    setHideNotif(true);
+    if (totalScore >= 20000) {
+      if (getItem("disableAdd")) {
+        setDisableAdd(false);
+        removeItem("disableAdd");
       }
+      pickRandomSelection(numberOfPokemons);
+    } else {
+      if (getItem("disableAdd")) {
+        setDisableAdd(false);
+        removeItem("disableAdd");
+      }
+      pickRandomSelection(numberOfPokemons);
+      setDisableReload(true);
+      setTimerRunning(true);
+      setItem("startTime", Date.now().toString());
     }
   };
 
@@ -309,7 +304,7 @@ export default function Home() {
                           onClick={handleAddClick}
                           pokemon={currentPokemon}
                           pokemons={currentPokemons}
-                          disabled={disableAdd}
+                          disabled={disableAdd || pokedexIconTrue}
                         >
                           Ajouter au Pokédex
                         </AddButton>

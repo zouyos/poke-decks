@@ -6,14 +6,10 @@ import { changeScoreColor } from "../../config/config";
 export function PokeDetail({ pokemon, pokedexIcon, children }) {
   const pokemonTypes = pokemon.types.map((type, i) => {
     return (
-      <ul className="list-unstyled" key={i}>
-        <li className={pokemon.types.length < 2 ? style.typeContainer : ""}>
-          <div>
-            <img src={type.image} alt={type.name} className={style.type} />
-            {type.name}
-          </div>
-        </li>
-      </ul>
+      <div className={style.typeContainer}>
+        <img src={type.image} alt={type.name} className={style.type} />
+        {type.name}
+      </div>
     );
   });
 
@@ -51,7 +47,7 @@ export function PokeDetail({ pokemon, pokedexIcon, children }) {
             {pokemon.name.fr}
           </Card.Title>
           <p className="fs-5 text-decoration-underline mb-3">Type(s) :</p>
-          <div>{pokemonTypes}</div>
+          <div className="row">{pokemonTypes}</div>
           {children}
         </Card.Body>
       </Card>
