@@ -3,12 +3,10 @@ import { useEffect } from "react";
 import { ArrowUpCircle, ArrowDownCircle } from "react-bootstrap-icons";
 import style from "./style.module.css";
 
-const ScrollButton = () => {
+const ScrollButtons = () => {
   const [isButtonTopVisible, setIsButtonTopVisible] = useState(false);
   const [isButtonDownVisible, setIsButtonDownVisible] = useState(false);
-  const [scrollPossible, setScrollPossible] = useState(
-    document.documentElement.offsetHeight > window.innerHeight + 100
-  );
+  const [scrollPossible, setScrollPossible] = useState(false);
   const [isBottom, setIsBottom] = useState(false);
 
   const scrollToPosition = (position) => {
@@ -30,7 +28,7 @@ const ScrollButton = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrollPossible(
-        document.documentElement.offsetHeight > window.innerHeight + 100
+        document.documentElement.offsetHeight >= window.innerHeight + 100
       );
 
       setIsBottom(
@@ -80,4 +78,4 @@ const ScrollButton = () => {
   );
 };
 
-export default ScrollButton;
+export default ScrollButtons;
