@@ -28,10 +28,10 @@ const ScrollButton = () => {
     const handleScroll = () => {
       setIsBottom(
         window.innerHeight + document.documentElement.scrollTop >=
-          document.documentElement.offsetHeight - 50
+          document.documentElement.offsetHeight - 100
       );
 
-      if (window.scrollY > 150) {
+      if (window.scrollY > 100) {
         setIsButtonTopVisible(true);
         if (!isBottom) {
           setIsButtonDownVisible(true);
