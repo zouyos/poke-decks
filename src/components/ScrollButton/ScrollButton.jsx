@@ -6,6 +6,9 @@ import style from "./style.module.css";
 const ScrollButton = () => {
   const [isButtonTopVisible, setIsButtonTopVisible] = useState(false);
   const [isButtonDownVisible, setIsButtonDownVisible] = useState(false);
+  const [scrollPossible, setScrollPossible] = useState(
+    document.documentElement.offsetHeight > window.innerHeight + 100
+  );
   const [isBottom, setIsBottom] = useState(false);
 
   const scrollToPosition = (position) => {
@@ -26,32 +29,36 @@ const ScrollButton = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      setScrollPossible(
+        document.documentElement.offsetHeight > window.innerHeight + 100
+      );
+
       setIsBottom(
         window.innerHeight + document.documentElement.scrollTop >=
           document.documentElement.offsetHeight - 100
       );
 
-      if (window.scrollY > 100) {
+      if (document.documentElement.scrollTop >= 100) {
         setIsButtonTopVisible(true);
-        if (!isBottom) {
-          setIsButtonDownVisible(true);
+        setIsButtonDownVisible(true);
+        if (isBottom) {
+          setIsButtonDownVisible(false);
         }
+      } else if (scrollPossible) {
+        setIsButtonTopVisible(false);
+        setIsButtonDownVisible(true);
       } else {
         setIsButtonTopVisible(false);
         setIsButtonDownVisible(false);
       }
     };
 
-    if (isBottom) {
-      setIsButtonDownVisible(false);
-    }
-
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isBottom]);
+  }, [scrollPossible, isBottom]);
 
   return (
     <div>
