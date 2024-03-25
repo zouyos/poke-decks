@@ -72,43 +72,53 @@ export default function Home() {
   async function pickRandomSelection(numberOfPokemons) {
     const pokemons = await listWithScore();
     const pokemonsSelected = [];
-    const minScore = 50;
-    const maxScore = 500;
-    const targetMin = 100; // in %
-    const targetMax = 100;
-
-    const totalRate = pokemons.reduce(
-      (acc, pokemon) =>
-        acc +
-        ((1 - (pokemon.score - minScore) / (maxScore - minScore)) *
-          (targetMax - targetMin) +
-          targetMin),
-      0
-    );
+    const selectedIds = new Set();
 
     while (pokemonsSelected.length < numberOfPokemons) {
-      let rand = Math.random() * totalRate;
-      let cumulativeRate = 0;
-
-      for (const pokemon of pokemons) {
-        cumulativeRate +=
-          (1 - (pokemon.score - minScore) / (maxScore - minScore)) *
-            (targetMax - targetMin) +
-          targetMin;
-        if (rand <= cumulativeRate) {
-          if (
-            !pokemonsSelected.some(
-              (selectedPokemon) =>
-                selectedPokemon.pokedex_id === pokemon.pokedex_id
-            )
-          ) {
-            // pokemon.score += 5000;
-            pokemonsSelected.push(pokemon);
-            break;
-          }
-        }
+      let randomInt = Math.floor(Math.random() * 151);
+      if (!selectedIds.has(randomInt)) {
+        selectedIds.add(randomInt);
+        pokemonsSelected.push(pokemons[randomInt]);
       }
     }
+
+    // const minScore = 50;
+    // const maxScore = 500;
+    // const targetMin = 100; // in %
+    // const targetMax = 100;
+
+    // const totalRate = pokemons.reduce(
+    //   (acc, pokemon) =>
+    //     acc +
+    //     ((1 - (pokemon.score - minScore) / (maxScore - minScore)) *
+    //       (targetMax - targetMin) +
+    //       targetMin),
+    //   0
+    // );
+
+    // while (pokemonsSelected.length < numberOfPokemons) {
+    //   let rand = Math.random() * totalRate;
+    //   let cumulativeRate = 0;
+
+    //   for (const pokemon of pokemons) {
+    //     cumulativeRate +=
+    //       (1 - (pokemon.score - minScore) / (maxScore - minScore)) *
+    //         (targetMax - targetMin) +
+    //       targetMin;
+    //     if (rand <= cumulativeRate) {
+    //       if (
+    //         !pokemonsSelected.some(
+    //           (selectedPokemon) =>
+    //             selectedPokemon.pokedex_id === pokemon.pokedex_id
+    //         )
+    //       ) {
+    //         // pokemon.score += 5000;
+    //         pokemonsSelected.push(pokemon);
+    //         break;
+    //       }
+    //     }
+    //   }
+    // }
 
     setCurrentPokemons(pokemonsSelected);
     setItem("currentPokemons", pokemonsSelected);
