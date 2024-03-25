@@ -28,7 +28,7 @@ const ScrollButtons = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrollPossible(
-        document.documentElement.offsetHeight >= window.innerHeight + 100
+        document.documentElement.offsetHeight > window.innerHeight + 100
       );
 
       setIsBottom(
