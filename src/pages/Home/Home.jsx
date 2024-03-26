@@ -74,7 +74,7 @@ export default function Home() {
     const pokemonsSelected = [];
     const minScore = 50;
     const maxScore = 500;
-    const targetMin = 6; // in %
+    const targetMin = 7.5; // in %
     const targetMax = 100;
 
     const totalRate = pokemons.reduce(
