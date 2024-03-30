@@ -30,6 +30,9 @@ const appendScore = (pokemons) => {
     )
       score += 50;
 
+    if (["Artikodin", "Électhor", "Sulfura"].includes(pokemon.name.fr))
+      score += 80;
+
     if (
       [
         "Bulbizarre",
@@ -50,6 +53,8 @@ const appendScore = (pokemons) => {
       ["Pokémon Ombre", "Pokémon Psy"].includes(pokemon.category)
     )
       score += 100;
+
+    if (pokemon.name.fr === "Mewtwo") score += 103;
 
     if (
       pokemon.category === "Pokémon Légendaire" ||
@@ -72,7 +77,6 @@ const appendScore = (pokemons) => {
         "Pikachu",
         "Raichu",
         "Miaouss",
-        "Mewtwo",
         "Florizarre",
         "Tortank",
         "Dracaufeu",
