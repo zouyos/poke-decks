@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { ArrowUpCircle, ArrowDownCircle } from "react-bootstrap-icons";
 import style from "./style.module.css";
+import { useScrollPosition } from "../../hooks/useScrollPosition";
 
 const ScrollButtons = () => {
   const [isButtonTopVisible, setIsButtonTopVisible] = useState(false);
   const [isButtonDownVisible, setIsButtonDownVisible] = useState(false);
-  const [scrollPossible, setScrollPossible] = useState(false);
-  const [isBottom, setIsBottom] = useState(false);
+
+  const { isTop, isBottom, scrollPossible } = useScrollPosition();
 
   const scrollToPosition = (position) => {
     if (position === "top") {
@@ -26,37 +27,21 @@ const ScrollButtons = () => {
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollPossible(
-        document.documentElement.offsetHeight > window.innerHeight + 100
-      );
+    if (isTop && scrollPossible) {
+      setIsButtonTopVisible(false);
+      setIsButtonDownVisible(true);
+    }
 
-      setIsBottom(
-        window.innerHeight + document.documentElement.scrollTop >=
-          document.documentElement.offsetHeight - 100
-      );
+    if (window.scrollY > 100) {
+      setIsButtonTopVisible(true);
+      setIsButtonDownVisible(true);
+    }
 
-      if (document.documentElement.scrollTop >= 100) {
-        setIsButtonTopVisible(true);
-        setIsButtonDownVisible(true);
-        if (isBottom) {
-          setIsButtonDownVisible(false);
-        }
-      } else if (scrollPossible) {
-        setIsButtonTopVisible(false);
-        setIsButtonDownVisible(true);
-      } else {
-        setIsButtonTopVisible(false);
-        setIsButtonDownVisible(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrollPossible, isBottom]);
+    if (isBottom) {
+      setIsButtonTopVisible(true);
+      setIsButtonDownVisible(false);
+    }
+  }, [isTop, scrollPossible, isBottom]);
 
   return (
     <div>
