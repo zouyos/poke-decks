@@ -73,7 +73,7 @@ export default function Home() {
     const pokemons = await listWithScore();
     const pokemonsSelected = [];
     const minScore = 50;
-    const maxScore = 500;
+    const maxScore = 404;
     const targetMin = 5; // in %
     const targetMax = 100;
 
