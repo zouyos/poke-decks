@@ -46,9 +46,6 @@ const appendScore = (pokemons) => {
         "Insécateur",
         "Mackogneur",
         "Grolem",
-        "Artikodin",
-        "Électhor",
-        "Sulfura",
       ].includes(pokemon.name.fr) ||
       ["Pokémon Ombre", "Pokémon Psy"].includes(pokemon.category)
     )
