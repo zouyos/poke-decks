@@ -132,7 +132,7 @@ export default function Pokedex() {
           style={{ width: "27px", margin: "2px 9px 0 0" }}
           alt="Icône Cartes"
         />
-        Deck de départ : {getItem("numberOfPokemons")}
+        Deck de pokémons : {getItem("numberOfPokemons")}
       </span>
     </p>
   );
