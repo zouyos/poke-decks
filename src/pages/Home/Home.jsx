@@ -193,6 +193,11 @@ export default function Home() {
           setDisableReload(false);
           removeItem("startTime");
           clearInterval(timerInterval);
+          if (getItem("disableAdd")) {
+            pickRandomSelection(getItem("numberOfPokemons"));
+            setDisableAdd(false);
+            removeItem("disableAdd");
+          }
         } else {
           setRemainingTime(Math.ceil(remaining / 1000));
         }
@@ -239,6 +244,11 @@ export default function Home() {
       setTimeout(() => {
         setHideNotif(true);
       }, 5000);
+      if (!disableReload) {
+        handleReload();
+        setDisableAdd(false);
+        removeItem("disableAdd");
+      }
     } else {
       setVariant("danger");
       setHideNotif(false);

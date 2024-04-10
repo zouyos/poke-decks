@@ -6,7 +6,7 @@ import { changeScoreColor } from "../../config/config";
 export function PokeDetail({ pokemon, pokedexIcon, children }) {
   const pokemonTypes = pokemon.types.map((type, i) => {
     return (
-      <div className={style.typeContainer}>
+      <div className={style.typeContainer} key={type.name + i}>
         <img src={type.image} alt={type.name} className={style.type} />
         {type.name}
       </div>
