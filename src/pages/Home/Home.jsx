@@ -28,7 +28,6 @@ export default function Home() {
   const [numberOfPokemons, setNumberOfPokemons] = useState(3);
   const [modalShow, setModalShow] = useState(false);
   const [game, setGame] = useState(true);
-  const [image, setImage] = useState(false);
 
   const handleModalClose = () => setModalShow(false);
   const handleModalShow = () => setModalShow(true);
@@ -163,7 +162,6 @@ export default function Home() {
 
     if (storedSavedPokemons.length >= 151) {
       setGame(false);
-      setImage(true);
       setVariant("success");
       setHideNotif(false);
       setAlertHeading("Félicitations !");
@@ -205,18 +203,12 @@ export default function Home() {
   }, [timerRunning]);
 
   const handleReload = () => {
+    setDisableAdd(false);
+    removeItem("disableAdd");
     setHideNotif(true);
     if (totalScore >= 20000) {
-      if (getItem("disableAdd")) {
-        setDisableAdd(false);
-        removeItem("disableAdd");
-      }
       pickRandomSelection(numberOfPokemons);
     } else {
-      if (getItem("disableAdd")) {
-        setDisableAdd(false);
-        removeItem("disableAdd");
-      }
       pickRandomSelection(numberOfPokemons);
       setDisableReload(true);
       setTimerRunning(true);
@@ -329,11 +321,9 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            image && (
-              <div className="d-flex justify-content-center">
-                <img src={pikachu} alt="Pikachu" className={style.image} />
-              </div>
-            )
+            <div className="d-flex justify-content-center">
+              <img src={pikachu} alt="Pikachu" className={style.image} />
+            </div>
           )}
         </div>
 
@@ -374,11 +364,6 @@ export default function Home() {
             </p>
             <p className="text-danger fw-bold">
               Il y a 151 Pokémons à collectionner, attrapez-les tous !
-            </p>
-            <p style={{ fontSize: "14px", fontStyle: "italic" }}>
-              (Le jeu utilise les données de stockage de votre navigateur pour
-              fonctionner. Veillez à ne pas les supprimer pour une expérience
-              optimale)
             </p>
           </Modal.Body>
           <Modal.Footer>
