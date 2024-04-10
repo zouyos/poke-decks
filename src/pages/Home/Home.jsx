@@ -210,7 +210,6 @@ export default function Home() {
   const handleReload = () => {
     setDisableAdd(false);
     removeItem("disableAdd");
-    setHideNotif(true);
     if (totalScore >= 20000) {
       pickRandomSelection(numberOfPokemons);
     } else {
