@@ -319,7 +319,7 @@ export default function Home() {
         <div className="d-flex flex-column justify-content-center align-items-center">
           <p
             className="text-danger align-self-end mt-2 mb-0"
-            style={{ fontSize: "14px", marginRight: "10px" }}
+            style={{ fontSize: "12px", marginRight: "10px" }}
           >
             Score Total : <span className="fw-bold">{totalScore}</span>
           </p>
