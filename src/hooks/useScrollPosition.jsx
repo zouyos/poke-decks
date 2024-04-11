@@ -9,7 +9,7 @@ export const useScrollPosition = () => {
   useEffect(() => {
     const listener = window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener(listener);
+      window.removeEventListener("scroll", listener);
     };
   }, []);
 

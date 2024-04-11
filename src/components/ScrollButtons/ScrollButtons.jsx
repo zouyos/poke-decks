@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 import { ArrowUpCircle, ArrowDownCircle } from "react-bootstrap-icons";
 import style from "./style.module.css";

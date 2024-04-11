@@ -6,6 +6,7 @@ import { Modal } from "react-bootstrap";
 import cards from "../../assets/img/playing_cards.png";
 import PokedexTable from "../../components/PokedexTable/PokedexTable";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import ScrollButtons from "../../components/ScrollButtons/ScrollButtons";
 
 export default function Pokedex() {
   const [savedPokemons, setSavedPokemons] = useState([]);
@@ -242,6 +243,8 @@ export default function Pokedex() {
         <Modal.Body>{bonusP}</Modal.Body>
         {bonus < 4 && <Modal.Footer>{palierP}</Modal.Footer>}
       </Modal>
+
+      <ScrollButtons />
     </>
   );
 }

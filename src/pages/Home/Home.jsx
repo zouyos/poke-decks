@@ -13,6 +13,7 @@ import style from "./style.module.css";
 import pikachu from "../../assets/img/pikachu.png";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useRef } from "react";
+import ScrollButtons from "../../components/ScrollButtons/ScrollButtons";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
@@ -25,6 +26,7 @@ export default function Home() {
   const [hideBonusNotif, setHideBonusNotif] = useState(true);
   const [variant, setVariant] = useState("primary");
   const [message, setMessage] = useState("");
+  const [bonusMessage, setBonusMessage] = useState("");
   const [alertHeading, setAlertHeading] = useState("");
   const [totalScore, setTotalScore] = useState(0);
   const [numberOfPokemons, setNumberOfPokemons] = useState(3);
@@ -105,7 +107,7 @@ export default function Home() {
                 selectedPokemon.pokedex_id === pokemon.pokedex_id
             )
           ) {
-            // pokemon.score += 2500;
+            pokemon.score += 5000;
             pokemonsSelected.push(pokemon);
             break;
           }
@@ -181,9 +183,25 @@ export default function Home() {
       return;
     }
 
-    if (getItem("bonus") > 0) {
+    if (getItem("bonus") === 1 || getItem("bonus") === 3) {
       setHideBonusNotif(false);
-      // setMessage("Nouveau bonus activé");
+      setBonusMessage("Nouveau bonus activé : 10 secondes de temps en moins");
+      setTimeout(() => {
+        setHideBonusNotif(true);
+      }, 5000);
+    }
+    if (getItem("bonus") === 2) {
+      setHideBonusNotif(false);
+      setBonusMessage("Nouveau bonus activé : 1 pokémon supplémentaire");
+      setTimeout(() => {
+        setHideBonusNotif(true);
+      }, 5000);
+    }
+    if (getItem("bonus") === 4) {
+      setHideBonusNotif(false);
+      setBonusMessage(
+        "Nouveau bonus activé : 1 pokémon supplémentaire / aucun temps de relance"
+      );
       setTimeout(() => {
         setHideBonusNotif(true);
       }, 5000);
@@ -293,15 +311,15 @@ export default function Home() {
           <div className={`d-flex justify-content-center ${style.bonus}`}>
             <Notif
               variant="primary"
-              message="Vous avez activé un nouveau bonus"
+              message={bonusMessage}
               onClose={setHideBonusNotif}
             />
           </div>
         )}
         <div className="d-flex flex-column justify-content-center align-items-center">
           <p
-            className="text-danger align-self-end mt-2 mb-0 me-2"
-            style={{ fontSize: "12px" }}
+            className="text-danger align-self-end mt-2 mb-0"
+            style={{ fontSize: "14px", marginRight: "10px" }}
           >
             Score Total : <span className="fw-bold">{totalScore}</span>
           </p>
@@ -417,6 +435,8 @@ export default function Home() {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <ScrollButtons />
       </div>
     </>
   );
