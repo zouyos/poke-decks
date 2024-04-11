@@ -10,3 +10,13 @@
   width: 300px;
   height: auto;
 }
+
+.alert {
+  position: relative;
+  top: -35px;
+}
+
+.bonus {
+  position: relative;
+  top: 35px;
+}

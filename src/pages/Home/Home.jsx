@@ -12,6 +12,7 @@ import { Button, Modal } from "react-bootstrap";
 import style from "./style.module.css";
 import pikachu from "../../assets/img/pikachu.png";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useRef } from "react";
 
 export default function Home() {
   const [currentPokemons, setCurrentPokemons] = useState([]);
@@ -21,6 +22,7 @@ export default function Home() {
   const [timerRunning, setTimerRunning] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
   const [hideNotif, setHideNotif] = useState(true);
+  const [hideBonusNotif, setHideBonusNotif] = useState(true);
   const [variant, setVariant] = useState("primary");
   const [message, setMessage] = useState("");
   const [alertHeading, setAlertHeading] = useState("");
@@ -28,6 +30,7 @@ export default function Home() {
   const [numberOfPokemons, setNumberOfPokemons] = useState(3);
   const [modalShow, setModalShow] = useState(false);
   const [game, setGame] = useState(true);
+  const isFirstRender = useRef(true);
 
   const handleModalClose = () => setModalShow(false);
   const handleModalShow = () => setModalShow(true);
@@ -40,8 +43,9 @@ export default function Home() {
       "time",
       "numberOfPokemons",
       "startTime",
+      "bonus",
     ],
-    [[], [], false, 30000, 3, 0]
+    [[], [], false, 30000, 3, 0, 0]
   );
 
   async function fetchList() {
@@ -101,7 +105,7 @@ export default function Home() {
                 selectedPokemon.pokedex_id === pokemon.pokedex_id
             )
           ) {
-            // pokemon.score += 5000;
+            pokemon.score += 2500;
             pokemonsSelected.push(pokemon);
             break;
           }
@@ -139,7 +143,6 @@ export default function Home() {
       if (updatedTotalScore < 5000) {
         setItem("time", 30000);
         setItem("numberOfPokemons", 3);
-        setItem("bonus", 0);
       } else if (updatedTotalScore >= 5000 && updatedTotalScore < 10000) {
         setItem("time", 20000);
         setItem("numberOfPokemons", 3);
@@ -171,6 +174,21 @@ export default function Home() {
       }, 5000);
     }
   }, [currentPokemons, disableAdd, disableReload]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (getItem("bonus") > 0) {
+      setHideBonusNotif(false);
+      // setMessage("Nouveau bonus activé");
+      setTimeout(() => {
+        setHideBonusNotif(true);
+      }, 5000);
+    }
+  }, [getItem("bonus")]);
 
   useEffect(() => {
     let timerInterval;
@@ -261,6 +279,25 @@ export default function Home() {
   return (
     <>
       <div className={`${style.container} container-fluid`}>
+        {!hideNotif && (
+          <div className={`d-flex justify-content-center ${style.alert}`}>
+            <Notif
+              heading={alertHeading}
+              variant={variant}
+              message={message}
+              onClose={setHideNotif}
+            />
+          </div>
+        )}
+        {!hideBonusNotif && (
+          <div className={`d-flex justify-content-center ${style.bonus}`}>
+            <Notif
+              variant="primary"
+              message="Vous avez activé un nouveau bonus"
+              onClose={setHideBonusNotif}
+            />
+          </div>
+        )}
         <div className="d-flex flex-column justify-content-center align-items-center">
           <div className="my-3">
             <Title
@@ -335,17 +372,6 @@ export default function Home() {
             </div>
           )}
         </div>
-
-        {!hideNotif && (
-          <div className="d-flex justify-content-center">
-            <Notif
-              heading={alertHeading}
-              variant={variant}
-              message={message}
-              onClose={setHideNotif}
-            />
-          </div>
-        )}
 
         <Modal show={modalShow} onHide={handleModalClose}>
           <Modal.Header className="bg-danger">

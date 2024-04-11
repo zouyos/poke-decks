@@ -1,6 +1,5 @@
 .alert {
   position: fixed;
-  top: 50px;
   right: auto;
   left: auto;
   z-index: 9999;
