@@ -107,7 +107,7 @@ export default function Home() {
                 selectedPokemon.pokedex_id === pokemon.pokedex_id
             )
           ) {
-            pokemon.score += 5000;
+            // pokemon.score += 5000;
             pokemonsSelected.push(pokemon);
             break;
           }
