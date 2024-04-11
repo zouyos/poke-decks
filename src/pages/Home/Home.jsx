@@ -105,7 +105,7 @@ export default function Home() {
                 selectedPokemon.pokedex_id === pokemon.pokedex_id
             )
           ) {
-            pokemon.score += 2500;
+            // pokemon.score += 2500;
             pokemonsSelected.push(pokemon);
             break;
           }
@@ -299,7 +299,13 @@ export default function Home() {
           </div>
         )}
         <div className="d-flex flex-column justify-content-center align-items-center">
-          <div className="my-3">
+          <p
+            className="text-danger align-self-end mt-2 mb-0 me-2"
+            style={{ fontSize: "12px" }}
+          >
+            Score Total : <span className="fw-bold">{totalScore}</span>
+          </p>
+          <div className="mb-3">
             <Title
               image={logo}
               title="Poke'Decks"
