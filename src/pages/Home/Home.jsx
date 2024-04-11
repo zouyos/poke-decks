@@ -50,6 +50,9 @@ export default function Home() {
     [[], [], false, 30000, 3, 0, 0]
   );
 
+  const storedSavedPokemons = getItem("savedPokemons");
+  const storedBonus = getItem("bonus");
+
   async function fetchList() {
     try {
       const list = await PokemonAPI.fetchByGen(1);
@@ -131,8 +134,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const storedSavedPokemons = getItem("savedPokemons");
-
     if (storedSavedPokemons.length > 0) {
       let result = 0;
       for (const pokemon of storedSavedPokemons) {
@@ -183,21 +184,21 @@ export default function Home() {
       return;
     }
 
-    if (getItem("bonus") === 1 || getItem("bonus") === 3) {
+    if (storedBonus === 1 || storedBonus === 3) {
       setHideBonusNotif(false);
       setBonusMessage("Nouveau bonus activé : 10 secondes de temps en moins");
       setTimeout(() => {
         setHideBonusNotif(true);
       }, 5000);
     }
-    if (getItem("bonus") === 2) {
+    if (storedBonus === 2) {
       setHideBonusNotif(false);
       setBonusMessage("Nouveau bonus activé : 1 pokémon supplémentaire");
       setTimeout(() => {
         setHideBonusNotif(true);
       }, 5000);
     }
-    if (getItem("bonus") === 4) {
+    if (storedBonus === 4) {
       setHideBonusNotif(false);
       setBonusMessage(
         "Nouveau bonus activé : 1 pokémon supplémentaire / aucun temps de relance"
@@ -206,7 +207,7 @@ export default function Home() {
         setHideBonusNotif(true);
       }, 5000);
     }
-  }, [getItem("bonus")]);
+  }, [storedBonus]);
 
   useEffect(() => {
     let timerInterval;
@@ -259,8 +260,6 @@ export default function Home() {
   const handleAddClick = (cardData, cardsData) => {
     setCurrentPokemons(cardsData);
     setItem("currentPokemons", cardsData);
-
-    const storedSavedPokemons = getItem("savedPokemons");
 
     const existingId = storedSavedPokemons.some(
       (obj) => obj.pokedex_id === cardData.pokedex_id
@@ -318,8 +317,8 @@ export default function Home() {
         )}
         <div className="d-flex flex-column justify-content-center align-items-center">
           <p
-            className="text-danger align-self-end mt-2 mb-0"
-            style={{ fontSize: "12px", marginRight: "10px" }}
+            className="text-danger align-self-end mt-2 mb-0 me-2"
+            style={{ fontSize: "12px" }}
           >
             Score Total : <span className="fw-bold">{totalScore}</span>
           </p>
