@@ -34,12 +34,11 @@ const ScrollButtons = () => {
         setIsButtonTopVisible(true);
         setIsButtonDownVisible(false);
       }
-    } else if (isTop && scrollPossible) {
+    }
+
+    if (isTop && scrollPossible) {
       setIsButtonTopVisible(false);
       setIsButtonDownVisible(true);
-    } else {
-      setIsButtonTopVisible(false);
-      setIsButtonDownVisible(false);
     }
   }, [isTop, scrollPossible, isBottom]);
 
