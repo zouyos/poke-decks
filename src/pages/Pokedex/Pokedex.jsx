@@ -1,3 +1,4 @@
+import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import { StarFill, Clock } from "react-bootstrap-icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -181,6 +182,11 @@ export default function Pokedex() {
   return (
     <>
       <div className="container-fluid">
+        {!hideNotif && (
+          <div className={`d-flex justify-content-center ${style.alert}`}>
+            <Notif variant={variant} message={message} onClose={setHideNotif} />
+          </div>
+        )}
         <div className="d-flex justify-content-center"></div>
         <h1
           className="text-center text-danger text-wrap my-4"
@@ -229,12 +235,6 @@ export default function Pokedex() {
           />
         }
       </div>
-
-      {!hideNotif && (
-        <div className="d-flex justify-content-center">
-          <Notif variant={variant} message={message} onClose={setHideNotif} />
-        </div>
-      )}
 
       <Modal show={modalShow} onHide={handleModalClose}>
         <Modal.Header closeButton>
