@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 import { ArrowUpCircle, ArrowDownCircle } from "react-bootstrap-icons";
 import style from "./style.module.css";
@@ -7,6 +7,8 @@ import { useScrollPosition } from "../../hooks/useScrollPosition";
 const ScrollButtons = () => {
   const [isButtonTopVisible, setIsButtonTopVisible] = useState(false);
   const [isButtonDownVisible, setIsButtonDownVisible] = useState(false);
+
+  const isFirstRender = useRef(true);
 
   const { isTop, isBottom, scrollPossible } = useScrollPosition();
 
@@ -27,18 +29,24 @@ const ScrollButtons = () => {
   };
 
   useEffect(() => {
-    if (window.scrollY > 100) {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (!isTop) {
       setIsButtonTopVisible(true);
       setIsButtonDownVisible(true);
       if (isBottom) {
         setIsButtonTopVisible(true);
         setIsButtonDownVisible(false);
       }
-    }
-
-    if (isTop && scrollPossible) {
+    } else if (isTop && scrollPossible) {
       setIsButtonTopVisible(false);
       setIsButtonDownVisible(true);
+    } else {
+      setIsButtonTopVisible(false);
+      setIsButtonDownVisible(false);
     }
   }, [isTop, scrollPossible, isBottom]);
 
