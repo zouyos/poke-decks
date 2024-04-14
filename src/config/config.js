@@ -93,16 +93,16 @@ const appendScore = (pokemons) => {
 };
 
 const changeScoreColor = (pokemonName) => {
-  switch (true) {
-    case pokemonName === "Artikodin":
+  switch (pokemonName) {
+    case "Artikodin":
       return "#2980ef";
-    case pokemonName === "Sulfura":
+    case "Sulfura":
       return "#f9780e";
-    case pokemonName === "Électhor":
+    case "Électhor":
       return "#fac000";
-    case pokemonName === "Mew":
+    case "Mew":
       return "#da70d6";
-    case pokemonName === "Mewtwo":
+    case "Mewtwo":
       return "#9932cc";
     default:
       return "#dc3546";
