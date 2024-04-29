@@ -87,6 +87,18 @@ const PokedexTable = ({
     }
   }, [savedPokemons]);
 
+  const isPreNamePresent = (pokemon) =>
+    storedList?.some((item) => {
+      return pokemon.evolution?.pre?.some((pre) => pre.name === item.name.fr);
+    });
+
+  const isNextNamePresent = (pokemon) =>
+    storedList?.some((item) => {
+      return pokemon.evolution?.next?.some(
+        (next) => next.name === item.name.fr
+      );
+    });
+
   const warning = (
     <tr>
       <td colSpan={4}>
@@ -226,29 +238,22 @@ const PokedexTable = ({
             )}
             {activeTab === "#evolutions" && (
               <>
-                {pokemon.evolution &&
-                storedList?.some(
-                  (item) =>
-                    item.evolution?.pre?.name === pokemon.evolution.pre?.name ||
-                    item.evolution?.next?.name === pokemon.evolution.next?.name
-                ) ? (
+                {isPreNamePresent(pokemon) || isNextNamePresent(pokemon) ? (
                   <>
-                    {pokemon.evolution.pre &&
-                      storedList?.some(
-                        (item) =>
-                          item.evolution?.pre?.name ===
-                          pokemon.evolution.pre?.name
-                      ) && (
-                        <>
-                          <p className="fw-bold text-decoration-underline">
-                            Précédente(s) :
-                          </p>
-                          <div>
-                            {pokemon.evolution.pre.map((evo, i) => {
-                              const evoObj = storedList?.find(
+                    {pokemon.evolution.pre && isPreNamePresent(pokemon) && (
+                      <>
+                        <p className="fw-bold text-decoration-underline">
+                          Précédente(s) :
+                        </p>
+                        <div>
+                          {pokemon.evolution.pre.map((evo, i) => {
+                            const evoObj = storedList?.find(
+                              (item) => item.name.fr === evo.name
+                            );
+                            return (
+                              storedList?.some(
                                 (item) => item.name.fr === evo.name
-                              );
-                              return (
+                              ) && (
                                 <p
                                   key={i}
                                   className="d-flex align-items-center"
@@ -264,27 +269,26 @@ const PokedexTable = ({
                                     {evo.name}
                                   </span>
                                 </p>
-                              );
-                            })}
-                          </div>
-                        </>
-                      )}
-                    {pokemon.evolution.next &&
-                      storedList.some(
-                        (item) =>
-                          item.evolution?.next?.name ===
-                          pokemon.evolution.next?.name
-                      ) && (
-                        <>
-                          <p className="fw-bold text-decoration-underline">
-                            Suivante(s) :
-                          </p>
-                          <div>
-                            {pokemon.evolution.next.map((evo, i) => {
-                              const evoObj = storedList?.find(
+                              )
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
+                    {pokemon.evolution.next && isNextNamePresent(pokemon) && (
+                      <>
+                        <p className="fw-bold text-decoration-underline">
+                          Suivante(s) :
+                        </p>
+                        <div>
+                          {pokemon.evolution.next.map((evo, i) => {
+                            const evoObj = storedList?.find(
+                              (item) => item.name.fr === evo.name
+                            );
+                            return (
+                              storedList?.some(
                                 (item) => item.name.fr === evo.name
-                              );
-                              return (
+                              ) && (
                                 <p
                                   key={i}
                                   className="d-flex align-items-center"
@@ -300,11 +304,12 @@ const PokedexTable = ({
                                     {evo.name}
                                   </span>
                                 </p>
-                              );
-                            })}
-                          </div>
-                        </>
-                      )}
+                              )
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
                   </>
                 ) : pokemon.evolution ? (
                   <p className="fs-5 text-center">
