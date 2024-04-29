@@ -3,6 +3,9 @@ import Table from "react-bootstrap/Table";
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import { Modal, Nav } from "react-bootstrap";
+import { PokemonAPI } from "../../api/pokemon";
+import { appendScore } from "../../config/config";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const PokedexTable = ({
   pokemons,
@@ -14,7 +17,26 @@ const PokedexTable = ({
   const [modalShow, setModalShow] = useState({});
   const [activeTab, setActiveTab] = useState("#general");
 
-  const storedList = JSON.parse(localStorage.getItem("list"));
+  const { setItem, getItem } = useLocalStorage("list", []);
+
+  async function fetchList() {
+    try {
+      const list = await PokemonAPI.fetchByGen(1);
+      if (list.length > 0) {
+        return list;
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  async function listWithScore() {
+    let pokemons = await fetchList();
+    appendScore(pokemons);
+    setItem("list", pokemons);
+  }
+
+  const storedList = getItem("list");
 
   const handleModalShow = (pokedexId) => {
     setModalShow((prev) => ({
@@ -63,6 +85,10 @@ const PokedexTable = ({
       setNoPokemons(true);
     }
   }, [savedPokemons]);
+
+  useEffect(() => {
+    listWithScore();
+  }, []);
 
   const warning = (
     <tr>
