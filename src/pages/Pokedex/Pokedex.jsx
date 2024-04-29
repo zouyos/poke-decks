@@ -25,34 +25,14 @@ export default function Pokedex() {
   const handleModalShow = () => setModalShow(true);
 
   const { getItem, setItem } = useLocalStorage(
-    ["savedPokemons", "numberOfPokemons", "time", "bonus", "list"],
-    [[], 3, 30000, 0, {}]
+    ["savedPokemons", "numberOfPokemons", "time", "bonus"],
+    [[], 3, 30000, 0]
   );
 
   const storedSavedPokemons = getItem("savedPokemons");
   const bonus = getItem("bonus");
 
-  async function fetchList() {
-    try {
-      const list = await PokemonAPI.fetchByGen(1);
-      if (list.length > 0) {
-        return list;
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  }
-
-  async function listWithScore() {
-    let pokemons = await fetchList();
-
-    appendScore(pokemons);
-    setItem("list", pokemons);
-  }
-
   useEffect(() => {
-    listWithScore();
-
     if (storedSavedPokemons.length > 0) {
       storedSavedPokemons.sort((a, b) => a.pokedex_id - b.pokedex_id);
       setSavedPokemons(storedSavedPokemons);
