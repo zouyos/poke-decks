@@ -253,11 +253,13 @@ const PokedexTable = ({
                                   key={i}
                                   className="d-flex align-items-center"
                                 >
-                                  <img
-                                    src={evoObj.sprites.regular}
-                                    alt={evo.name}
-                                    className={style.thumb}
-                                  />
+                                  {evoObj && (
+                                    <img
+                                      src={evoObj.sprites.regular}
+                                      alt={evo.name}
+                                      className={style.thumb}
+                                    />
+                                  )}
                                   <span className="ms-3 fst-italic">
                                     {evo.name}
                                   </span>
@@ -287,11 +289,13 @@ const PokedexTable = ({
                                   key={i}
                                   className="d-flex align-items-center"
                                 >
-                                  <img
-                                    src={evoObj.sprites.regular}
-                                    alt={evo.name}
-                                    className={style.thumb}
-                                  />
+                                  {evoObj && (
+                                    <img
+                                      src={evoObj.sprites.regular}
+                                      alt={evo.name}
+                                      className={style.thumb}
+                                    />
+                                  )}
                                   <span className="ms-3 fst-italic">
                                     {evo.name}
                                   </span>
