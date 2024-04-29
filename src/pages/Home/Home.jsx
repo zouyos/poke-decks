@@ -66,14 +66,7 @@ export default function Home() {
 
   async function listWithScore() {
     let pokemons = await fetchList();
-
     appendScore(pokemons);
-    // console.log(pokemons.sort((a, b) => a.score - b.score));
-    // let score = 0;
-    // for (const pokemon of pokemons) {
-    //   score += pokemon.score;
-    // }
-    // console.log(score);
     return pokemons;
   }
 
@@ -85,32 +78,39 @@ export default function Home() {
     const targetMin = 5; // in %
     const targetMax = 100;
 
-    const totalRate = pokemons.reduce(
-      (acc, pokemon) =>
-        acc +
-        ((1 - (pokemon.score - minScore) / (maxScore - minScore)) *
-          (targetMax - targetMin) +
-          targetMin),
-      0
-    );
+    // Calculate the total score range
+    const scoreRange = maxScore - minScore;
 
+    // Calculate the base probability
+    const baseProbability = (targetMax - targetMin) / 100;
+
+    // Calculate the total base probability for all pokemons
+    const totalBaseProbability = pokemons.reduce((acc, pokemon) => {
+      const probability =
+        baseProbability * (1 - (pokemon.score - minScore) / scoreRange);
+      return acc + probability;
+    }, 0);
+
+    // Calculate the scaling factor to normalize probabilities
+    const scalingFactor = numberOfPokemons / totalBaseProbability;
+
+    // Select pokemons based on their probabilities
     while (pokemonsSelected.length < numberOfPokemons) {
-      let rand = Math.random() * totalRate;
-      let cumulativeRate = 0;
+      let rand = Math.random() * totalBaseProbability;
+      let cumulativeProbability = 0;
 
       for (const pokemon of pokemons) {
-        cumulativeRate +=
-          (1 - (pokemon.score - minScore) / (maxScore - minScore)) *
-            (targetMax - targetMin) +
-          targetMin;
-        if (rand <= cumulativeRate) {
+        const probability =
+          baseProbability * (1 - (pokemon.score - minScore) / scoreRange);
+        cumulativeProbability += probability * scalingFactor;
+
+        if (rand <= cumulativeProbability) {
           if (
             !pokemonsSelected.some(
               (selectedPokemon) =>
                 selectedPokemon.pokedex_id === pokemon.pokedex_id
             )
           ) {
-            // pokemon.score += 5000;
             pokemonsSelected.push(pokemon);
             break;
           }
@@ -120,7 +120,6 @@ export default function Home() {
 
     setCurrentPokemons(pokemonsSelected);
     setItem("currentPokemons", pokemonsSelected);
-    // setItem("savedPokemons", pokemons);
   }
 
   useEffect(() => {
@@ -230,15 +229,14 @@ export default function Home() {
           setDisableReload(false);
           removeItem("startTime");
           clearInterval(timerInterval);
-          if (getItem("disableAdd")) {
-            pickRandomSelection(getItem("numberOfPokemons"));
-            setDisableAdd(false);
-            removeItem("disableAdd");
-          }
         } else {
           setRemainingTime(Math.ceil(remaining / 1000));
         }
       }, 1000);
+    }
+
+    if (getItem("disableAdd") && storedRemainingTime === 0) {
+      handleReload();
     }
 
     return () => clearInterval(timerInterval);
@@ -280,8 +278,6 @@ export default function Home() {
       }, 5000);
       if (!disableReload) {
         handleReload();
-        setDisableAdd(false);
-        removeItem("disableAdd");
       }
     } else {
       setVariant("danger");

@@ -3,6 +3,11 @@
   height: auto;
 }
 
+.thumb {
+  width: 60px;
+  height: auto;
+}
+
 .type {
   width: 35px;
   height: auto;
