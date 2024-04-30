@@ -134,7 +134,7 @@ const PokedexTable = ({
                 <Nav.Link href="#talents">Talents</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="#evolutions">Évolution(s)</Nav.Link>
+                <Nav.Link href="#evolutions">Évolutions</Nav.Link>
               </Nav.Item>
             </Nav>
           </Modal.Header>
@@ -151,7 +151,7 @@ const PokedexTable = ({
             </h2>
             {activeTab === "#general" && (
               <>
-                <div className="fs-5">
+                <div>
                   <p>
                     <span className="fw-bold text-decoration-underline me-2">
                       Catégorie :
@@ -195,7 +195,7 @@ const PokedexTable = ({
             )}
             {activeTab === "#talents" && (
               <>
-                <div className="fs-5">
+                <div>
                   <p className="fw-bold text-decoration-underline">Stats :</p>
                   <div className="d-flex justify-content-around my-2">
                     <div>
@@ -243,7 +243,7 @@ const PokedexTable = ({
                     {pokemon.evolution.pre && isPreNamePresent(pokemon) && (
                       <>
                         <p className="fw-bold text-decoration-underline">
-                          Précédente(s) :
+                          Précédentes :
                         </p>
                         <div>
                           {pokemon.evolution.pre.map((evo, i) => {
@@ -278,7 +278,7 @@ const PokedexTable = ({
                     {pokemon.evolution.next && isNextNamePresent(pokemon) && (
                       <>
                         <p className="fw-bold text-decoration-underline">
-                          Suivante(s) :
+                          Suivantes :
                         </p>
                         <div>
                           {pokemon.evolution.next.map((evo, i) => {
@@ -312,12 +312,12 @@ const PokedexTable = ({
                     )}
                   </>
                 ) : pokemon.evolution ? (
-                  <p className="fs-5 text-center">
+                  <p className="text-center">
                     Ce Pokemon ne possède pas d'évolutions présente dans la
-                    première génération de Pokémons
+                    première génération de Pokémon
                   </p>
                 ) : (
-                  <p className="fs-5 text-center">
+                  <p className="text-center">
                     Ce Pokemon ne possède pas d'évolutions
                   </p>
                 )}
