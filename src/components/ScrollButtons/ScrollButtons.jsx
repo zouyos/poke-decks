@@ -4,7 +4,7 @@ import { ArrowUpCircle, ArrowDownCircle } from "react-bootstrap-icons";
 import style from "./style.module.css";
 import { useScrollPosition } from "../../hooks/useScrollPosition";
 
-const ScrollButtons = () => {
+const ScrollButtons = ({ hideScrollButtons }) => {
   const [isButtonTopVisible, setIsButtonTopVisible] = useState(false);
   const [isButtonDownVisible, setIsButtonDownVisible] = useState(false);
 
@@ -57,14 +57,18 @@ const ScrollButtons = () => {
         size={50}
         className={style.buttonTop}
         onClick={() => scrollToPosition("top")}
-        style={{ display: isButtonTopVisible ? "block" : "none" }}
+        style={{
+          display: isButtonTopVisible && !hideScrollButtons ? "block" : "none",
+        }}
       />
       <ArrowDownCircle
         color={"rgba(146, 148, 151, 0.5)"}
         size={50}
         className={style.buttonDown}
         onClick={() => scrollToPosition("bottom")}
-        style={{ display: isButtonDownVisible ? "block" : "none" }}
+        style={{
+          display: isButtonDownVisible && !hideScrollButtons ? "block" : "none",
+        }}
       />
     </div>
   );

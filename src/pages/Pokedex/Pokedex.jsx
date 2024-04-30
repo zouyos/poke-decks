@@ -8,8 +8,6 @@ import cards from "../../assets/img/playing_cards.png";
 import PokedexTable from "../../components/PokedexTable/PokedexTable";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import ScrollButtons from "../../components/ScrollButtons/ScrollButtons";
-import { PokemonAPI } from "../../api/pokemon";
-import { appendScore } from "../../config/config";
 
 export default function Pokedex() {
   const [savedPokemons, setSavedPokemons] = useState([]);
@@ -20,6 +18,7 @@ export default function Pokedex() {
   const [message, setMessage] = useState("");
   const [totalScore, setTotalScore] = useState(0);
   const [modalShow, setModalShow] = useState(false);
+  const [hideScrollButtons, setHideScrollButtons] = useState(false);
 
   const handleModalClose = () => setModalShow(false);
   const handleModalShow = () => setModalShow(true);
@@ -228,14 +227,15 @@ export default function Pokedex() {
             />
           </div>
         </div>
-        {
+        <div className="d-flex justify-content-center">
           <PokedexTable
             pokemons={filteredList}
             handleDeleteClick={handleDeleteClick}
             handleDeleteAllClick={handleDeleteAllClick}
             savedPokemons={savedPokemons}
+            setHideScrollButtons={setHideScrollButtons}
           />
-        }
+        </div>
       </div>
 
       <Modal show={modalShow} onHide={handleModalClose}>
@@ -246,7 +246,7 @@ export default function Pokedex() {
         {bonus < 4 && <Modal.Footer>{palierP}</Modal.Footer>}
       </Modal>
 
-      <ScrollButtons />
+      <ScrollButtons hideScrollButtons={hideScrollButtons} />
     </>
   );
 }

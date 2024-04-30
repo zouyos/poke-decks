@@ -11,6 +11,7 @@ const PokedexTable = ({
   handleDeleteClick,
   savedPokemons,
   handleDeleteAllClick,
+  setHideScrollButtons,
 }) => {
   const [noPokemons, setNoPokemons] = useState(true);
   const [modalShow, setModalShow] = useState({});
@@ -22,6 +23,7 @@ const PokedexTable = ({
       ...prev,
       [pokedexId]: true,
     }));
+    setHideScrollButtons(true);
   };
   const handleModalClose = (pokedexId) => {
     setModalShow((prev) => ({
@@ -29,6 +31,7 @@ const PokedexTable = ({
       [pokedexId]: false,
     }));
     setActiveTab("#general");
+    setHideScrollButtons(false);
   };
 
   const handleSelect = (selectedTab) => {
@@ -161,7 +164,7 @@ const PokedexTable = ({
                   <hr />
                   <p>
                     <span className="fw-bold text-decoration-underline me-1">
-                      Types :
+                      Type(s) :
                     </span>
                     {pokemon.types.map((type, i) => (
                       <span key={type.name + i} className="mx-2">
@@ -243,7 +246,7 @@ const PokedexTable = ({
                     {pokemon.evolution.pre && isPreNamePresent(pokemon) && (
                       <>
                         <p className="fw-bold text-decoration-underline">
-                          Précédentes :
+                          Précédente(s) :
                         </p>
                         <div>
                           {pokemon.evolution.pre.map((evo, i) => {
@@ -278,7 +281,7 @@ const PokedexTable = ({
                     {pokemon.evolution.next && isNextNamePresent(pokemon) && (
                       <>
                         <p className="fw-bold text-decoration-underline">
-                          Suivantes :
+                          Suivante(s) :
                         </p>
                         <div>
                           {pokemon.evolution.next.map((evo, i) => {
