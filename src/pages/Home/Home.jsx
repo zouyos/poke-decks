@@ -431,7 +431,7 @@ export default function Home() {
           </Modal.Footer>
         </Modal>
 
-        <ScrollButtons />
+        <ScrollButtons hideScrollButtons={modalShow} />
       </div>
     </>
   );

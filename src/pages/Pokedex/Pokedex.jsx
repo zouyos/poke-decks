@@ -246,7 +246,7 @@ export default function Pokedex() {
         {bonus < 4 && <Modal.Footer>{palierP}</Modal.Footer>}
       </Modal>
 
-      <ScrollButtons hideScrollButtons={hideScrollButtons} />
+      <ScrollButtons hideScrollButtons={hideScrollButtons || modalShow} />
     </>
   );
 }

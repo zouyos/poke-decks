@@ -54,10 +54,13 @@ const PokedexTable = ({
     const baseProbability =
       targetMin + (1 - (score - minScore) / scoreRange) * probabilityRange;
 
-    // Round the probability to two decimal places
-    const probabilityPercentage = Math.round(baseProbability * 100) / 100;
+    const probabilityPercentage = (baseProbability / 151) * 3;
 
-    return probabilityPercentage;
+    // Round the probability to two decimal places
+    const roundedProbabilityPercentage =
+      Math.round(probabilityPercentage * 10) / 10;
+
+    return roundedProbabilityPercentage;
   }
 
   async function fetchList() {
