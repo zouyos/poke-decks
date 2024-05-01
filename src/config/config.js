@@ -76,16 +76,13 @@ const appendScore = (pokemons) => {
 
     if (
       pokemon.category === "Pokémon Terrifiant" ||
-      [
-        "Pikachu",
-        "Raichu",
-        "Miaouss",
-        "Florizarre",
-        "Tortank",
-        "Dracaufeu",
-      ].includes(pokemon.name.fr)
+      ["Miaouss", "Florizarre", "Tortank", "Dracaufeu"].includes(
+        pokemon.name.fr
+      )
     )
       score += 200;
+
+    if (pokemon.name.fr === "Pikachu") score += 329;
 
     if (pokemon.name.fr === "Mew") score += 304;
 
