@@ -75,7 +75,7 @@ export default function Home() {
     const pokemonsSelected = [];
     const minScore = 50;
     const maxScore = 404;
-    const targetMin = 7.5; // in %
+    const targetMin = 10; // in %
     const targetMax = 100;
 
     const scoreRange = maxScore - minScore;
