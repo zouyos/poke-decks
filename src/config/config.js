@@ -95,7 +95,7 @@ const appendScore = (pokemons) => {
       }
     }
 
-    if (["Pyroli", "Aquali", "Voltali"].includes(pokemon.name.fr)) {
+    if (["Pyroli", "Aquali", "Voltali", "Évoli"].includes(pokemon.name.fr)) {
       let eleEvos = ["Pyroli", "Aquali", "Voltali"];
       eleEvos = eleEvos.filter(
         (pokemonName) => pokemonName !== pokemon.name.fr
@@ -115,7 +115,11 @@ const appendScore = (pokemons) => {
           regularSprite: regularSprite,
         };
       });
-      pokemon.evolution.ele = eleEvos;
+
+      if (["Pyroli", "Aquali", "Voltali"].includes(pokemon.name.fr))
+        pokemon.evolution.ele = eleEvos;
+
+      if (pokemon.name.fr === "Évoli") pokemon.evolution.next = eleEvos;
     }
   }
 };

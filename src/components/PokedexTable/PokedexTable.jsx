@@ -287,32 +287,44 @@ const PokedexTable = ({
                             const evoObj = storedList?.find(
                               (item) => item.name.fr === evo.name
                             );
+                            const conditionColor = () => {
+                              if (evo.name === "Pyroli") return "text-danger";
+                              if (evo.name === "Aquali") return "text-primary";
+                              if (evo.name === "Voltali") return "text-warning";
+                            };
                             return (
                               storedList?.some(
                                 (item) => item.name.fr === evo.name
                               ) && (
-                                <p
-                                  key={i}
-                                  className="d-flex align-items-center"
-                                >
-                                  {evoObj && (
-                                    <img
-                                      src={evoObj.sprites.regular}
-                                      alt={evo.name}
-                                      className={style.thumb}
-                                    />
+                                <div key={i}>
+                                  <p className="d-flex align-items-center">
+                                    {evoObj && (
+                                      <img
+                                        src={evoObj.sprites.regular}
+                                        alt={evo.name}
+                                        className={style.thumb}
+                                      />
+                                    )}
+                                    <span className="ms-3 fst-italic">
+                                      {evo.name}
+                                    </span>
+                                  </p>
+                                  {pokemon.name.fr === "Évoli" && (
+                                    <p className="fst-italic">
+                                      Condition:{" "}
+                                      <span className={conditionColor()}>
+                                        {evo.condition}
+                                      </span>
+                                    </p>
                                   )}
-                                  <span className="ms-3 fst-italic">
-                                    {evo.name}
-                                  </span>
-                                </p>
+                                </div>
                               )
                             );
                           })}
                         </div>
                       </>
                     )}
-                    {["Aquali", "Pyroli", "Voltali", "Évoli"].includes(
+                    {["Aquali", "Pyroli", "Voltali"].includes(
                       pokemon.name.fr
                     ) && (
                       <>

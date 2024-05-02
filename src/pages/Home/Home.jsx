@@ -113,6 +113,8 @@ export default function Home() {
       }
     }
 
+    pokemonsSelected.push(pokemons.find((pok) => pok.name.fr === "Évoli"));
+
     setCurrentPokemons(pokemonsSelected);
     setItem("currentPokemons", pokemonsSelected);
   }
