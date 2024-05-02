@@ -44,6 +44,7 @@ const appendScore = (pokemons) => {
         "Bulbizarre",
         "Salamèche",
         "Carapuce",
+        "Raichu",
         "Feunard",
         "Akwakwak",
         "Galopa",
@@ -87,10 +88,34 @@ const appendScore = (pokemons) => {
     if (pokemon.name.fr === "Mew") score += 304;
 
     pokemon.score = score;
+
     for (const type of pokemon.types) {
       if (type.name === "Électrik") {
         type.name = "Électrique";
       }
+    }
+
+    if (["Pyroli", "Aquali", "Voltali"].includes(pokemon.name.fr)) {
+      let eleEvos = ["Pyroli", "Aquali", "Voltali"];
+      eleEvos = eleEvos.filter(
+        (pokemonName) => pokemonName !== pokemon.name.fr
+      );
+      eleEvos = eleEvos.map((name) => {
+        const pokedexId = pokemons.find(
+          (item) => item.name.fr === name
+        ).pokedex_id;
+        const condition = pokemons.find((item) => item.name.fr === name)
+          .evolution.pre[0].condition;
+        const regularSprite = pokemons.find((item) => item.name.fr === name)
+          .sprites.regular;
+        return {
+          name: name,
+          pokedex_id: pokedexId,
+          condition: condition,
+          regularSprite: regularSprite,
+        };
+      });
+      pokemon.evolution.ele = eleEvos;
     }
   }
 };

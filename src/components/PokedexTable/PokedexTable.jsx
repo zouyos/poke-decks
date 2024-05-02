@@ -41,22 +41,18 @@ const PokedexTable = ({
   function getProbabilityPercentage(score) {
     const minScore = 50;
     const maxScore = 404;
-    const targetMin = 5; // in %
+    const targetMin = 7.5; // in %
     const targetMax = 100;
 
-    // Calculate the range of scores
     const scoreRange = maxScore - minScore;
 
-    // Calculate the base probability range
     const probabilityRange = targetMax - targetMin;
 
-    // Calculate the base probability for the given score
-    const baseProbability =
+    const weightingFactor =
       targetMin + (1 - (score - minScore) / scoreRange) * probabilityRange;
 
-    const probabilityPercentage = (baseProbability / 151) * 4;
+    const probabilityPercentage = (weightingFactor / 151) * 4;
 
-    // Round the probability to two decimal places
     const roundedProbabilityPercentage =
       Math.round(probabilityPercentage * 10) / 10;
 
@@ -316,6 +312,44 @@ const PokedexTable = ({
                         </div>
                       </>
                     )}
+                    {["Aquali", "Pyroli", "Voltali", "Évoli"].includes(
+                      pokemon.name.fr
+                    ) && (
+                      <>
+                        <p className="fw-bold text-decoration-underline">
+                          Élémentaires :
+                        </p>
+                        <div>
+                          {pokemon.evolution.ele.map((evo, i) => {
+                            const conditionColor = () => {
+                              if (evo.name === "Pyroli") return "text-danger";
+                              if (evo.name === "Aquali") return "text-primary";
+                              if (evo.name === "Voltali") return "text-warning";
+                            };
+                            return (
+                              <div key={i}>
+                                <p className="d-flex align-items-center">
+                                  <img
+                                    src={evo.regularSprite}
+                                    alt={evo.name}
+                                    className={style.thumb}
+                                  />
+                                  <span className="ms-3 fst-italic">
+                                    {evo.name}
+                                  </span>
+                                </p>
+                                <p className="fst-italic">
+                                  Condition:{" "}
+                                  <span className={conditionColor()}>
+                                    {evo.condition}
+                                  </span>
+                                </p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
                   </>
                 ) : pokemon.evolution ? (
                   <p className="text-center">
@@ -342,6 +376,7 @@ const PokedexTable = ({
         <tr
           onClick={() => handleModalShow(pokemon.pokedex_id)}
           style={{ cursor: "pointer" }}
+          key={i}
         >
           <td className="text-center fs-3 fw-bold align-middle">
             #{pokemon.pokedex_id}

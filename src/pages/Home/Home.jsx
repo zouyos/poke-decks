@@ -75,26 +75,21 @@ export default function Home() {
     const pokemonsSelected = [];
     const minScore = 50;
     const maxScore = 404;
-    const targetMin = 5; // in %
+    const targetMin = 7.5; // in %
     const targetMax = 100;
 
-    // Calculate the total score range
     const scoreRange = maxScore - minScore;
 
-    // Calculate the base probability
     const baseProbability = (targetMax - targetMin) / 100;
 
-    // Calculate the total base probability for all pokemons
     const totalBaseProbability = pokemons.reduce((acc, pokemon) => {
       const probability =
         baseProbability * (1 - (pokemon.score - minScore) / scoreRange);
       return acc + probability;
     }, 0);
 
-    // Calculate the scaling factor to normalize probabilities
     const scalingFactor = numberOfPokemons / totalBaseProbability;
 
-    // Select pokemons based on their probabilities
     while (pokemonsSelected.length < numberOfPokemons) {
       let rand = Math.random() * totalBaseProbability;
       let cumulativeProbability = 0;
