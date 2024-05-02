@@ -221,7 +221,7 @@ export default function Pokedex() {
         <div className="row justify-content-center mt-4 mb-5">
           <div className="col-sm-12 col-md-4">
             <SearchBar
-              placeholder="Rechercher un Pokémon ou un Type..."
+              placeholder="Rechercher un Pokémon ou un Type"
               setSearchText={setSearchText}
               disable={disableSearch}
               searchText={searchText}
