@@ -41,7 +41,7 @@ const PokedexTable = ({
   function getProbabilityPercentage(score) {
     const minScore = 50;
     const maxScore = 404;
-    const targetMin = 25; // in %
+    const targetMin = 30; // in %
     const targetMax = 100;
 
     const scoreRange = maxScore - minScore;
