@@ -75,31 +75,28 @@ export default function Home() {
     const pokemonsSelected = [];
     const minScore = 50;
     const maxScore = 404;
-    const targetMin = 30; // in %
+    const targetMin = 7.5; // in %
     const targetMax = 100;
 
-    const scoreRange = maxScore - minScore;
-
-    const baseProbability = (targetMax - targetMin) / 100;
-
-    const totalBaseProbability = pokemons.reduce((acc, pokemon) => {
-      const probability =
-        baseProbability * (1 - (pokemon.score - minScore) / scoreRange);
-      return acc + probability;
-    }, 0);
-
-    const scalingFactor = numberOfPokemons / totalBaseProbability;
+    const totalRate = pokemons.reduce(
+      (acc, pokemon) =>
+        acc +
+        ((1 - (pokemon.score - minScore) / (maxScore - minScore)) *
+          (targetMax - targetMin) +
+          targetMin),
+      0
+    );
 
     while (pokemonsSelected.length < numberOfPokemons) {
-      let rand = Math.random() * totalBaseProbability;
-      let cumulativeProbability = 0;
+      let rand = Math.random() * totalRate;
+      let cumulativeRate = 0;
 
       for (const pokemon of pokemons) {
-        const probability =
-          baseProbability * (1 - (pokemon.score - minScore) / scoreRange);
-        cumulativeProbability += probability * scalingFactor;
-
-        if (rand <= cumulativeProbability) {
+        cumulativeRate +=
+          (1 - (pokemon.score - minScore) / (maxScore - minScore)) *
+            (targetMax - targetMin) +
+          targetMin;
+        if (rand <= cumulativeRate) {
           if (
             !pokemonsSelected.some(
               (selectedPokemon) =>
