@@ -62,7 +62,7 @@ const PokedexTable = ({
     }
 
     // Convert the weight to a probability percentage
-    const probabilityPercentage = (weight / totalWeightSum) * 100;
+    const probabilityPercentage = (weight / totalWeightSum) * 3 * 100;
 
     // Round the probability percentage to one decimal place
     const roundedProbabilityPercentage =
