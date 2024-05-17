@@ -72,46 +72,48 @@ export default function Home() {
 
   async function pickRandomSelection(numberOfPokemons) {
     const pokemons = await listWithScore();
-    const pokemonsSelected = [];
+    const totalPokemons = pokemons.length;
+
+    // Calculate weights based on Pokémon scores
     const minScore = 50;
     const maxScore = 404;
-    const targetMin = 7.5; // in %
-    const targetMax = 100;
+    const minWeight = 1 / totalPokemons; // This is the base probability (100% of 1/151)
+    const maxWeight = minWeight * 0.1; // 10% of the base probability
 
-    const totalRate = pokemons.reduce(
-      (acc, pokemon) =>
-        acc +
-        ((1 - (pokemon.score - minScore) / (maxScore - minScore)) *
-          (targetMax - targetMin) +
-          targetMin),
-      0
-    );
+    const weights = pokemons.map((pokemon) => {
+      const score = pokemon.score; // Assuming each pokemon has a score property
+      // Normalize score to weight
+      const weight =
+        minWeight -
+        ((score - minScore) / (maxScore - minScore)) * (minWeight - maxWeight);
+      return weight;
+    });
 
-    while (pokemonsSelected.length < numberOfPokemons) {
-      let rand = Math.random() * totalRate;
-      let cumulativeRate = 0;
-
-      for (const pokemon of pokemons) {
-        cumulativeRate +=
-          (1 - (pokemon.score - minScore) / (maxScore - minScore)) *
-            (targetMax - targetMin) +
-          targetMin;
-        if (rand <= cumulativeRate) {
-          if (
-            !pokemonsSelected.some(
-              (selectedPokemon) =>
-                selectedPokemon.pokedex_id === pokemon.pokedex_id
-            )
-          ) {
-            pokemonsSelected.push(pokemon);
-            break;
-          }
-        }
-      }
+    // Create cumulative distribution array
+    const cumulativeWeights = [];
+    let cumulativeSum = 0;
+    for (const weight of weights) {
+      cumulativeSum += weight;
+      cumulativeWeights.push(cumulativeSum);
     }
 
-    setCurrentPokemons(pokemonsSelected);
-    setItem("currentPokemons", pokemonsSelected);
+    // Function to select a Pokémon based on the cumulative distribution
+    const selectPokemon = () => {
+      const randomValue = Math.random() * cumulativeSum;
+      return pokemons[
+        cumulativeWeights.findIndex((cumWeight) => cumWeight > randomValue)
+      ];
+    };
+
+    const pokemonsSelected = new Set();
+
+    while (pokemonsSelected.size < numberOfPokemons) {
+      const selectedPokemon = selectPokemon();
+      pokemonsSelected.add(selectedPokemon);
+    }
+
+    setCurrentPokemons(Array.from(pokemonsSelected));
+    setItem("currentPokemons", Array.from(pokemonsSelected));
   }
 
   useEffect(() => {

@@ -41,20 +41,32 @@ const PokedexTable = ({
   function getProbabilityPercentage(score) {
     const minScore = 50;
     const maxScore = 404;
-    const targetMin = 7.5; // in %
-    const targetMax = 100;
+    const totalPokemons = 151;
+    const minWeight = 1 / totalPokemons; // Base probability for the lowest score
+    const maxWeight = minWeight * 0.1; // 10% of the base probability
 
-    const scoreRange = maxScore - minScore;
+    // Calculate the weight for the given score
+    const weight =
+      minWeight -
+      ((score - minScore) / (maxScore - minScore)) * (minWeight - maxWeight);
 
-    const probabilityRange = targetMax - targetMin;
+    // Calculate the total weight sum for normalization
+    let totalWeightSum = 0;
+    for (let i = 0; i < totalPokemons; i++) {
+      const normalizedScore =
+        minScore + ((maxScore - minScore) * i) / (totalPokemons - 1);
+      totalWeightSum +=
+        minWeight -
+        ((normalizedScore - minScore) / (maxScore - minScore)) *
+          (minWeight - maxWeight);
+    }
 
-    const weightingFactor =
-      targetMin + (1 - (score - minScore) / scoreRange) * probabilityRange;
+    // Convert the weight to a probability percentage
+    const probabilityPercentage = (weight / totalWeightSum) * 100;
 
-    const probabilityPercentage = (weightingFactor / 151) * 4;
-
+    // Round the probability percentage to one decimal place
     const roundedProbabilityPercentage =
-      Math.round(probabilityPercentage * 10) / 10;
+      Math.round(probabilityPercentage * 100) / 100;
 
     return roundedProbabilityPercentage;
   }
