@@ -43,7 +43,7 @@ const PokedexTable = ({
     const maxScore = 404;
     const totalPokemons = 151;
     const minWeight = 1 / totalPokemons; // Base probability for the lowest score
-    const maxWeight = minWeight * 0.1; // 10% of the base probability
+    const maxWeight = minWeight * 0.05; // 7.5% of the base probability
 
     // Calculate the weight for the given score
     const weight =

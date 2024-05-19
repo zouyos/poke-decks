@@ -78,7 +78,7 @@ export default function Home() {
     const minScore = 50;
     const maxScore = 404;
     const minWeight = 1 / totalPokemons; // This is the base probability (100% of 1/151)
-    const maxWeight = minWeight * 0.1; // 10% of the base probability
+    const maxWeight = minWeight * 0.05; // 7.5% of the base probability
 
     const weights = pokemons.map((pokemon) => {
       const score = pokemon.score; // Assuming each pokemon has a score property
