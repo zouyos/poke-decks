@@ -405,8 +405,8 @@ export default function Home() {
               les Pokémons les plus rares !
             </p>
             <p>
-              Vous obtiendrez un bonus tous les 5000 points (vous pouvez
-              consulter vos bonus dans le Pokédex)
+              Vous obtiendrez un bonus (moins de temps ou un pokémon
+              supplémentaire) tous les 5000 points
             </p>
             <p className="text-danger fw-bold">
               Il y a 151 Pokémons à collectionner, attrapez-les tous !
