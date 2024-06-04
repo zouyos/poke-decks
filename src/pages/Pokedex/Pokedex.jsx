@@ -119,21 +119,21 @@ export default function Pokedex() {
   }
 
   const bonusClock = (
-    <p className="mb-0">
-      <span className="d-flex align-items-center">
-        <Clock size={20} color="#dc3546" style={{ margin: "0 13px 0 3px" }} />
+    <p className='mb-0'>
+      <span className='d-flex align-items-center'>
+        <Clock size={20} color='#dc3546' style={{ margin: "0 13px 0 3px" }} />
         Temps de relance : {getItem("time") / 1000} secondes
       </span>
     </p>
   );
 
   const bonusDeck = (
-    <p className="mb-0">
-      <span className="d-flex align-items-center">
+    <p className='mb-0'>
+      <span className='d-flex align-items-center'>
         <img
           src={cards}
           style={{ width: "27px", margin: "2px 9px 0 0" }}
-          alt="Icône Cartes"
+          alt='Icône Cartes'
         />
         Deck de pokémons : {getItem("numberOfPokemons")}
       </span>
@@ -143,13 +143,13 @@ export default function Pokedex() {
   const bonusP = (
     <div>
       {bonus === 0 ? (
-        <p className="mb-0">Vous n'avez pas de bonus pour le moment</p>
+        <p className='mb-0'>Vous n'avez pas de bonus pour le moment</p>
       ) : bonus === 1 ? (
         bonusClock
       ) : (
         <>
-          <div className="mt-1 mb-3">{bonusClock}</div>
-          <div className="mt-3 mb-1">{bonusDeck}</div>
+          <div className='mt-1 mb-3'>{bonusClock}</div>
+          <div className='mt-3 mb-1'>{bonusDeck}</div>
         </>
       )}
     </div>
@@ -176,31 +176,31 @@ export default function Pokedex() {
 
   const palierP = (
     <p>
-      Prochain palier : <span className="text-danger">{palier}</span>
+      Prochain palier : <span className='text-danger'>{palier}</span>
     </p>
   );
 
   return (
     <>
-      <div className="container-fluid">
+      <div className='container-fluid'>
         {!hideNotif && (
           <div className={`d-flex justify-content-center ${style.alert}`}>
             <Notif variant={variant} message={message} onClose={setHideNotif} />
           </div>
         )}
-        <div className="d-flex justify-content-center"></div>
+        <div className='d-flex justify-content-center'></div>
         <h1
-          className="text-center text-danger text-wrap my-4"
+          className='text-center text-danger text-wrap my-4'
           style={{ fontSize: "50px" }}
         >
           Pokédex
         </h1>
-        <div className="d-flex justify-content-between align-items-center mx-1">
-          <p className="text-danger mb-0 text-wrap">
-            Score Total : <span className="fw-bold">{totalScore}</span>
+        <div className='d-flex justify-content-between align-items-center mx-1'>
+          <p className='text-danger mb-0 text-wrap'>
+            Score Total : <span className='fw-bold'>{totalScore}</span>
           </p>
           <p
-            className="text-danger border border-danger p-2 rounded mb-0"
+            className='text-danger border border-danger p-2 rounded mb-0'
             style={{
               maxWidth: "fit-content",
               margin: "0 4px 0 auto",
@@ -209,26 +209,26 @@ export default function Pokedex() {
             }}
             onClick={handleModalShow}
           >
-            <span className="d-flex align-items-center">
-              <StarFill size={15} color="#dc3546" className="me-1 mb-0" /> Bonus
+            <span className='d-flex align-items-center'>
+              <StarFill size={15} color='#dc3546' className='me-1 mb-0' /> Bonus
             </span>
           </p>
         </div>
-        <p className="mx-1 mb-0 text-wrap">
+        <p className='mx-1 mb-0 text-wrap'>
           Nombre de Pokémons :{" "}
-          <span className="fw-bold">{storedSavedPokemons.length}</span>
+          <span className='fw-bold'>{storedSavedPokemons.length}</span>
         </p>
-        <div className="row justify-content-center mt-4 mb-5">
-          <div className="col-sm-12 col-md-4">
+        <div className='row justify-content-center mt-4 mb-5'>
+          <div className='col-sm-12 col-md-4'>
             <SearchBar
-              placeholder="Rechercher un Pokémon ou un Type"
+              placeholder='Rechercher un Pokémon ou un Type'
               setSearchText={setSearchText}
               disable={disableSearch}
               searchText={searchText}
             />
           </div>
         </div>
-        <div className="d-flex justify-content-center">
+        <div className='d-flex justify-content-center'>
           <PokedexTable
             pokemons={filteredList}
             handleDeleteClick={handleDeleteClick}
@@ -241,7 +241,7 @@ export default function Pokedex() {
 
       <Modal show={modalShow} onHide={handleModalClose}>
         <Modal.Header closeButton>
-          <Modal.Title className="text-danger">Bonus</Modal.Title>
+          <Modal.Title className='text-danger'>Bonus</Modal.Title>
         </Modal.Header>
         <Modal.Body>{bonusP}</Modal.Body>
         {bonus < 4 && <Modal.Footer>{palierP}</Modal.Footer>}

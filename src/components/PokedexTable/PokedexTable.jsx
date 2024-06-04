@@ -73,12 +73,11 @@ const PokedexTable = ({
   async function listWithScore() {
     let pokemons = await fetchList();
     appendScore(pokemons);
-    localStorage.setItem("list", JSON.stringify(pokemons));
+    setStoredList(pokemons);
   }
 
   useEffect(() => {
     listWithScore();
-    setStoredList(JSON.parse(localStorage.getItem("list")));
   }, []);
 
   useEffect(() => {
@@ -106,7 +105,7 @@ const PokedexTable = ({
       <td colSpan={4}>
         <div className={`${style.warning} text-white bg-dark text-wrap`}>
           <div
-            className="fs-2 border border-danger p-4 rounded text-wrap"
+            className='fs-2 border border-danger p-4 rounded text-wrap'
             style={{ margin: "150px 0" }}
           >
             Vous n'avez aucun Pokémon pour l'instant
@@ -125,18 +124,18 @@ const PokedexTable = ({
         >
           <Modal.Header closeButton>
             <Nav
-              variant="tabs"
-              defaultActiveKey="#general"
+              variant='tabs'
+              defaultActiveKey='#general'
               onSelect={handleSelect}
             >
               <Nav.Item>
-                <Nav.Link href="#general">Général</Nav.Link>
+                <Nav.Link href='#general'>Général</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="#talents">Talents</Nav.Link>
+                <Nav.Link href='#talents'>Talents</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="#evolutions">Évolutions</Nav.Link>
+                <Nav.Link href='#evolutions'>Évolutions</Nav.Link>
               </Nav.Item>
             </Nav>
           </Modal.Header>
@@ -145,48 +144,48 @@ const PokedexTable = ({
               <img
                 src={pokemon.sprites.regular}
                 alt={pokemon.name.fr}
-                className="w-100"
+                className='w-100'
               />
             </div>
-            <h2 className="fst-italic fw-bold text-center mb-4">
+            <h2 className='fst-italic fw-bold text-center mb-4'>
               {pokemon.name.fr}
             </h2>
             {activeTab === "#general" && (
               <>
                 <div>
                   <p>
-                    <span className="fw-bold text-decoration-underline me-2">
+                    <span className='fw-bold text-decoration-underline me-2'>
                       Catégorie :
                     </span>
                     <span>« {pokemon.category} »</span>
                   </p>
                   <hr />
                   <p>
-                    <span className="fw-bold text-decoration-underline me-1">
+                    <span className='fw-bold text-decoration-underline me-1'>
                       Type(s) :
                     </span>
                     {pokemon.types.map((type, i) => (
-                      <span key={type.name + i} className="mx-2">
+                      <span key={type.name + i} className='mx-2'>
                         <img
                           src={type.image}
                           alt={`Type ${type.image}`}
                           className={style.type}
                           title={type.name}
                         />
-                        <span className="ms-2">{type.name}</span>
+                        <span className='ms-2'>{type.name}</span>
                       </span>
                     ))}
                   </p>
                   <hr />
-                  <p className="d-flex">
-                    <span className="me-4">
-                      <span className="fw-bold text-decoration-underline me-2">
+                  <p className='d-flex'>
+                    <span className='me-4'>
+                      <span className='fw-bold text-decoration-underline me-2'>
                         Taille :
                       </span>
                       {pokemon.height}
                     </span>
                     <span>
-                      <span className="fw-bold text-decoration-underline me-2">
+                      <span className='fw-bold text-decoration-underline me-2'>
                         Poids :
                       </span>
                       {pokemon.weight}
@@ -198,37 +197,37 @@ const PokedexTable = ({
             {activeTab === "#talents" && (
               <>
                 <div>
-                  <p className="fw-bold text-decoration-underline">Stats :</p>
-                  <div className="d-flex justify-content-around my-2">
+                  <p className='fw-bold text-decoration-underline'>Stats :</p>
+                  <div className='d-flex justify-content-around my-2'>
                     <div>
-                      <span className="fw-bold text-danger">PV :</span>{" "}
+                      <span className='fw-bold text-danger'>PV :</span>{" "}
                       <span>{pokemon.stats.hp}</span>
                     </div>
                     <div>
-                      <span className="fw-bold text-danger">ATQ :</span>{" "}
+                      <span className='fw-bold text-danger'>ATQ :</span>{" "}
                       <span>{pokemon.stats.atk}</span>
                     </div>
                   </div>
-                  <div className="d-flex justify-content-around my-2">
+                  <div className='d-flex justify-content-around my-2'>
                     <div>
-                      <span className="fw-bold text-danger">VIT :</span>{" "}
+                      <span className='fw-bold text-danger'>VIT :</span>{" "}
                       <span>{pokemon.stats.vit}</span>
                     </div>
                     <div>
-                      <span className="fw-bold text-danger">DEF :</span>{" "}
+                      <span className='fw-bold text-danger'>DEF :</span>{" "}
                       <span>{pokemon.stats.def}</span>
                     </div>
                   </div>
                   <hr />
-                  <p className="fw-bold text-decoration-underline">
+                  <p className='fw-bold text-decoration-underline'>
                     Pouvoirs :
                   </p>
                   <div>
                     {pokemon.talents.map((talent, i) => {
                       return (
                         <p key={i}>
-                          <span className="me-2">« {talent.name} »</span>
-                          <span className="fst-italic text-danger">
+                          <span className='me-2'>« {talent.name} »</span>
+                          <span className='fst-italic text-danger'>
                             {talent.tc && "(Talent Caché)"}
                           </span>
                         </p>
@@ -244,7 +243,7 @@ const PokedexTable = ({
                   <>
                     {pokemon.evolution.pre && isPreNamePresent(pokemon) && (
                       <>
-                        <p className="fw-bold text-decoration-underline">
+                        <p className='fw-bold text-decoration-underline'>
                           Précédente(s) :
                         </p>
                         <div>
@@ -258,7 +257,7 @@ const PokedexTable = ({
                               ) && (
                                 <p
                                   key={i}
-                                  className="d-flex align-items-center"
+                                  className='d-flex align-items-center'
                                 >
                                   {evoObj && (
                                     <img
@@ -267,7 +266,7 @@ const PokedexTable = ({
                                       className={style.thumb}
                                     />
                                   )}
-                                  <span className="ms-3 fst-italic">
+                                  <span className='ms-3 fst-italic'>
                                     {evo.name}
                                   </span>
                                 </p>
@@ -279,7 +278,7 @@ const PokedexTable = ({
                     )}
                     {pokemon.evolution.next && isNextNamePresent(pokemon) && (
                       <>
-                        <p className="fw-bold text-decoration-underline">
+                        <p className='fw-bold text-decoration-underline'>
                           Suivante(s) :
                         </p>
                         <div>
@@ -297,7 +296,7 @@ const PokedexTable = ({
                                 (item) => item.name.fr === evo.name
                               ) && (
                                 <div key={i}>
-                                  <p className="d-flex align-items-center">
+                                  <p className='d-flex align-items-center'>
                                     {evoObj && (
                                       <img
                                         src={evoObj.sprites.regular}
@@ -305,12 +304,12 @@ const PokedexTable = ({
                                         className={style.thumb}
                                       />
                                     )}
-                                    <span className="ms-3 fst-italic">
+                                    <span className='ms-3 fst-italic'>
                                       {evo.name}
                                     </span>
                                   </p>
                                   {pokemon.name.fr === "Évoli" && (
-                                    <p className="fst-italic">
+                                    <p className='fst-italic'>
                                       Condition:{" "}
                                       <span className={conditionColor()}>
                                         {evo.condition}
@@ -328,7 +327,7 @@ const PokedexTable = ({
                       pokemon.name.fr
                     ) && (
                       <>
-                        <p className="fw-bold text-decoration-underline">
+                        <p className='fw-bold text-decoration-underline'>
                           Élémentaires :
                         </p>
                         <div>
@@ -340,17 +339,17 @@ const PokedexTable = ({
                             };
                             return (
                               <div key={i}>
-                                <p className="d-flex align-items-center">
+                                <p className='d-flex align-items-center'>
                                   <img
                                     src={evo.regularSprite}
                                     alt={evo.name}
                                     className={style.thumb}
                                   />
-                                  <span className="ms-3 fst-italic">
+                                  <span className='ms-3 fst-italic'>
                                     {evo.name}
                                   </span>
                                 </p>
-                                <p className="fst-italic">
+                                <p className='fst-italic'>
                                   Condition:{" "}
                                   <span className={conditionColor()}>
                                     {evo.condition}
@@ -364,12 +363,12 @@ const PokedexTable = ({
                     )}
                   </>
                 ) : pokemon.evolution ? (
-                  <p className="text-center">
+                  <p className='text-center'>
                     Ce Pokemon ne possède pas d'évolutions présente dans la
                     première génération de Pokémon
                   </p>
                 ) : (
-                  <p className="text-center">
+                  <p className='text-center'>
                     Ce Pokemon ne possède pas d'évolutions
                   </p>
                 )}
@@ -377,8 +376,8 @@ const PokedexTable = ({
             )}
           </Modal.Body>
           {activeTab === "#general" && (
-            <Modal.Footer className="bg-danger d-flex justify-content-center">
-              <h5 className="text-white text-center">
+            <Modal.Footer className='bg-danger d-flex justify-content-center'>
+              <h5 className='text-white text-center'>
                 Taux d'apparition : {getProbabilityPercentage(pokemon.score)} %
               </h5>
             </Modal.Footer>
@@ -390,12 +389,12 @@ const PokedexTable = ({
           style={{ cursor: "pointer" }}
           key={i}
         >
-          <td className="text-center fs-3 fw-bold align-middle">
+          <td className='text-center fs-3 fw-bold align-middle'>
             #{pokemon.pokedex_id}
           </td>
-          <td className="align-middle">
-            <div className="d-flex flex-column justify-content-center align-items-center">
-              <div className="fst-italic text-center text-wrap mt-1">
+          <td className='align-middle'>
+            <div className='d-flex flex-column justify-content-center align-items-center'>
+              <div className='fst-italic text-center text-wrap mt-1'>
                 {pokemon.name.fr}
               </div>
               <img
@@ -403,16 +402,16 @@ const PokedexTable = ({
                 alt={pokemon.name.fr}
                 className={style.image}
               />
-              <div className="text-center text-danger text-wrap my-1">
+              <div className='text-center text-danger text-wrap my-1'>
                 {pokemon.score} pts
               </div>
             </div>
           </td>
-          <td className="align-middle">
-            <div className="d-flex justify-content-center align-items-center flex-wrap">
+          <td className='align-middle'>
+            <div className='d-flex justify-content-center align-items-center flex-wrap'>
               {pokemon.types.map((type, i) => (
                 <span
-                  className="m-1 d-flex flex-column justify-content-center align-items-center"
+                  className='m-1 d-flex flex-column justify-content-center align-items-center'
                   key={type.name + i}
                 >
                   <img
@@ -426,8 +425,8 @@ const PokedexTable = ({
               ))}
             </div>
           </td>
-          <td className="align-middle">
-            <div className="d-flex justify-content-center align-items-center flex-wrap">
+          <td className='align-middle'>
+            <div className='d-flex justify-content-center align-items-center flex-wrap'>
               <XSquare
                 onClick={(e) => {
                   if (
@@ -440,7 +439,7 @@ const PokedexTable = ({
                   e.stopPropagation();
                 }}
                 size={20}
-                color="#dc3546"
+                color='#dc3546'
                 style={{ cursor: "pointer", margin: "8px" }}
               />
             </div>
@@ -456,16 +455,16 @@ const PokedexTable = ({
         striped
         bordered
         hover
-        variant="dark"
-        className="border border-danger"
+        variant='dark'
+        className='border border-danger'
       >
         <thead>
           <tr>
-            <th className="text-center align-middle">Pokédex ID</th>
-            <th className="text-center align-middle">Identité</th>
-            <th className="text-center align-middle">Type(s)</th>
-            <th className="text-center align-middle">
-              <div className="d-flex justify-content-center align-items-center">
+            <th className='text-center align-middle'>Pokédex ID</th>
+            <th className='text-center align-middle'>Identité</th>
+            <th className='text-center align-middle'>Type(s)</th>
+            <th className='text-center align-middle'>
+              <div className='d-flex justify-content-center align-items-center'>
                 {savedPokemons.length > 0 && (
                   <XSquareFill
                     onClick={() =>
@@ -474,7 +473,7 @@ const PokedexTable = ({
                       ) && handleDeleteAllClick()
                     }
                     size={20}
-                    color="#dc3546"
+                    color='#dc3546'
                     style={{ cursor: "pointer" }}
                   />
                 )}

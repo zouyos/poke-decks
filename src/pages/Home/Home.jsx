@@ -297,33 +297,33 @@ export default function Home() {
         {!hideBonusNotif && (
           <div className={`d-flex justify-content-center ${style.bonus}`}>
             <Notif
-              variant="primary"
+              variant='primary'
               message={bonusMessage}
               onClose={setHideBonusNotif}
             />
           </div>
         )}
-        <div className="d-flex flex-column justify-content-center align-items-center">
+        <div className='d-flex flex-column justify-content-center align-items-center'>
           <p
-            className="text-danger align-self-end mt-2 mb-0 me-2"
+            className='text-danger align-self-end mt-2 mb-0 me-2'
             style={{ fontSize: "12px" }}
           >
-            Score Total : <span className="fw-bold">{totalScore}</span>
+            Score Total : <span className='fw-bold'>{totalScore}</span>
           </p>
-          <div className="mb-3">
+          <div className='mb-3'>
             <Title
               image={logo}
               title="Poke'Decks"
-              subtitle="Collectez des Pokemons dans votre Pokédex !"
+              subtitle='Collectez des Pokemons dans votre Pokédex !'
             />
           </div>
-          <div className="d-flex justify-content-center">
+          <div className='d-flex justify-content-center'>
             <div onClick={handleModalShow}>
               <QuestionCircleFill
                 style={{
                   cursor: "pointer",
                 }}
-                className="rounded-pill"
+                className='rounded-pill'
                 onMouseEnter={() => setIsHelpHovered(true)}
                 onMouseLeave={() => setIsHelpHovered(false)}
                 size={30}
@@ -332,8 +332,8 @@ export default function Home() {
             </div>
           </div>
           {game ? (
-            <div className="game">
-              <div className="mt-3 d-flex justify-content-center flex-wrap">
+            <div className='game'>
+              <div className='mt-3 d-flex justify-content-center flex-wrap'>
                 {currentPokemons &&
                   currentPokemons.map((currentPokemon, i) => {
                     let pokedexIconTrue = false;
@@ -361,15 +361,15 @@ export default function Home() {
                     );
                   })}
               </div>
-              <div className="mt-2 mb-3 d-flex flex-column justify-content-center align-items-center">
+              <div className='mt-2 mb-3 d-flex flex-column justify-content-center align-items-center'>
                 {timerRunning && (
-                  <div className="mb-2 text-danger fs-4">
+                  <div className='mb-2 text-danger fs-4'>
                     Temps restant : {Math.floor(remainingTime / 60)}:
                     {remainingTime % 60 < 10 ? "0" : ""}
                     {remainingTime % 60}
                   </div>
                 )}
-                <div className="mt-2">
+                <div className='mt-2'>
                   <ReloadButton
                     onClick={handleReload}
                     disabled={disableReload}
@@ -378,28 +378,28 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="d-flex justify-content-center">
-              <img src={pikachu} alt="Pikachu" className={style.image} />
+            <div className='d-flex justify-content-center'>
+              <img src={pikachu} alt='Pikachu' className={style.image} />
             </div>
           )}
         </div>
 
         <Modal show={modalShow} onHide={handleModalClose}>
-          <Modal.Header className="bg-danger">
+          <Modal.Header className='bg-danger'>
             <Modal.Title
-              className="fs-4 text-light text-center"
+              className='fs-4 text-light text-center'
               style={{ margin: "0 auto" }}
             >
               Comment jouer ?
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body className="text-center">
+          <Modal.Body className='text-center'>
             <p>
               Obtenez un deck de 3 Pokémons et choisissez-en un à garder dans
               votre Pokédex. Vous pouvez relancer la sélection toutes les 30
               secondes
             </p>
-            <p className="fst-italic">
+            <p className='fst-italic'>
               Certains Pokémons ont un taux d'apparition moins élevé que
               d'autres, restez à l'affût de leurs scores et essayez d'attraper
               les Pokémons les plus rares !
@@ -408,13 +408,13 @@ export default function Home() {
               Vous obtiendrez un bonus (moins de temps ou un pokémon
               supplémentaire) tous les 5000 points
             </p>
-            <p className="text-danger fw-bold">
+            <p className='text-danger fw-bold'>
               Il y a 151 Pokémons à collectionner, attrapez-les tous !
             </p>
           </Modal.Body>
           <Modal.Footer>
             <Button
-              variant="secondary"
+              variant='secondary'
               onClick={handleModalClose}
               style={{ margin: "0 auto" }}
             >
