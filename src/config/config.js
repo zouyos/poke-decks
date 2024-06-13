@@ -31,6 +31,8 @@ const appendScore = (pokemons) => {
         "Ossatueur",
         "Goupix",
         "Ponyta",
+        "Miaouss",
+        "Persian",
       ].includes(pokemon.name.fr) ||
       pokemon.types.some((type) => ["Dragon"].includes(type.name))
     )
@@ -44,6 +46,7 @@ const appendScore = (pokemons) => {
         "Bulbizarre",
         "Salamèche",
         "Carapuce",
+        "Pikachu",
         "Raichu",
         "Feunard",
         "Akwakwak",
@@ -62,28 +65,24 @@ const appendScore = (pokemons) => {
 
     if (
       pokemon.category === "Pokémon Légendaire" ||
-      [
-        "Herbizarre",
-        "Reptincel",
-        "Carabaffe",
-        "Voltali",
-        "Pyroli",
-        "Aquali",
-        "Ronflex",
-        "Lokhlass",
-      ].includes(pokemon.name.fr)
+      ["Herbizarre", "Reptincel", "Carabaffe", "Ronflex", "Lokhlass"].includes(
+        pokemon.name.fr
+      )
     )
       score += 150;
 
     if (
       pokemon.category === "Pokémon Terrifiant" ||
-      ["Miaouss", "Florizarre", "Tortank", "Dracaufeu"].includes(
-        pokemon.name.fr
-      )
+      [
+        "Florizarre",
+        "Tortank",
+        "Dracaufeu",
+        "Voltali",
+        "Pyroli",
+        "Aquali",
+      ].includes(pokemon.name.fr)
     )
       score += 200;
-
-    if (pokemon.name.fr === "Pikachu") score += 329;
 
     if (pokemon.name.fr === "Mew") score += 304;
 
