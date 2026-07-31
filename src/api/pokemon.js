@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL = "https://tyradex.vercel.app/api/v1";
+const BASE_URL = 'https://tyradex.app/api/v1';
 
 export class PokemonAPI {
   static async fetchByGen(gen) {
